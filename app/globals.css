@@ -1,3 +1,53 @@
 @import "tailwindcss";
+@layer base {
+    :root {
+        --background: #fafafa;
+        --foreground: #18181b;
+        --card: #ffffff;
+        --card-foreground: #18181b;
+        --primary: #10b981;
+        --primary-foreground: #ffffff;
+        --secondary: #f4f4f5;
+        --secondary-foreground: #18181b;
+        --accent: #6366f1;
+        --accent-foreground: #ffffff;
+        --muted: #f4f4f5;
+        --muted-foreground: #71717a;
+        --border: #e4e4e7;
+        --destructive: #ef4444;
+        --destructive-foreground: #ffffff;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --sidebar: #ffffff;
+        --sidebar-foreground: #18181b;
+        --sidebar-border: #e4e4e7;
+        --sidebar-active: #f0fdf4;
+        --sidebar-active-foreground: #10b981;
+    }
 
+    .dark {
+        --background: #18181b;
+        --foreground: #fafafa;
+        --card: #27272a;
+        --card-foreground: #fafafa;
+        --primary: #10b981;
+        --primary-foreground: #ffffff;
+        --secondary: #3f3f46;
+        --secondary-foreground: #fafafa;
+        --accent: #6366f1;
+        --accent-foreground: #ffffff;
+        --muted: #3f3f46;
+        --muted-foreground: #a1a1aa;
+        --border: #3f3f46;
+        --destructive: #ef4444;
+        --destructive-foreground: #ffffff;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --sidebar: #27272a;
+        --sidebar-foreground: #fafafa;
+        --sidebar-border: #3f3f46;
+        --sidebar-active: #064e3b;
+        --sidebar-active-foreground: #10b981;
+    }
+}
 
