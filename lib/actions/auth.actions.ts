@@ -2,10 +2,10 @@
 import bcrypt from "bcryptjs"
 import { signIn, signOut } from "@/lib/auth"
 import { AuthError } from "next-auth"
-import connectDB from "@/lib/mongodb"
 import User from "@/models/User"
 import { RegisterResult, SignInResult } from "@/types"
 import { sendWelcomeEmail } from "../email"
+import connectDb from "../mongodb"
 
 
 
@@ -35,7 +35,7 @@ export async function registerUser(formData: {
     }
 
     try {
-        await connectDB()
+        await connectDb()
 
         const existingUser = await User.findOne({ email: email.toLowerCase() })
 
