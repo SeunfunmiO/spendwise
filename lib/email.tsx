@@ -11,7 +11,7 @@ function baseTemplate(content: string) {
         
         <!-- Header -->
         <div style="background: #10b981; padding: 24px 40px;">
-          <img src="${logoUrl}" alt="SpendWise" width="160" height="36" style="display: block;" />
+          <img src="./logo.svg" alt="SpendWise" width="160" height="36" style="display: block;" />
         </div>
 
         <!-- Content -->
