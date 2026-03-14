@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import connectDb from "@/lib/mongodb"
 import User from "@/models/User"
 import { authConfig } from "./auth.cnfig"
+import { sendWelcomeEmail } from "./email"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     ...authConfig,
@@ -50,7 +51,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (account?.provider === "google") {
                 await connectDb()
                 if (!user.email || !user.name) return false
+
                 const existingUser = await User.findOne({ email: user.email })
+
                 if (!existingUser) {
                     await User.create({
                         name: user.name,
@@ -61,6 +64,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         plan: "free",
                         role: "user",
                     })
+
+                    // 👇 Send welcome email only on first Google sign in
+                    await sendWelcomeEmail(user.name, user.email)
                 }
             }
             return true
