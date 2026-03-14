@@ -13,9 +13,11 @@ export const metadata: Metadata = {
   description:
     "SpendWise helps you take control of your money — track income and expenses, set budget goals, and visualize your spending habits with an intuitive dashboard.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/favicon.ico",
   },
 }
 
@@ -34,7 +36,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${inter.className} bg-[var(--background)] text-[var(--foreground)]`}
+        className={`${inter.className} bg-(--background) text-(--foreground)`}
       >
         <SessionProvider>
           <ThemeProvider>
