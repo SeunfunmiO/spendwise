@@ -3,19 +3,19 @@ import React from "react"
 import resend from "@/lib/resend"
 import WelcomeEmail from "@/emails/WelcomeEmail"
 
-
-
-
 export async function sendWelcomeEmail(name: string, email: string) {
-    try {
-        await resend.emails.send({
-            // from: process.env.RESEND_FROM_EMAIL!,
-            from: "onboarding@resend.dev",
-            to: email,
-            subject: "Welcome to SpendWise",
-            react: <WelcomeEmail name={name} />,
-        })
-    } catch (error) {
-        console.error("Failed to send welcome email:", error)
+    const { data, error } = await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL!,
+        to: email,
+        subject: "Welcome to SpendWise",
+        react: <WelcomeEmail name={name} />,
+    })
+
+    if (error) {
+        console.error("Resend error:", JSON.stringify(error))
+        return
     }
+
+    console.log("Email sent successfully:", data?.id)
 }
+// from: process.env.RESEND_FROM_EMAIL!,
