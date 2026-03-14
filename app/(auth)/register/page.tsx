@@ -55,7 +55,7 @@ export default function RegisterPage() {
 
     return (
         <div className="w-full max-w-md">
-            <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] shadow-sm px-8 py-10">
+            <div className="bg-(--card) rounded-2xl border border-(--border) shadow-sm px-8 py-10">
 
                 {/* Logo */}
                 <div className="flex items-center justify-center mb-8">
@@ -64,10 +64,10 @@ export default function RegisterPage() {
 
                 {/* Heading */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-[var(--foreground)]">
+                    <h1 className="text-2xl font-bold text-(--foreground)">
                         {t("register")}
                     </h1>
-                    <p className="text-sm text-[var(--muted-foreground)] mt-1">
+                    <p className="text-sm text-(--muted-foreground) mt-1">
                         {t("startTracking")}
                     </p>
                 </div>
@@ -76,14 +76,14 @@ export default function RegisterPage() {
 
                     {/* Name */}
                     <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
                             {t("fullName")}
                         </label>
                         <input
                             {...register("name")}
                             type="text"
-                            placeholder="Cynthia Omisore"
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                            placeholder="Spend Wise"
+                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                         />
                         {errors.name && (
                             <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>
@@ -92,14 +92,14 @@ export default function RegisterPage() {
 
                     {/* Email */}
                     <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
                             {t("email")}
                         </label>
                         <input
                             {...register("email")}
                             type="email"
                             placeholder="you@example.com"
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                         />
                         {errors.email && (
                             <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
@@ -108,7 +108,7 @@ export default function RegisterPage() {
 
                     {/* Password */}
                     <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
                             {t("password")}
                         </label>
                         <div className="relative">
@@ -116,12 +116,12 @@ export default function RegisterPage() {
                                 {...register("password")}
                                 type={showPassword ? "text" : "password"}
                                 placeholder={t("passwordMin")}
-                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-(--muted-foreground) hover:text-(--foreground) transition-colors"
                             >
                                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                             </button>
@@ -133,7 +133,7 @@ export default function RegisterPage() {
 
                     {/* Confirm Password */}
                     <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
                             {t("confirmPassword")}
                         </label>
                         <div className="relative">
@@ -141,12 +141,12 @@ export default function RegisterPage() {
                                 {...register("confirmPassword")}
                                 type={showConfirm ? "text" : "password"}
                                 placeholder={t("repeatPassword")}
-                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowConfirm(!showConfirm)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-(--muted-foreground) hover:text-(--foreground) transition-colors"
                             >
                                 {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
                             </button>
@@ -167,7 +167,7 @@ export default function RegisterPage() {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 mt-2"
+                        className="w-full py-2.5 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 mt-2"
                     >
                         {isSubmitting ? t("creatingAccount") : t("register")}
                     </button>
@@ -175,10 +175,10 @@ export default function RegisterPage() {
                     {/* Divider */}
                     <div className="relative my-2">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-[var(--border)]" />
+                            <div className="w-full border-t border-(--border)" />
                         </div>
-                        <div className="relative flex justify-center text-xs text-[var(--muted-foreground)]">
-                            <span className="bg-[var(--card)] px-2">{t("orContinueWith")}</span>
+                        <div className="relative flex justify-center text-xs text-(--muted-foreground)">
+                            <span className="bg-(--card) px-2">{t("orContinueWith")}</span>
                         </div>
                     </div>
 
@@ -187,9 +187,9 @@ export default function RegisterPage() {
                 </form>
 
                 {/* Footer */}
-                <p className="text-center text-sm text-[var(--muted-foreground)] mt-6">
+                <p className="text-center text-sm text-(--muted-foreground) mt-6">
                     {t("hasAccount")}{" "}
-                    <Link href="/login" className="text-[var(--primary)] font-medium hover:underline">
+                    <Link href="/login" className="text-(--primary) font-medium hover:underline">
                         {t("signIn")}
                     </Link>
                 </p>
@@ -213,7 +213,7 @@ function GoogleButton({ label, redirecting }: { label: string; redirecting: stri
             type="button"
             onClick={handleGoogle}
             disabled={loading}
-            className="w-full py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] text-sm font-medium hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-2.5 rounded-lg border border-(--border) bg-(--card) text-(--foreground) text-sm font-medium hover:bg-(--secondary) transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
         >
             <svg width="18" height="18" viewBox="0 0 48 48">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />

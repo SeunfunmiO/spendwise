@@ -10,7 +10,6 @@ import {
     Section,
     Text,
 } from "@react-email/components"
-import { BarChart, CheckCircle, TrendingUp } from "lucide-react"
 
 interface WelcomeEmailProps {
     name: string
@@ -104,13 +103,6 @@ const container = {
 const header = {
     backgroundColor: "#16a34a",
     padding: "24px 40px",
-}
-
-const logo = {
-    color: "#ffffff",
-    fontSize: "24px",
-    fontWeight: "700",
-    margin: "0",
 }
 
 const content = {
