@@ -10,7 +10,7 @@ import {
     Section,
     Text,
 } from "@react-email/components"
-import { ChartColumn, CheckCircle, LucideBadgeDollarSign, TrendingUp } from "lucide-react"
+import { ChartColumn, CheckCircle, TrendingUp } from "lucide-react"
 
 interface WelcomeEmailProps {
     name: string
@@ -26,7 +26,21 @@ export default function WelcomeEmail({ name }: WelcomeEmailProps) {
 
                     {/* Header */}
                     <Section style={header}>
-                        <Heading style={logo}><LucideBadgeDollarSign /> SpendWise</Heading>
+                        <table width="100%" cellPadding="0" cellSpacing="0">
+                            <tr>
+                                <td style={logoIconCell}>
+                                    <div style={logoIcon}>
+                                        <span style={logoIconBar1} />
+                                        <span style={logoIconBar2} />
+                                        <span style={logoIconBar3} />
+                                    </div>
+                                </td>
+                                <td style={logoTextCell}>
+                                    <span style={logoTextGreen}>Spend</span>
+                                    <span style={logoTextWhite}>Wise</span>
+                                </td>
+                            </tr>
+                        </table>
                     </Section>
 
                     {/* Main Content */}
@@ -40,9 +54,9 @@ export default function WelcomeEmail({ name }: WelcomeEmailProps) {
 
                         <Text style={paragraph}>Here&apos;s what you can do right away:</Text>
 
-                        <Text style={listItem}><CheckCircle size={14} color="green"/> Add your first transaction</Text>
-                        <Text style={listItem}><ChartColumn size={14}/> Set a monthly budget goal</Text>
-                        <Text style={listItem}><TrendingUp size={14}/> View your spending breakdown</Text>
+                        <Text style={listItem}><CheckCircle size={14} color="green" /> Add your first transaction</Text>
+                        <Text style={listItem}><ChartColumn size={14} /> Set a monthly budget goal</Text>
+                        <Text style={listItem}><TrendingUp size={14} /> View your spending breakdown</Text>
 
                         <Section style={buttonContainer}>
                             <Button
@@ -143,6 +157,65 @@ const button = {
 const hr = {
     borderColor: "#e5e7eb",
     margin: "32px 0 24px",
+}
+
+const logoIconCell = {
+    width: "40px",
+    verticalAlign: "middle" as const,
+    paddingRight: "10px",
+}
+
+const logoIcon = {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    borderRadius: "8px",
+    padding: "6px 8px",
+    display: "inline-flex",
+    gap: "3px",
+    alignItems: "flex-end",
+}
+
+const logoIconBar1 = {
+    display: "inline-block",
+    width: "5px",
+    height: "10px",
+    backgroundColor: "#ffffff",
+    borderRadius: "2px",
+}
+
+const logoIconBar2 = {
+    display: "inline-block",
+    width: "5px",
+    height: "15px",
+    backgroundColor: "#ffffff",
+    opacity: "0.85",
+    borderRadius: "2px",
+}
+
+const logoIconBar3 = {
+    display: "inline-block",
+    width: "5px",
+    height: "20px",
+    backgroundColor: "#ffffff",
+    opacity: "0.7",
+    borderRadius: "2px",
+}
+
+const logoTextCell = {
+    verticalAlign: "middle" as const,
+}
+
+const logoTextGreen = {
+    fontSize: "22px",
+    fontWeight: "700" as const,
+    color: "#ffffff",
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+}
+
+const logoTextWhite = {
+    fontSize: "22px",
+    fontWeight: "400" as const,
+    color: "rgba(255,255,255,0.85)",
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
 }
 
 const footer = {
