@@ -1,0 +1,115 @@
+{
+    "auth": {
+        "login": "Se connecter",
+        "register": "Créer un compte",
+        "logout": "Se déconnecter",
+        "email": "Email",
+        "password": "Mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "fullName": "Nom complet",
+        "forgotPassword": "Mot de passe oublié ?",
+        "noAccount": "Pas de compte ?",
+        "hasAccount": "Déjà un compte ?",
+        "signUp": "S'inscrire",
+        "signIn": "Se connecter",
+        "orContinueWith": "ou continuer avec",
+        "continueWithGoogle": "Continuer avec Google",
+        "creatingAccount": "Création du compte...",
+        "signingIn": "Connexion en cours...",
+        "redirecting": "Redirection...",
+        "accountCreated": "Compte créé ! Veuillez vous connecter.",
+        "welcomeBack": "Content de vous revoir",
+        "startTracking": "Commencez à gérer vos finances aujourd'hui",
+        "signInAccount": "Connectez-vous à votre compte SpendWise",
+        "passwordMin": "Min. 6 caractères",
+        "repeatPassword": "Répétez votre mot de passe"
+    },
+    "nav": {
+        "overview": "Aperçu",
+        "transactions": "Transactions",
+        "budgets": "Budgets",
+        "reports": "Rapports",
+        "settings": "Paramètres",
+        "upgrade": "Passer Premium"
+    },
+    "dashboard": {
+        "goodMorning": "Bonjour",
+        "goodAfternoon": "Bon après-midi",
+        "goodEvening": "Bonsoir",
+        "overview": "Voici votre aperçu financier."
+    },
+    "transactions": {
+        "title": "Transactions",
+        "addTransaction": "Ajouter une transaction",
+        "editTransaction": "Modifier la transaction",
+        "found": "{count} transaction trouvée",
+        "foundPlural": "{count} transactions trouvées",
+        "noTransactions": "Aucune transaction",
+        "noTransactionsDesc": "Ajoutez votre première transaction pour commencer",
+        "loading": "Chargement des transactions...",
+        "type": "Type",
+        "income": "Revenu",
+        "expense": "Dépense",
+        "allTypes": "Tous les types",
+        "category": "Catégorie",
+        "allCategories": "Toutes les catégories",
+        "date": "Date",
+        "amount": "Montant",
+        "actions": "Actions",
+        "note": "Note",
+        "noteOptional": "(facultatif)",
+        "recurring": "Transaction récurrente",
+        "daily": "Quotidien",
+        "weekly": "Hebdomadaire",
+        "monthly": "Mensuel",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "add": "Ajouter",
+        "saving": "Enregistrement...",
+        "search": "Rechercher des transactions...",
+        "reset": "Réinitialiser",
+        "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette transaction ?",
+        "customCategory": "ex. Cadeau de mariage, Remboursement...",
+        "titlePlaceholder": "ex. Courses alimentaires",
+        "required": "*",
+        "recurringBadge": "récurrent"
+    },
+    "budgets": {
+        "title": "Budgets"
+    },
+    "reports": {
+        "title": "Rapports"
+    },
+    "settings": {
+        "title": "Paramètres"
+    },
+    "upgrade": {
+        "title": "Passer à Premium"
+    },
+    "categories": {
+        "foodDining": "Alimentation et restaurants",
+        "transport": "Transport",
+        "housingRent": "Logement et loyer",
+        "healthcare": "Santé",
+        "shopping": "Shopping",
+        "entertainment": "Divertissement",
+        "education": "Éducation",
+        "utilities": "Services publics",
+        "salary": "Salaire",
+        "freelance": "Freelance",
+        "business": "Affaires",
+        "other": "Autre"
+    },
+    "common": {
+        "loading": "Chargement...",
+        "error": "Une erreur s'est produite. Veuillez réessayer.",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "delete": "Supprimer",
+        "edit": "Modifier",
+        "add": "Ajouter",
+        "search": "Rechercher",
+        "reset": "Réinitialiser",
+        "close": "Fermer"
+    }
+}

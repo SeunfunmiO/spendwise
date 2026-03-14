@@ -1,0 +1,14 @@
+<svg width="280" height="60" viewBox="0 0 280 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon background -->
+  <rect x="0" y="0" width="56" height="56" rx="12" fill="#10b981"/>
+  <!-- Bar chart -->
+  <rect x="11" y="34" width="8" height="13" rx="2" fill="white"/>
+  <rect x="23" y="26" width="8" height="21" rx="2" fill="white" opacity="0.85"/>
+  <rect x="35" y="18" width="8" height="29" rx="2" fill="white" opacity="0.7"/>
+  <!-- Coin -->
+  <circle cx="50" cy="12" r="10" fill="#f59e0b"/>
+  <text x="50" y="17" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="white">₦</text>
+  <!-- Wordmark -->
+  <text x="68" y="38" font-family="system-ui,sans-serif" font-size="28" font-weight="500" fill="#10b981">Spend</text>
+  <text x="172" y="38" font-family="system-ui,sans-serif" font-size="28" font-weight="500" fill="#18181b">Wise</text>
+</svg>

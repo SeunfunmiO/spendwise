@@ -1,28 +1,21 @@
 import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
+import connectDb from "@/lib/mongodb"
 import User from "@/models/User"
-import connectDb from "./mongodb"
-
+import { authConfig } from "./auth.cnfig"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    ...authConfig,
     providers: [
-        Google({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
-
+        ...authConfig.providers,
         Credentials({
-            name: "Credentials",
             credentials: {
-                email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" },
+                email: { type: "email" },
+                password: { type: "password" },
             },
             async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) {
-                    throw new Error("Email and password are required")
-                }
+                if (!credentials?.email || !credentials?.password) return null
 
                 await connectDb()
 
@@ -46,21 +39,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     plan: user.plan,
                     currency: user.currency,
                     language: user.language,
+                    role: user.role,
                 }
             },
         }),
     ],
-
     callbacks: {
+        ...authConfig.callbacks,
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 await connectDb()
-
-                // Guard against null values from Google
                 if (!user.email || !user.name) return false
-
                 const existingUser = await User.findOne({ email: user.email })
-
                 if (!existingUser) {
                     await User.create({
                         name: user.name,
@@ -75,36 +65,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return true
         },
-
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id
                 token.plan = (user as any).plan
                 token.currency = (user as any).currency
                 token.language = (user as any).language
+                token.role = (user as any).role
             }
             return token
         },
-
         async session({ session, token }) {
             if (token && session.user) {
                 session.user.id = token.id as string
                     ; (session.user as any).plan = token.plan
                     ; (session.user as any).currency = token.currency
                     ; (session.user as any).language = token.language
+                    ; (session.user as any).role = token.role
             }
             return session
         },
     },
-
-    pages: {
-        signIn: "/login",
-        error: "/login",
-    },
-
-    session: {
-        strategy: "jwt",
-    },
-
+    session: { strategy: "jwt" },
     secret: process.env.NEXTAUTH_SECRET,
 })

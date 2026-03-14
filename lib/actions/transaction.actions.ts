@@ -73,7 +73,7 @@ export async function createTransaction(
 ): Promise<ActionResult<TransactionData>> {
     try {
         const userId = await getSessionUser()
-        await connectD ()
+        await connectDb()
 
         if (!input.title || !input.amount || !input.type || !input.category || !input.date) {
             return { success: false, error: "All required fields must be filled" }

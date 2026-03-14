@@ -27,17 +27,40 @@ export default function TransactionsPage() {
     const [editingTransaction, setEditingTransaction] = useState<TransactionData | null>(null)
 
     const fetchTransactions = useCallback(async () => {
-        setLoading(true)
-        const result = await getTransactions(filters)
-        if (result.success && result.data) {
-            setTransactions(result.data)
+        try {
+            setLoading(true)
+            const result = await getTransactions(filters)
+            if (result.success && result.data) {
+                setTransactions(result.data)
+            }
+        } finally {
+            setLoading(false)
         }
-        setLoading(false)
     }, [filters])
 
+    
     useEffect(() => {
-        fetchTransactions()
-    }, [fetchTransactions])
+        let cancelled = false
+
+        const load = async () => {
+            try {
+                setLoading(true)
+                const result = await getTransactions(filters)
+                if (!cancelled && result.success && result.data) {
+                    setTransactions(result.data)
+                }
+            } finally {
+                if (!cancelled) setLoading(false)
+            }
+        }
+
+        load()
+
+        return () => {
+            cancelled = true
+        }
+    }, [filters])
+
 
     const handleEdit = (transaction: TransactionData) => {
         setEditingTransaction(transaction)

@@ -1,9 +1,4 @@
-export interface jwtPayload {
-    _id?: string
-    iat?: number
-    exp?: number
-    success: boolean
-}
+
 
 export type RegisterResult =
     | { success: true; message: string }

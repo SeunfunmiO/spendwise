@@ -1,0 +1,115 @@
+{
+    "auth": {
+        "login": "تسجيل الدخول",
+        "register": "إنشاء حساب",
+        "logout": "تسجيل الخروج",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور",
+        "fullName": "الاسم الكامل",
+        "forgotPassword": "نسيت كلمة المرور؟",
+        "noAccount": "ليس لديك حساب؟",
+        "hasAccount": "لديك حساب بالفعل؟",
+        "signUp": "إنشاء حساب",
+        "signIn": "تسجيل الدخول",
+        "orContinueWith": "أو المتابعة بـ",
+        "continueWithGoogle": "المتابعة مع Google",
+        "creatingAccount": "جارٍ إنشاء الحساب...",
+        "signingIn": "جارٍ تسجيل الدخول...",
+        "redirecting": "جارٍ التحويل...",
+        "accountCreated": "تم إنشاء الحساب! يرجى تسجيل الدخول.",
+        "welcomeBack": "مرحباً بعودتك",
+        "startTracking": "ابدأ تتبع أموالك اليوم",
+        "signInAccount": "سجّل دخولك إلى حساب SpendWise",
+        "passwordMin": "٦ أحرف على الأقل",
+        "repeatPassword": "أعد كلمة المرور"
+    },
+    "nav": {
+        "overview": "نظرة عامة",
+        "transactions": "المعاملات",
+        "budgets": "الميزانيات",
+        "reports": "التقارير",
+        "settings": "الإعدادات",
+        "upgrade": "ترقية الخطة"
+    },
+    "dashboard": {
+        "goodMorning": "صباح الخير",
+        "goodAfternoon": "مساء الخير",
+        "goodEvening": "مساء النور",
+        "overview": "إليك نظرتك المالية العامة."
+    },
+    "transactions": {
+        "title": "المعاملات",
+        "addTransaction": "إضافة معاملة",
+        "editTransaction": "تعديل المعاملة",
+        "found": "تم العثور على {count} معاملة",
+        "foundPlural": "تم العثور على {count} معاملات",
+        "noTransactions": "لا توجد معاملات بعد",
+        "noTransactionsDesc": "أضف معاملتك الأولى للبدء",
+        "loading": "جارٍ تحميل المعاملات...",
+        "type": "النوع",
+        "income": "دخل",
+        "expense": "مصروف",
+        "allTypes": "جميع الأنواع",
+        "category": "الفئة",
+        "allCategories": "جميع الفئات",
+        "date": "التاريخ",
+        "amount": "المبلغ",
+        "actions": "الإجراءات",
+        "note": "ملاحظة",
+        "noteOptional": "(اختياري)",
+        "recurring": "معاملة متكررة",
+        "daily": "يومي",
+        "weekly": "أسبوعي",
+        "monthly": "شهري",
+        "cancel": "إلغاء",
+        "save": "حفظ التغييرات",
+        "add": "إضافة معاملة",
+        "saving": "جارٍ الحفظ...",
+        "search": "بحث في المعاملات...",
+        "reset": "إعادة تعيين",
+        "deleteConfirm": "هل أنت متأكد من حذف هذه المعاملة؟",
+        "customCategory": "مثال: هدية زفاف، استرداد ضريبي...",
+        "titlePlaceholder": "مثال: تسوق البقالة",
+        "required": "*",
+        "recurringBadge": "متكرر"
+    },
+    "budgets": {
+        "title": "الميزانيات"
+    },
+    "reports": {
+        "title": "التقارير"
+    },
+    "settings": {
+        "title": "الإعدادات"
+    },
+    "upgrade": {
+        "title": "الترقية إلى Premium"
+    },
+    "categories": {
+        "foodDining": "الطعام والمطاعم",
+        "transport": "المواصلات",
+        "housingRent": "السكن والإيجار",
+        "healthcare": "الرعاية الصحية",
+        "shopping": "التسوق",
+        "entertainment": "الترفيه",
+        "education": "التعليم",
+        "utilities": "المرافق",
+        "salary": "الراتب",
+        "freelance": "العمل الحر",
+        "business": "الأعمال",
+        "other": "أخرى"
+    },
+    "common": {
+        "loading": "جارٍ التحميل...",
+        "error": "حدث خطأ ما. يرجى المحاولة مجدداً.",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "add": "إضافة",
+        "search": "بحث",
+        "reset": "إعادة تعيين",
+        "close": "إغلاق"
+    }
+}

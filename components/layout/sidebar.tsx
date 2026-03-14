@@ -4,17 +4,15 @@ import { usePathname } from "next/navigation"
 import { NAV_ITEMS } from "@/constants/navigation"
 import { logoutUser } from "@/lib/actions/auth.actions"
 import { LogOut } from "lucide-react"
+import Image from "next/image"
 
 export default function Sidebar() {
     const pathname = usePathname()
 
     return (
         <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 border-r border-(--sidebar-border) bg-(--sidebar) z-40">
-
-            {/* Logo */}
             <div className="flex items-center gap-2 px-6 py-5 border-b border-(--sidebar-border)">
-                <span className="text-2xl">💰</span>
-                <span className="text-xl font-bold text-(--primary)">SpendWise</span>
+                <Image src="/logo.svg" alt="SpendWise" width={140} height={32} priority />
             </div>
 
             {/* Nav Items */}

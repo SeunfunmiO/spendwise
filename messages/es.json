@@ -1,0 +1,115 @@
+{
+    "auth": {
+        "login": "Iniciar sesión",
+        "register": "Crear cuenta",
+        "logout": "Cerrar sesión",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "fullName": "Nombre completo",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "noAccount": "¿No tienes cuenta?",
+        "hasAccount": "¿Ya tienes cuenta?",
+        "signUp": "Registrarse",
+        "signIn": "Iniciar sesión",
+        "orContinueWith": "o continuar con",
+        "continueWithGoogle": "Continuar con Google",
+        "creatingAccount": "Creando cuenta...",
+        "signingIn": "Iniciando sesión...",
+        "redirecting": "Redirigiendo...",
+        "accountCreated": "¡Cuenta creada! Por favor inicia sesión.",
+        "welcomeBack": "Bienvenido de nuevo",
+        "startTracking": "Comienza a gestionar tus finanzas hoy",
+        "signInAccount": "Inicia sesión en tu cuenta SpendWise",
+        "passwordMin": "Mín. 6 caracteres",
+        "repeatPassword": "Repite tu contraseña"
+    },
+    "nav": {
+        "overview": "Resumen",
+        "transactions": "Transacciones",
+        "budgets": "Presupuestos",
+        "reports": "Informes",
+        "settings": "Configuración",
+        "upgrade": "Mejorar plan"
+    },
+    "dashboard": {
+        "goodMorning": "Buenos días",
+        "goodAfternoon": "Buenas tardes",
+        "goodEvening": "Buenas noches",
+        "overview": "Aquí está tu resumen financiero."
+    },
+    "transactions": {
+        "title": "Transacciones",
+        "addTransaction": "Agregar transacción",
+        "editTransaction": "Editar transacción",
+        "found": "{count} transacción encontrada",
+        "foundPlural": "{count} transacciones encontradas",
+        "noTransactions": "Sin transacciones aún",
+        "noTransactionsDesc": "Agrega tu primera transacción para comenzar",
+        "loading": "Cargando transacciones...",
+        "type": "Tipo",
+        "income": "Ingreso",
+        "expense": "Gasto",
+        "allTypes": "Todos los tipos",
+        "category": "Categoría",
+        "allCategories": "Todas las categorías",
+        "date": "Fecha",
+        "amount": "Monto",
+        "actions": "Acciones",
+        "note": "Nota",
+        "noteOptional": "(opcional)",
+        "recurring": "Transacción recurrente",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual",
+        "cancel": "Cancelar",
+        "save": "Guardar cambios",
+        "add": "Agregar transacción",
+        "saving": "Guardando...",
+        "search": "Buscar transacciones...",
+        "reset": "Restablecer",
+        "deleteConfirm": "¿Estás seguro de que deseas eliminar esta transacción?",
+        "customCategory": "ej. Regalo de boda, Reembolso...",
+        "titlePlaceholder": "ej. Compras del supermercado",
+        "required": "*",
+        "recurringBadge": "recurrente"
+    },
+    "budgets": {
+        "title": "Presupuestos"
+    },
+    "reports": {
+        "title": "Informes"
+    },
+    "settings": {
+        "title": "Configuración"
+    },
+    "upgrade": {
+        "title": "Mejorar a Premium"
+    },
+    "categories": {
+        "foodDining": "Comida y restaurantes",
+        "transport": "Transporte",
+        "housingRent": "Vivienda y alquiler",
+        "healthcare": "Salud",
+        "shopping": "Compras",
+        "entertainment": "Entretenimiento",
+        "education": "Educación",
+        "utilities": "Servicios",
+        "salary": "Salario",
+        "freelance": "Freelance",
+        "business": "Negocios",
+        "other": "Otro"
+    },
+    "common": {
+        "loading": "Cargando...",
+        "error": "Algo salió mal. Por favor intenta de nuevo.",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "add": "Agregar",
+        "search": "Buscar",
+        "reset": "Restablecer",
+        "close": "Cerrar"
+    }
+}

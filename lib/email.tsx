@@ -8,7 +8,7 @@ export async function sendWelcomeEmail(name: string, email: string) {
         await resend.emails.send({
             from: process.env.RESEND_FROM_EMAIL!,
             to: email,
-            subject: "Welcome to SpendWise 💰",
+            subject: `Welcome to SpendWise`,
             react: WelcomeEmail({ name }),
         })
     } catch (error) {

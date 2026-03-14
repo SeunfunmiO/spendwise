@@ -1,63 +1,56 @@
-import { NextRequest, NextResponse, ProxyConfig } from "next/server";
-import { auth } from "./lib/session";
+import NextAuth from "next-auth"
+import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
+import { locales, defaultLocale } from "@/i18n/config"
+import { authConfig } from "./lib/auth.cnfig"
 
+const { auth } = NextAuth(authConfig)
 
+export default auth((req: any) => {
+    const { nextUrl } = req
+    const isLoggedIn = !!req.auth
+    const { pathname } = nextUrl
 
+    // Set locale cookie if not already set
+    const localeCookie = req.cookies.get("locale")?.value
+    const validLocale =
+        localeCookie && locales.includes(localeCookie as any)
+            ? localeCookie
+            : defaultLocale
 
-//function
-export default async function proxy(req: NextRequest) {
+    const isAuthPage =
+        pathname.startsWith("/login") ||
+        pathname.startsWith("/register")
 
-    const { success } = await auth()
+    const isDashboard =
+        pathname === "/" ||
+        pathname.startsWith("/transactions") ||
+        pathname.startsWith("/budgets") ||
+        pathname.startsWith("/reports") ||
+        pathname.startsWith("/settings") ||
+        pathname.startsWith("/upgrade")
 
-    if (!success) {
-        return NextResponse.redirect(new URL("/login", req.nextUrl))
+    if (isDashboard && !isLoggedIn) {
+        return NextResponse.redirect(new URL("/login", nextUrl))
     }
 
-    return NextResponse.next()
+    if (isAuthPage && isLoggedIn) {
+        return NextResponse.redirect(new URL("/", nextUrl))
+    }
+
+    const response = NextResponse.next()
+
+    // Persist locale cookie
+    if (!localeCookie) {
+        response.cookies.set("locale", validLocale, {
+            path: "/",
+            maxAge: 60 * 60 * 24 * 365,
+        })
+    }
+
+    return response
+})
+
+export const config = {
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 }
-
-//config
-export const config: ProxyConfig = {
-    matcher: [
-        '/budgets/:path*',
-        '/reports/:path*',
-        '/settings/:path*',
-        '/transactions/:path*',
-        '/upgrade',
-    ],
-}
-
-
-// import { auth } from "@/lib/auth"
-// import { NextResponse } from "next/server"
-
-// export default auth((req) => {
-//     const { nextUrl, auth: session } = req
-//     const isLoggedIn = !!session
-
-//     const isAuthPage =
-//         nextUrl.pathname.startsWith("/login") ||
-//         nextUrl.pathname.startsWith("/register")
-
-//     const isDashboard =
-//         nextUrl.pathname === "/" ||
-//         nextUrl.pathname.startsWith("/transactions") ||
-//         nextUrl.pathname.startsWith("/budgets") ||
-//         nextUrl.pathname.startsWith("/reports") ||
-//         nextUrl.pathname.startsWith("/settings") ||
-//         nextUrl.pathname.startsWith("/upgrade")
-
-//     if (isDashboard && !isLoggedIn) {
-//         return NextResponse.redirect(new URL("/login", nextUrl))
-//     }
-
-//     if (isAuthPage && isLoggedIn) {
-//         return NextResponse.redirect(new URL("/", nextUrl))
-//     }
-
-//     return NextResponse.next()
-// })
-
-// export const config = {
-//     matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-// }

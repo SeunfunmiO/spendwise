@@ -48,8 +48,8 @@ export default function Topbar() {
                             src={user.image}
                             alt={user.name ?? "User"}
                             className="w-8 h-8 rounded-full object-cover"
-                            width={100}
-                            height={100}
+                            width={50}
+                            height={50}
                         />
                     ) : (
                         <div className="w-8 h-8 rounded-full bg-(--primary) flex items-center justify-center text-white text-sm font-semibold">
