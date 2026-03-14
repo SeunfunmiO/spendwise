@@ -1,9 +1,12 @@
 "use client"
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { transactionSchema, type TransactionInput } from "@/lib/schemas"
 import { CATEGORIES } from "@/constants/categories"
 import { createTransaction, updateTransaction } from "@/lib/actions/transaction.actions"
-import type { TransactionData, TransactionInput } from "@/types"
+import type { TransactionData } from "@/types"
 
 interface Props {
     open: boolean
@@ -12,29 +15,41 @@ interface Props {
     transaction?: TransactionData | null
 }
 
-const EMPTY_FORM: TransactionInput = {
-    title: "",
-    amount: 0,
-    type: "expense",
-    category: "Food & Dining",
-    date: new Date().toISOString().split("T")[0],
-    note: "",
-    isRecurring: false,
-    recurringInterval: undefined,
-    customCategory: "",
-}
-
 export default function TransactionForm({ open, onClose, onSuccess, transaction }: Props) {
-    const [form, setForm] = useState<TransactionInput>(EMPTY_FORM)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
+    const [serverError, setServerError] = useState("")
     const isEdit = !!transaction
 
+    const {
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        setValue,
+        formState: { errors, isSubmitting },
+    } = useForm<TransactionInput>({
+        resolver: zodResolver(transactionSchema),
+        defaultValues: {
+            title: "",
+            amount: 0,
+            type: "expense",
+            category: "Food & Dining",
+            date: new Date().toISOString().split("T")[0],
+            note: "",
+            isRecurring: false,
+            recurringInterval: undefined,
+            customCategory: "",
+        },
+    })
+
+    const watchType = watch("type")
+    const watchCategory = watch("category")
+    const watchIsRecurring = watch("isRecurring")
+
+    // Populate form when editing
     useEffect(() => {
         if (transaction) {
-            // Check if the saved category matches a known one
             const isKnownCategory = CATEGORIES.some((c) => c.value === transaction.category)
-            setForm({
+            reset({
                 title: transaction.title,
                 amount: transaction.amount,
                 type: transaction.type,
@@ -46,30 +61,30 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
                 customCategory: isKnownCategory ? "" : transaction.category,
             })
         } else {
-            setForm(EMPTY_FORM)
+            reset({
+                title: "",
+                amount: 0,
+                type: "expense",
+                category: "Food & Dining",
+                date: new Date().toISOString().split("T")[0],
+                note: "",
+                isRecurring: false,
+                recurringInterval: undefined,
+                customCategory: "",
+            })
         }
-        setError("")
-    }, [transaction, open])
+        setServerError("")
+    }, [transaction, open, reset])
 
-    const handleSubmit = async () => {
-        setLoading(true)
-        setError("")
-
-        // Validate custom category if "Other" selected
-        if (form.category === "Other" && !form.customCategory?.trim()) {
-            setError("Please describe the category")
-            setLoading(false)
-            return
-        }
+    const onSubmit = async (data: TransactionInput) => {
+        setServerError("")
 
         const result = isEdit
-            ? await updateTransaction(transaction!._id, form)
-            : await createTransaction(form)
-
-        setLoading(false)
+            ? await updateTransaction(transaction!._id, data)
+            : await createTransaction(data)
 
         if (!result.success) {
-            setError(result.error)
+            setServerError(result.error)
             return
         }
 
@@ -96,6 +111,7 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
                         {isEdit ? "Edit Transaction" : "Add Transaction"}
                     </h2>
                     <button
+                        type="button"
                         onClick={onClose}
                         className="p-2 rounded-lg hover:bg-[var(--secondary)] text-[var(--muted-foreground)] transition-colors"
                     >
@@ -104,179 +120,193 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
                 </div>
 
                 {/* Form Body */}
-                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-5">
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex-1 overflow-y-auto flex flex-col"
+                >
+                    <div className="flex-1 px-6 py-6 space-y-5">
 
-                    {/* Type Toggle */}
-                    <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-2 block">
-                            Type
-                        </label>
-                        <div className="flex rounded-lg border border-[var(--border)] overflow-hidden">
-                            {(["expense", "income"] as const).map((t) => (
-                                <button
-                                    key={t}
-                                    onClick={() => setForm({ ...form, type: t })}
-                                    className={`flex-1 py-2 text-sm font-medium capitalize transition-colors ${form.type === t
-                                            ? t === "income"
-                                                ? "bg-emerald-500 text-white"
-                                                : "bg-red-500 text-white"
-                                            : "text-[var(--muted-foreground)] hover:bg-[var(--secondary)]"
-                                        }`}
-                                >
-                                    {t}
-                                </button>
-                            ))}
+                        {/* Type Toggle */}
+                        <div>
+                            <label className="text-sm font-medium text-[var(--foreground)] mb-2 block">
+                                Type
+                            </label>
+                            <div className="flex rounded-lg border border-[var(--border)] overflow-hidden">
+                                {(["expense", "income"] as const).map((t) => (
+                                    <button
+                                        key={t}
+                                        type="button"
+                                        onClick={() => setValue("type", t)}
+                                        className={`flex-1 py-2 text-sm font-medium capitalize transition-colors ${watchType === t
+                                                ? t === "income"
+                                                    ? "bg-emerald-500 text-white"
+                                                    : "bg-red-500 text-white"
+                                                : "text-[var(--muted-foreground)] hover:bg-[var(--secondary)]"
+                                            }`}
+                                    >
+                                        {t}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Title */}
-                    <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                            Title <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="e.g. Grocery shopping"
-                            value={form.title}
-                            onChange={(e) => setForm({ ...form, title: e.target.value })}
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                        />
-                    </div>
-
-                    {/* Amount */}
-                    <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                            Amount <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="number"
-                            placeholder="0.00"
-                            min={0}
-                            value={form.amount || ""}
-                            onChange={(e) => setForm({ ...form, amount: parseFloat(e.target.value) || 0 })}
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                        />
-                    </div>
-
-                    {/* Category */}
-                    <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                            Category <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                            value={form.category}
-                            onChange={(e) =>
-                                setForm({ ...form, category: e.target.value, customCategory: "" })
-                            }
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                        >
-                            {CATEGORIES.map((cat) => (
-                                <option key={cat.value} value={cat.value}>
-                                    {cat.label}
-                                </option>
-                            ))}
-                        </select>
-
-                        {/* Custom category — only shows when "Other" is selected */}
-                        {form.category === "Other" && (
+                        {/* Title */}
+                        <div>
+                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                                Title <span className="text-red-500">*</span>
+                            </label>
                             <input
+                                {...register("title")}
                                 type="text"
-                                placeholder="e.g. Wedding Gift, Tax Refund..."
-                                value={form.customCategory ?? ""}
-                                onChange={(e) => setForm({ ...form, customCategory: e.target.value })}
-                                className="mt-2 w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                placeholder="e.g. Grocery shopping"
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                             />
-                        )}
-                    </div>
+                            {errors.title && (
+                                <p className="text-xs text-red-500 mt-1">{errors.title.message}</p>
+                            )}
+                        </div>
 
-                    {/* Date */}
-                    <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                            Date <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="date"
-                            value={form.date}
-                            onChange={(e) => setForm({ ...form, date: e.target.value })}
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                        />
-                    </div>
-
-                    {/* Note */}
-                    <div>
-                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                            Note{" "}
-                            <span className="text-[var(--muted-foreground)] font-normal">(optional)</span>
-                        </label>
-                        <textarea
-                            placeholder="Add a note..."
-                            value={form.note}
-                            onChange={(e) => setForm({ ...form, note: e.target.value })}
-                            rows={3}
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
-                        />
-                    </div>
-
-                    {/* Recurring */}
-                    <div>
-                        <label className="flex items-center gap-3 cursor-pointer">
+                        {/* Amount */}
+                        <div>
+                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                                Amount <span className="text-red-500">*</span>
+                            </label>
                             <input
-                                type="checkbox"
-                                checked={form.isRecurring}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        isRecurring: e.target.checked,
-                                        recurringInterval: undefined,
-                                    })
-                                }
-                                className="w-4 h-4 accent-[var(--primary)]"
+                                {...register("amount", { valueAsNumber: true })}
+                                type="number"
+                                placeholder="0.00"
+                                min={0}
+                                step="0.01"
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                             />
-                            <span className="text-sm font-medium text-[var(--foreground)]">
-                                Recurring transaction
-                            </span>
-                        </label>
+                            {errors.amount && (
+                                <p className="text-xs text-red-500 mt-1">{errors.amount.message}</p>
+                            )}
+                        </div>
 
-                        {form.isRecurring && (
+                        {/* Category */}
+                        <div>
+                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                                Category <span className="text-red-500">*</span>
+                            </label>
                             <select
-                                value={form.recurringInterval ?? "monthly"}
-                                onChange={(e) =>
-                                    setForm({ ...form, recurringInterval: e.target.value as any })
-                                }
-                                className="mt-3 w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                {...register("category")}
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                             >
-                                <option value="daily">Daily</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="monthly">Monthly</option>
+                                {CATEGORIES.map((cat) => (
+                                    <option key={cat.value} value={cat.value}>
+                                        {cat.label}
+                                    </option>
+                                ))}
                             </select>
+                            {errors.category && (
+                                <p className="text-xs text-red-500 mt-1">{errors.category.message}</p>
+                            )}
+
+                            {/* Custom category */}
+                            {watchCategory === "Other" && (
+                                <div className="mt-2">
+                                    <input
+                                        {...register("customCategory")}
+                                        type="text"
+                                        placeholder="e.g. Wedding Gift, Tax Refund..."
+                                        className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                    />
+                                    {errors.customCategory && (
+                                        <p className="text-xs text-red-500 mt-1">{errors.customCategory.message}</p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Date */}
+                        <div>
+                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                                Date <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                {...register("date")}
+                                type="date"
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                            />
+                            {errors.date && (
+                                <p className="text-xs text-red-500 mt-1">{errors.date.message}</p>
+                            )}
+                        </div>
+
+                        {/* Note */}
+                        <div>
+                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
+                                Note{" "}
+                                <span className="text-[var(--muted-foreground)] font-normal">(optional)</span>
+                            </label>
+                            <textarea
+                                {...register("note")}
+                                placeholder="Add a note..."
+                                rows={3}
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+                            />
+                            {errors.note && (
+                                <p className="text-xs text-red-500 mt-1">{errors.note.message}</p>
+                            )}
+                        </div>
+
+                        {/* Recurring */}
+                        <div>
+                            <label className="flex items-center gap-3 cursor-pointer">
+                                <input
+                                    {...register("isRecurring")}
+                                    type="checkbox"
+                                    className="w-4 h-4 accent-[var(--primary)]"
+                                />
+                                <span className="text-sm font-medium text-[var(--foreground)]">
+                                    Recurring transaction
+                                </span>
+                            </label>
+
+                            {watchIsRecurring && (
+                                <select
+                                    {...register("recurringInterval")}
+                                    className="mt-3 w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                >
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            )}
+                        </div>
+
+                        {/* Server Error */}
+                        {serverError && (
+                            <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950 px-3 py-2 rounded-lg">
+                                {serverError}
+                            </p>
                         )}
+
                     </div>
 
-                    {/* Error */}
-                    {error && (
-                        <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950 px-3 py-2 rounded-lg">
-                            {error}
-                        </p>
-                    )}
-
-                </div>
-
-                {/* Footer */}
-                <div className="px-6 py-4 border-t border-[var(--border)] flex gap-3">
-                    <button
-                        onClick={onClose}
-                        className="flex-1 py-2.5 text-sm font-medium rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] hover:bg-[var(--secondary)] transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="flex-1 py-2.5 text-sm font-medium rounded-lg bg-[var(--primary)] text-white hover:opacity-90 transition-opacity disabled:opacity-50"
-                    >
-                        {loading ? "Saving..." : isEdit ? "Save Changes" : "Add Transaction"}
-                    </button>
-                </div>
+                    {/* Footer */}
+                    <div className="px-6 py-4 border-t border-[var(--border)] flex gap-3">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="flex-1 py-2.5 text-sm font-medium rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] hover:bg-[var(--secondary)] transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="flex-1 py-2.5 text-sm font-medium rounded-lg bg-[var(--primary)] text-white hover:opacity-90 transition-opacity disabled:opacity-50"
+                        >
+                            {isSubmitting
+                                ? "Saving..."
+                                : isEdit
+                                    ? "Save Changes"
+                                    : "Add Transaction"}
+                        </button>
+                    </div>
+                </form>
 
             </div>
         </>

@@ -21,7 +21,7 @@
         "welcomeBack": "مرحباً بعودتك",
         "startTracking": "ابدأ تتبع أموالك اليوم",
         "signInAccount": "سجّل دخولك إلى حساب SpendWise",
-        "passwordMin": "٦ أحرف على الأقل",
+       "passwordMin": "٨ أحرف على الأقل، حرف كبير، رقم، ورمز خاص",
         "repeatPassword": "أعد كلمة المرور"
     },
     "nav": {

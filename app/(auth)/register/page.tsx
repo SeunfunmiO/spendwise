@@ -4,6 +4,9 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { registerSchema, type RegisterInput } from "@/lib/schemas"
 import { registerUser, loginUser } from "@/lib/actions/auth.actions"
 import Image from "next/image"
 
@@ -11,55 +14,36 @@ export default function RegisterPage() {
     const router = useRouter()
     const t = useTranslations("auth")
 
-    const [form, setForm] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-    })
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
+    const [serverError, setServerError] = useState("")
 
-    const handleSubmit = async () => {
-        setError("")
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<RegisterInput>({
+        resolver: zodResolver(registerSchema),
+    })
 
-        if (!form.name || !form.email || !form.password || !form.confirmPassword) {
-            setError("All fields are required")
-            return
-        }
-
-        if (form.password !== form.confirmPassword) {
-            setError("Passwords do not match")
-            return
-        }
-
-        if (form.password.length < 6) {
-            setError("Password must be at least 6 characters")
-            return
-        }
-
-        setLoading(true)
+    const onSubmit = async (data: RegisterInput) => {
+        setServerError("")
 
         const result = await registerUser({
-            name: form.name,
-            email: form.email,
-            password: form.password,
+            name: data.name,
+            email: data.email,
+            password: data.password,
         })
 
         if (!result.success) {
-            setError(result.error)
-            setLoading(false)
+            setServerError(result.error)
             return
         }
 
         const signInResult = await loginUser({
-            email: form.email,
-            password: form.password,
+            email: data.email,
+            password: data.password,
         })
-
-        setLoading(false)
 
         if (!signInResult.success) {
             router.push("/login?registered=true")
@@ -71,7 +55,7 @@ export default function RegisterPage() {
 
     return (
         <div className="w-full max-w-md">
-            <div className="bg-(--card) rounded-2xl border border-(--border) shadow-sm px-8 py-10">
+            <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] shadow-sm px-8 py-10">
 
                 {/* Logo */}
                 <div className="flex items-center justify-center mb-8">
@@ -80,124 +64,132 @@ export default function RegisterPage() {
 
                 {/* Heading */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-(--foreground)">
+                    <h1 className="text-2xl font-bold text-[var(--foreground)]">
                         {t("register")}
                     </h1>
-                    <p className="text-sm text-(--muted-foreground) mt-1">
+                    <p className="text-sm text-[var(--muted-foreground)] mt-1">
                         {t("startTracking")}
                     </p>
                 </div>
 
-                <div className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
                     {/* Name */}
                     <div>
-                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
                             {t("fullName")}
                         </label>
                         <input
+                            {...register("name")}
                             type="text"
-                            placeholder="Spend Wise"
-                            value={form.name}
-                            onChange={(e) => setForm({ ...form, name: e.target.value })}
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
+                            placeholder="Cynthia Omisore"
+                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                         />
+                        {errors.name && (
+                            <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>
+                        )}
                     </div>
 
                     {/* Email */}
                     <div>
-                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
                             {t("email")}
                         </label>
                         <input
+                            {...register("email")}
                             type="email"
                             placeholder="you@example.com"
-                            value={form.email}
-                            onChange={(e) => setForm({ ...form, email: e.target.value })}
-                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
+                            className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                         />
+                        {errors.email && (
+                            <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+                        )}
                     </div>
 
                     {/* Password */}
                     <div>
-                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
                             {t("password")}
                         </label>
                         <div className="relative">
                             <input
+                                {...register("password")}
                                 type={showPassword ? "text" : "password"}
                                 placeholder={t("passwordMin")}
-                                value={form.password}
-                                onChange={(e) => setForm({ ...form, password: e.target.value })}
-                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
+                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-(--muted-foreground) hover:text-(--foreground) transition-colors"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
                             >
                                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                             </button>
                         </div>
+                        {errors.password && (
+                            <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
+                        )}
                     </div>
 
                     {/* Confirm Password */}
                     <div>
-                        <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                        <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
                             {t("confirmPassword")}
                         </label>
                         <div className="relative">
                             <input
+                                {...register("confirmPassword")}
                                 type={showConfirm ? "text" : "password"}
                                 placeholder={t("repeatPassword")}
-                                value={form.confirmPassword}
-                                onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
-                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
+                                className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowConfirm(!showConfirm)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-(--muted-foreground) hover:text-(--foreground) transition-colors"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
                             >
                                 {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
                             </button>
                         </div>
+                        {errors.confirmPassword && (
+                            <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>
+                        )}
                     </div>
 
-                    {/* Error */}
-                    {error && (
+                    {/* Server Error */}
+                    {serverError && (
                         <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950 px-3 py-2 rounded-lg">
-                            {error}
+                            {serverError}
                         </p>
                     )}
 
                     {/* Submit */}
                     <button
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="w-full py-2.5 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 mt-2"
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 mt-2"
                     >
-                        {loading ? t("creatingAccount") : t("register")}
+                        {isSubmitting ? t("creatingAccount") : t("register")}
                     </button>
 
                     {/* Divider */}
                     <div className="relative my-2">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-(--border)" />
+                            <div className="w-full border-t border-[var(--border)]" />
                         </div>
-                        <div className="relative flex justify-center text-xs text-(--muted-foreground)">
-                            <span className="bg-(--card) px-2">{t("orContinueWith")}</span>
+                        <div className="relative flex justify-center text-xs text-[var(--muted-foreground)]">
+                            <span className="bg-[var(--card)] px-2">{t("orContinueWith")}</span>
                         </div>
                     </div>
 
                     <GoogleButton label={t("continueWithGoogle")} redirecting={t("redirecting")} />
 
-                </div>
+                </form>
 
                 {/* Footer */}
-                <p className="text-center text-sm text-(--muted-foreground) mt-6">
+                <p className="text-center text-sm text-[var(--muted-foreground)] mt-6">
                     {t("hasAccount")}{" "}
-                    <Link href="/login" className="text-(--primary) font-medium hover:underline">
+                    <Link href="/login" className="text-[var(--primary)] font-medium hover:underline">
                         {t("signIn")}
                     </Link>
                 </p>
@@ -207,7 +199,6 @@ export default function RegisterPage() {
     )
 }
 
-// ---- Google Button ----
 function GoogleButton({ label, redirecting }: { label: string; redirecting: string }) {
     const [loading, setLoading] = useState(false)
 
@@ -219,9 +210,10 @@ function GoogleButton({ label, redirecting }: { label: string; redirecting: stri
 
     return (
         <button
+            type="button"
             onClick={handleGoogle}
             disabled={loading}
-            className="w-full py-2.5 rounded-lg border border-(--border) bg-(--card) text-(--foreground) text-sm font-medium hover:bg-(--secondary) transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] text-sm font-medium hover:bg-[var(--secondary)] transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
         >
             <svg width="18" height="18" viewBox="0 0 48 48">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />

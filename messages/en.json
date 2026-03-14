@@ -21,7 +21,7 @@
         "welcomeBack": "Welcome back",
         "startTracking": "Start tracking your finances today",
         "signInAccount": "Sign in to your SpendWise account",
-        "passwordMin": "Min. 6 characters",
+       "passwordMin": "Min. 8 chars, uppercase, number & special character",
         "repeatPassword": "Repeat your password"
     },
     "nav": {

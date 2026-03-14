@@ -10,7 +10,7 @@ import {
     Section,
     Text,
 } from "@react-email/components"
-import { ChartColumn, CheckCircle, TrendingUp } from "lucide-react"
+import { BarChart, CheckCircle, TrendingUp } from "lucide-react"
 
 interface WelcomeEmailProps {
     name: string
@@ -55,7 +55,7 @@ export default function WelcomeEmail({ name }: WelcomeEmailProps) {
                         <Text style={paragraph}>Here&apos;s what you can do right away:</Text>
 
                         <Text style={listItem}><CheckCircle size={14} color="green" /> Add your first transaction</Text>
-                        <Text style={listItem}><ChartColumn size={14} /> Set a monthly budget goal</Text>
+                        <Text style={listItem}><BarChart size={14} /> Set a monthly budget goal</Text>
                         <Text style={listItem}><TrendingUp size={14} /> View your spending breakdown</Text>
 
                         <Section style={buttonContainer}>
