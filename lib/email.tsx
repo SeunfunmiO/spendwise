@@ -1,6 +1,7 @@
 import "server-only"
+import React from "react"
 import resend from "@/lib/resend"
-import WelcomeEmail from "@/emails/welcomeEmail"
+import WelcomeEmail from "@/emails/WelcomeMail"
 
 
 export async function sendWelcomeEmail(name: string, email: string) {
@@ -8,12 +9,10 @@ export async function sendWelcomeEmail(name: string, email: string) {
         await resend.emails.send({
             from: process.env.RESEND_FROM_EMAIL!,
             to: email,
-            subject: `Welcome to SpendWise`,
-            react: WelcomeEmail({ name }),
+            subject: "Welcome to SpendWise",
+            react: <WelcomeEmail name={name} />,
         })
     } catch (error) {
-        // We log but don't throw — a failed welcome email
-        // should never block the user from registering
         console.error("Failed to send welcome email:", error)
     }
 }
