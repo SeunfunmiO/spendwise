@@ -89,10 +89,10 @@ export default function TransactionTable({
                                     <td className="py-3.5 px-4">
                                         <div className="flex items-center gap-2">
                                             <span
-                                                className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${tx.type === "income" ? "bg-emerald-500" : "bg-red-500"
+                                                className={`inline-block w-2 h-2 rounded-full shrink-0 ${tx.type === "income" ? "bg-emerald-500" : "bg-red-500"
                                                     }`}
                                             />
-                                            <span className="font-medium text-(--foreground) truncate max-w-[180px]">
+                                            <span className="font-medium text-(--foreground) truncate max-w-45">
                                                 {tx.title}
                                             </span>
                                             {tx.isRecurring && (
@@ -110,7 +110,7 @@ export default function TransactionTable({
                                                 <Icon size={14} style={{ color: meta?.color }} />
                                             ) : (
                                                 <span
-                                                    className="w-3 h-3 rounded-full flex-shrink-0"
+                                                    className="w-3 h-3 rounded-full shrink-0"
                                                     style={{ backgroundColor: "#71717a" }}
                                                 />
                                             )}

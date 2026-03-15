@@ -100,9 +100,21 @@ export const transactionSchema = z
             path: ["customCategory"],
         }
     )
+
+export const budgetSchema = z.object({
+    category: z.string().min(1, "Category is required"),
+    limit: z
+        .number({ error: "Limit must be a number" })
+        .positive("Limit must be greater than zero"),
+    period: z.enum(["weekly", "monthly", "annual"] as const, {
+        error: "Please select a period",
+    }),
+})
+
 // ---- Inferred Types ----
 export type RegisterInput = z.infer<typeof registerSchema>
 export type LoginInput = z.infer<typeof loginSchema>
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
 export type TransactionInput = z.infer<typeof transactionSchema>
+export type BudgetInput = z.infer<typeof budgetSchema>

@@ -106,9 +106,33 @@
         "required": "*",
         "recurringBadge": "recorrente"
     },
-    "budgets": {
-        "title": "Orçamentos"
-    },
+   "budgets": {
+    "title": "Orçamentos",
+    "addBudget": "Adicionar orçamento",
+    "editBudget": "Editar orçamento",
+    "noBudgets": "Nenhum orçamento ainda",
+    "noBudgetsDesc": "Defina um orçamento para começar a rastrear seus gastos",
+    "loading": "Carregando orçamentos...",
+    "category": "Categoria",
+    "limit": "Limite do orçamento",
+    "period": "Período",
+    "weekly": "Semanal",
+    "monthly": "Mensal",
+    "annual": "Anual",
+    "spent": "Gasto",
+    "remaining": "Restante",
+    "percentUsed": "Usado",
+    "overBudget": "Orçamento excedido!",
+    "deleteConfirmTitle": "Excluir orçamento",
+    "deleteConfirm": "Tem certeza que deseja excluir este orçamento? Esta ação não pode ser desfeita.",
+    "save": "Salvar alterações",
+    "add": "Adicionar orçamento",
+    "saving": "Salvando...",
+    "cancel": "Cancelar",
+    "required": "*",
+    "of": "de",
+    "budgetFor": "orçamento para"
+},
     "reports": {
         "title": "Relatórios"
     },

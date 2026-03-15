@@ -35,7 +35,7 @@ export default function ConfirmModal({
                 {/* Icon + Title */}
                 <div className="flex items-center gap-3">
                     <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${variant === "danger"
+                        className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${variant === "danger"
                                 ? "bg-red-100 dark:bg-red-950"
                                 : "bg-amber-100 dark:bg-amber-950"
                             }`}

@@ -106,9 +106,33 @@
         "recurringBadge": "récurrent",
         "deleteConfirmTitle": "Supprimer la transaction"
     },
-    "budgets": {
-        "title": "Budgets"
-    },
+   "budgets": {
+    "title": "Budgets",
+    "addBudget": "Ajouter un budget",
+    "editBudget": "Modifier le budget",
+    "noBudgets": "Aucun budget pour l'instant",
+    "noBudgetsDesc": "Définissez un budget pour commencer à suivre vos dépenses",
+    "loading": "Chargement des budgets...",
+    "category": "Catégorie",
+    "limit": "Limite du budget",
+    "period": "Période",
+    "weekly": "Hebdomadaire",
+    "monthly": "Mensuel",
+    "annual": "Annuel",
+    "spent": "Dépensé",
+    "remaining": "Restant",
+    "percentUsed": "Utilisé",
+    "overBudget": "Budget dépassé !",
+    "deleteConfirmTitle": "Supprimer le budget",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce budget ? Cette action est irréversible.",
+    "save": "Enregistrer",
+    "add": "Ajouter un budget",
+    "saving": "Enregistrement...",
+    "cancel": "Annuler",
+    "required": "*",
+    "of": "sur",
+    "budgetFor": "budget pour"
+},
     "reports": {
         "title": "Rapports"
     },

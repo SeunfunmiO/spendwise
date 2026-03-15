@@ -106,9 +106,33 @@
         "recurringBadge": "متكرر",
         "deleteConfirmTitle": "حذف المعاملة"
     },
-    "budgets": {
-        "title": "الميزانيات"
-    },
+   "budgets": {
+    "title": "الميزانيات",
+    "addBudget": "إضافة ميزانية",
+    "editBudget": "تعديل الميزانية",
+    "noBudgets": "لا توجد ميزانيات بعد",
+    "noBudgetsDesc": "حدد ميزانية لبدء تتبع إنفاقك",
+    "loading": "جارٍ تحميل الميزانيات...",
+    "category": "الفئة",
+    "limit": "حد الميزانية",
+    "period": "الفترة",
+    "weekly": "أسبوعي",
+    "monthly": "شهري",
+    "annual": "سنوي",
+    "spent": "المُنفق",
+    "remaining": "المتبقي",
+    "percentUsed": "مُستخدم",
+    "overBudget": "تجاوز الميزانية!",
+    "deleteConfirmTitle": "حذف الميزانية",
+    "deleteConfirm": "هل أنت متأكد من حذف هذه الميزانية؟ لا يمكن التراجع عن هذا الإجراء.",
+    "save": "حفظ التغييرات",
+    "add": "إضافة ميزانية",
+    "saving": "جارٍ الحفظ...",
+    "cancel": "إلغاء",
+    "required": "*",
+    "of": "من",
+    "budgetFor": "ميزانية لـ"
+},
     "reports": {
         "title": "التقارير"
     },
