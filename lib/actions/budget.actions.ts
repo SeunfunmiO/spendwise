@@ -83,18 +83,19 @@ function serialize(doc: any, spent: number): BudgetData {
 export async function getBudgets(): Promise<ActionResult<BudgetData[]>> {
     try {
         const userId = await getSessionUser()
-        const { month, week, year } = getCurrentPeriods()
+        const { month, week, year } = getCurrentPeriods() // 👈 now actually used
 
         const budgets = await Budget.find({ userId }).sort({ createdAt: -1 })
 
         const budgetsWithSpent = await Promise.all(
             budgets.map(async (budget) => {
+                // 👇 Use current period values instead of stored ones
                 const periodValue =
                     budget.period === "monthly"
-                        ? budget.month
+                        ? month
                         : budget.period === "weekly"
-                            ? budget.week
-                            : budget.year
+                            ? week
+                            : year
 
                 const { start, end } = getPeriodDateRange(budget.period, periodValue)
 
