@@ -54,7 +54,20 @@
         "goodMorning": "صباح الخير",
         "goodAfternoon": "مساء الخير",
         "goodEvening": "مساء النور",
-        "overview": "إليك نظرتك المالية العامة."
+        "overview": "إليك نظرتك المالية العامة.",
+        "incomeVsExpenses": "الدخل مقابل المصروفات",
+        "spendingByCategory": "الإنفاق حسب الفئة",
+        "recentTransactions": "المعاملات الأخيرة",
+        "viewAll": "عرض الكل",
+        "noExpensesYet": "لا توجد مصروفات هذا الشهر",
+        "income": "الدخل",
+        "expenses": "المصروفات",
+        "totalIncome": "إجمالي الدخل",
+        "totalExpenses": "إجمالي المصروفات",
+        "netBalance": "الرصيد الصافي",
+        "savingsRate": "معدل الادخار",
+        "thisMonth": "هذا الشهر",
+        "ofIncomeSaved": "من الدخل تم توفيره"
     },
     "transactions": {
         "title": "المعاملات",

@@ -54,7 +54,20 @@
         "goodMorning": "Good morning",
         "goodAfternoon": "Good afternoon",
         "goodEvening": "Good evening",
-        "overview": "Here's your financial overview."
+        "overview": "Here's your financial overview.",
+        "incomeVsExpenses": "Income vs Expenses",
+        "spendingByCategory": "Spending by Category",
+        "recentTransactions": "Recent Transactions",
+        "viewAll": "View all",
+        "noExpensesYet": "No expenses this month",
+        "income": "Income",
+        "expenses": "Expenses",
+        "totalIncome": "Total Income",
+        "totalExpenses": "Total Expenses",
+        "netBalance": "Net Balance",
+        "savingsRate": "Savings Rate",
+        "thisMonth": "this month",
+        "ofIncomeSaved": "of income saved"
     },
     "transactions": {
         "title": "Transactions",

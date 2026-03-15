@@ -9,12 +9,24 @@ import type {
     TransactionData,
 } from "@/types"
 import connectDb from "../mongodb"
-
+import User from "@/models/User"
+// ---- Helper: get session or throw ----
 async function getSessionUser() {
     const session = await auth()
-    if (!session?.user?.id) throw new Error("Unauthorized")
-    return session.user.id
+    if (!session?.user?.email) throw new Error("Unauthorized")
+
+    // Fetch the actual MongoDB user by email to get the real _id
+    await connectDb()
+    const user = await User.findOne({ email: session.user.email })
+    if (!user) throw new Error("User not found")
+
+    return user._id
 }
+// async function getSessionUser() {
+//     const session = await auth()
+//     if (!session?.user?.id) throw new Error("Unauthorized")
+//     return session.user.id
+// }
 
 function serialize(doc: any): TransactionData {
     const obj = doc.toObject ? doc.toObject() : doc

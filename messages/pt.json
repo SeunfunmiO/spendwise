@@ -54,7 +54,20 @@
         "goodMorning": "Bom dia",
         "goodAfternoon": "Boa tarde",
         "goodEvening": "Boa noite",
-        "overview": "Aqui está sua visão financeira."
+        "overview": "Aqui está sua visão financeira.",
+        "incomeVsExpenses": "Receitas vs Despesas",
+        "spendingByCategory": "Gastos por categoria",
+        "recentTransactions": "Transações recentes",
+        "viewAll": "Ver tudo",
+        "noExpensesYet": "Sem despesas este mês",
+        "income": "Receitas",
+        "expenses": "Despesas",
+        "totalIncome": "Receita total",
+        "totalExpenses": "Despesas totais",
+        "netBalance": "Saldo líquido",
+        "savingsRate": "Taxa de poupança",
+        "thisMonth": "este mês",
+        "ofIncomeSaved": "da receita poupada"
     },
     "transactions": {
         "title": "Transações",

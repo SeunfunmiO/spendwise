@@ -54,7 +54,20 @@
         "goodMorning": "Buenos días",
         "goodAfternoon": "Buenas tardes",
         "goodEvening": "Buenas noches",
-        "overview": "Aquí está tu resumen financiero."
+        "overview": "Aquí está tu resumen financiero.",
+        "incomeVsExpenses": "Ingresos vs Gastos",
+        "spendingByCategory": "Gastos por categoría",
+        "recentTransactions": "Transacciones recientes",
+        "viewAll": "Ver todo",
+        "noExpensesYet": "Sin gastos este mes",
+        "income": "Ingresos",
+        "expenses": "Gastos",
+        "totalIncome": "Ingresos totales",
+        "totalExpenses": "Gastos totales",
+        "netBalance": "Balance neto",
+        "savingsRate": "Tasa de ahorro",
+        "thisMonth": "este mes",
+        "ofIncomeSaved": "de ingresos ahorrados"
     },
     "transactions": {
         "title": "Transacciones",
