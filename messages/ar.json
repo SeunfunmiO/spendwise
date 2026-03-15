@@ -103,7 +103,8 @@
         "customCategory": "مثال: هدية زفاف، استرداد ضريبي...",
         "titlePlaceholder": "مثال: تسوق البقالة",
         "required": "*",
-        "recurringBadge": "متكرر"
+        "recurringBadge": "متكرر",
+        "deleteConfirmTitle": "حذف المعاملة"
     },
     "budgets": {
         "title": "الميزانيات"

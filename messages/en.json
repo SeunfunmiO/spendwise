@@ -105,7 +105,8 @@
         "customCategory": "e.g. Wedding Gift, Tax Refund...",
         "titlePlaceholder": "e.g. Grocery shopping",
         "required": "*",
-        "recurringBadge": "recurring"
+        "recurringBadge": "recurring",
+        "deleteConfirmTitle": "Delete Transaction"
     },
     "budgets": {
         "title": "Budgets"

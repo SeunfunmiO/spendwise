@@ -67,7 +67,8 @@
         "netBalance": "Saldo líquido",
         "savingsRate": "Taxa de poupança",
         "thisMonth": "este mês",
-        "ofIncomeSaved": "da receita poupada"
+        "ofIncomeSaved": "da receita poupada",
+        "deleteConfirmTitle": "Excluir transação"
     },
     "transactions": {
         "title": "Transações",

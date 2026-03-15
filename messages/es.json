@@ -103,7 +103,8 @@
         "customCategory": "ej. Regalo de boda, Reembolso...",
         "titlePlaceholder": "ej. Compras del supermercado",
         "required": "*",
-        "recurringBadge": "recurrente"
+        "recurringBadge": "recurrente",
+        "deleteConfirmTitle": "Eliminar transacción"
     },
     "budgets": {
         "title": "Presupuestos"

@@ -103,7 +103,8 @@
         "customCategory": "ex. Cadeau de mariage, Remboursement...",
         "titlePlaceholder": "ex. Courses alimentaires",
         "required": "*",
-        "recurringBadge": "récurrent"
+        "recurringBadge": "récurrent",
+        "deleteConfirmTitle": "Supprimer la transaction"
     },
     "budgets": {
         "title": "Budgets"
