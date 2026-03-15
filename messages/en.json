@@ -21,7 +21,7 @@
         "welcomeBack": "Welcome back",
         "startTracking": "Start tracking your finances today",
         "signInAccount": "Sign in to your SpendWise account",
-       "passwordMin": "Min. 8 chars, uppercase, number & special character",
+        "passwordMin": "Min. 8 chars, uppercase, number & special character",
         "repeatPassword": "Repeat your password",
         "forgotPasswordTitle": "Forgot password?",
         "forgotPasswordDesc": "Enter your email and we'll send you a reset link.",
@@ -130,6 +130,9 @@
         "add": "Add",
         "search": "Search",
         "reset": "Reset",
-        "close": "Close"
+        "close": "Close",
+        "logout": "Log out",
+        "toggleTheme": "Toggle theme",
+        "notifications": "Notifications"
     }
 }

@@ -1,19 +1,19 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { NAV_ITEMS } from "@/constants/navigation"
-
-// Show only the first 5 items on mobile (exclude Upgrade)
-const MOBILE_NAV = NAV_ITEMS.slice(0, 5)
+import { useTranslations } from "next-intl"
+import { MOBILE_NAV_ITEMS } from "@/constants/navigation"
 
 export default function MobileNav() {
     const pathname = usePathname()
+    const t = useTranslations("nav")
 
     return (
         <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-(--sidebar) border-t border-(--sidebar-border)">
             <div className="flex items-center justify-around px-2 py-2">
-                {MOBILE_NAV.map((item) => {
-                    const isActive = pathname === item.href
+                {MOBILE_NAV_ITEMS.map((item) => {
+                    const isActive =
+                        item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
                     const Icon = item.icon
 
                     return (
@@ -26,7 +26,7 @@ export default function MobileNav() {
                                 }`}
                         >
                             <Icon size={20} />
-                            <span className="text-[10px] font-medium">{item.label}</span>
+                            <span className="text-[10px] font-medium">{t(item.key)}</span>
                         </Link>
                     )
                 })}

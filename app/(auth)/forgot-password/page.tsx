@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { forgotPasswordSchema, type ForgotPasswordInput } from "@/lib/schemas"
 import { forgotPassword } from "@/lib/actions/password.actions"
+import { MailCheck } from "lucide-react"
 
 export default function ForgotPasswordPage() {
     const [submitted, setSubmitted] = useState(false)
@@ -43,7 +44,7 @@ export default function ForgotPasswordPage() {
                 {submitted ? (
                     // ---- Success State ----
                     <div className="text-center">
-                        <div className="text-5xl mb-4">📧</div>
+                        <div className="text-5xl mb-4"><MailCheck size={28}/></div>
                         <h1 className="text-2xl font-bold text-(--foreground) mb-2">
                             Check your email
                         </h1>

@@ -1,16 +1,21 @@
 "use client"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
 import { NAV_ITEMS } from "@/constants/navigation"
 import { logoutUser } from "@/lib/actions/auth.actions"
 import { LogOut } from "lucide-react"
-import Image from "next/image"
 
 export default function Sidebar() {
     const pathname = usePathname()
+    const t = useTranslations("nav")
+    const tCommon = useTranslations("common")
 
     return (
         <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 border-r border-(--sidebar-border) bg-(--sidebar) z-40">
+
+            {/* Logo */}
             <div className="flex items-center gap-2 px-6 py-5 border-b border-(--sidebar-border)">
                 <Image src="/logo.svg" alt="SpendWise" width={140} height={32} priority />
             </div>
@@ -31,7 +36,7 @@ export default function Sidebar() {
                                 }`}
                         >
                             <Icon size={18} />
-                            {item.label}
+                            {t(item.key)}
                         </Link>
                     )
                 })}
@@ -42,10 +47,10 @@ export default function Sidebar() {
                 <form action={logoutUser}>
                     <button
                         type="submit"
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-(--muted-foreground) hover:bg-[var(--destructive)] hover:text-white transition-colors w-full"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-(--muted-foreground) hover:bg-(--destructive) hover:text-white transition-colors w-full"
                     >
                         <LogOut size={18} />
-                        Log out
+                        {tCommon("logout")}
                     </button>
                 </form>
             </div>
