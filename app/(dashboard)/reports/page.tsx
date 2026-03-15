@@ -94,7 +94,7 @@ export default function ReportsPage() {
             <div className="flex flex-wrap items-center justify-between gap-4">
                 <h2 className="text-2xl font-bold text-(--foreground)">{t("title")}</h2>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center flex-wrap gap-3">
                     {/* Period Selector */}
                     <div className="flex rounded-lg border border-(--border) overflow-hidden">
                         {PERIODS.map((p) => (
