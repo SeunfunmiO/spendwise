@@ -5,11 +5,13 @@ export interface IUser extends Document {
     email: string
     password?: string
     image?: string
+    dateFormat: string
+    budgetAlerts: boolean
     currency: string
     language: string
     plan: "free" | "premium"
     paystackCustomerId?: string,
-    role:string,
+    role: string,
     createdAt: Date
     resetToken?: string | null
     resetTokenExpiry?: Date | null
@@ -35,6 +37,15 @@ const UserSchema = new Schema<IUser>(
         image: {
             type: String,
         },
+        dateFormat: {
+            type: String,
+            enum: ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY/MM/DD"],
+            default: "DD/MM/YYYY",
+        },
+        budgetAlerts: {
+            type: Boolean,
+            default: true,
+        },
         currency: {
             type: String,
             default: "NGN",
@@ -52,10 +63,10 @@ const UserSchema = new Schema<IUser>(
         paystackCustomerId: {
             type: String,
         },
-        role:{
-            type:String,
-            enum:["admin","user"],
-            default:"user"
+        role: {
+            type: String,
+            enum: ["admin", "user"],
+            default: "user"
         },
         resetToken: {
             type: String,
