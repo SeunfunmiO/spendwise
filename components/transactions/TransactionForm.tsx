@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTranslations } from "next-intl"
 import { transactionSchema, type TransactionInput } from "@/lib/schemas"
 import { CATEGORIES } from "@/constants/categories"
 import { createTransaction, updateTransaction } from "@/lib/actions/transaction.actions"
@@ -18,6 +19,7 @@ interface Props {
 export default function TransactionForm({ open, onClose, onSuccess, transaction }: Props) {
     const [serverError, setServerError] = useState("")
     const isEdit = !!transaction
+    const t = useTranslations("transactions")
 
     const {
         register,
@@ -45,7 +47,6 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
     const watchCategory = watch("category")
     const watchIsRecurring = watch("isRecurring")
 
-    // Populate form when editing
     useEffect(() => {
         if (transaction) {
             const isKnownCategory = CATEGORIES.some((c) => c.value === transaction.category)
@@ -103,17 +104,17 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
             />
 
             {/* Slide-over Panel */}
-            <div className="fixed right-0 top-0 h-full w-full max-w-md bg-[var(--card)] z-50 shadow-2xl flex flex-col">
+            <div className="fixed right-0 top-0 h-full w-full max-w-md bg-(--card) z-50 shadow-2xl flex flex-col">
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--border)]">
-                    <h2 className="text-lg font-semibold text-[var(--foreground)]">
-                        {isEdit ? "Edit Transaction" : "Add Transaction"}
+                <div className="flex items-center justify-between px-6 py-5 border-b border-(--border)">
+                    <h2 className="text-lg font-semibold text-(--foreground)">
+                        {isEdit ? t("editTransaction") : t("addTransaction")}
                     </h2>
                     <button
                         type="button"
                         onClick={onClose}
-                        className="p-2 rounded-lg hover:bg-[var(--secondary)] text-[var(--muted-foreground)] transition-colors"
+                        className="p-2 rounded-lg hover:bg-(--secondary) text-(--muted-foreground) transition-colors"
                     >
                         <X size={18} />
                     </button>
@@ -128,23 +129,23 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
 
                         {/* Type Toggle */}
                         <div>
-                            <label className="text-sm font-medium text-[var(--foreground)] mb-2 block">
-                                Type
+                            <label className="text-sm font-medium text-(--foreground) mb-2 block">
+                                {t("type")}
                             </label>
-                            <div className="flex rounded-lg border border-[var(--border)] overflow-hidden">
-                                {(["expense", "income"] as const).map((t) => (
+                            <div className="flex rounded-lg border border-(--border) overflow-hidden">
+                                {(["expense", "income"] as const).map((type) => (
                                     <button
-                                        key={t}
+                                        key={type}
                                         type="button"
-                                        onClick={() => setValue("type", t)}
-                                        className={`flex-1 py-2 text-sm font-medium capitalize transition-colors ${watchType === t
-                                                ? t === "income"
+                                        onClick={() => setValue("type", type)}
+                                        className={`flex-1 py-2 text-sm font-medium capitalize transition-colors ${watchType === type
+                                                ? type === "income"
                                                     ? "bg-emerald-500 text-white"
                                                     : "bg-red-500 text-white"
-                                                : "text-[var(--muted-foreground)] hover:bg-[var(--secondary)]"
+                                                : "text-(--muted-foreground) hover:bg-(--secondary)"
                                             }`}
                                     >
-                                        {t}
+                                        {type === "income" ? t("income") : t("expense")}
                                     </button>
                                 ))}
                             </div>
@@ -152,14 +153,14 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
 
                         {/* Title */}
                         <div>
-                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                                Title <span className="text-red-500">*</span>
+                            <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                                Title <span className="text-red-500">{t("required")}</span>
                             </label>
                             <input
                                 {...register("title")}
                                 type="text"
-                                placeholder="e.g. Grocery shopping"
-                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                placeholder={t("titlePlaceholder")}
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             />
                             {errors.title && (
                                 <p className="text-xs text-red-500 mt-1">{errors.title.message}</p>
@@ -168,8 +169,8 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
 
                         {/* Amount */}
                         <div>
-                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                                Amount <span className="text-red-500">*</span>
+                            <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                                {t("amount")} <span className="text-red-500">{t("required")}</span>
                             </label>
                             <input
                                 {...register("amount", { valueAsNumber: true })}
@@ -177,7 +178,7 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
                                 placeholder="0.00"
                                 min={0}
                                 step="0.01"
-                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             />
                             {errors.amount && (
                                 <p className="text-xs text-red-500 mt-1">{errors.amount.message}</p>
@@ -186,12 +187,12 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
 
                         {/* Category */}
                         <div>
-                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                                Category <span className="text-red-500">*</span>
+                            <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                                {t("category")} <span className="text-red-500">{t("required")}</span>
                             </label>
                             <select
                                 {...register("category")}
-                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             >
                                 {CATEGORIES.map((cat) => (
                                     <option key={cat.value} value={cat.value}>
@@ -209,8 +210,8 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
                                     <input
                                         {...register("customCategory")}
                                         type="text"
-                                        placeholder="e.g. Wedding Gift, Tax Refund..."
-                                        className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                        placeholder={t("customCategory")}
+                                        className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                                     />
                                     {errors.customCategory && (
                                         <p className="text-xs text-red-500 mt-1">{errors.customCategory.message}</p>
@@ -221,13 +222,13 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
 
                         {/* Date */}
                         <div>
-                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                                Date <span className="text-red-500">*</span>
+                            <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                                {t("date")} <span className="text-red-500">{t("required")}</span>
                             </label>
                             <input
                                 {...register("date")}
                                 type="date"
-                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             />
                             {errors.date && (
                                 <p className="text-xs text-red-500 mt-1">{errors.date.message}</p>
@@ -236,15 +237,15 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
 
                         {/* Note */}
                         <div>
-                            <label className="text-sm font-medium text-[var(--foreground)] mb-1.5 block">
-                                Note{" "}
-                                <span className="text-[var(--muted-foreground)] font-normal">(optional)</span>
+                            <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
+                                {t("note")}{" "}
+                                <span className="text-(--muted-foreground) font-normal">{t("noteOptional")}</span>
                             </label>
                             <textarea
                                 {...register("note")}
                                 placeholder="Add a note..."
                                 rows={3}
-                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+                                className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary) resize-none"
                             />
                             {errors.note && (
                                 <p className="text-xs text-red-500 mt-1">{errors.note.message}</p>
@@ -257,21 +258,21 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
                                 <input
                                     {...register("isRecurring")}
                                     type="checkbox"
-                                    className="w-4 h-4 accent-[var(--primary)]"
+                                    className="w-4 h-4 accent-(--primary)"
                                 />
-                                <span className="text-sm font-medium text-[var(--foreground)]">
-                                    Recurring transaction
+                                <span className="text-sm font-medium text-(--foreground)">
+                                    {t("recurring")}
                                 </span>
                             </label>
 
                             {watchIsRecurring && (
                                 <select
                                     {...register("recurringInterval")}
-                                    className="mt-3 w-full px-3 py-2.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                                    className="mt-3 w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                                 >
-                                    <option value="daily">Daily</option>
-                                    <option value="weekly">Weekly</option>
-                                    <option value="monthly">Monthly</option>
+                                    <option value="daily">{t("daily")}</option>
+                                    <option value="weekly">{t("weekly")}</option>
+                                    <option value="monthly">{t("monthly")}</option>
                                 </select>
                             )}
                         </div>
@@ -286,24 +287,24 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
                     </div>
 
                     {/* Footer */}
-                    <div className="px-6 py-4 border-t border-[var(--border)] flex gap-3">
+                    <div className="px-6 py-4 border-t border-(--border) flex gap-3">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 py-2.5 text-sm font-medium rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] hover:bg-[var(--secondary)] transition-colors"
+                            className="flex-1 py-2.5 text-sm font-medium rounded-lg border border-(--border) text-(--muted-foreground) hover:bg-(--secondary) transition-colors"
                         >
-                            Cancel
+                            {t("cancel")}
                         </button>
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="flex-1 py-2.5 text-sm font-medium rounded-lg bg-[var(--primary)] text-white hover:opacity-90 transition-opacity disabled:opacity-50"
+                            className="flex-1 py-2.5 text-sm font-medium rounded-lg bg-(--primary) text-white hover:opacity-90 transition-opacity disabled:opacity-50"
                         >
                             {isSubmitting
-                                ? "Saving..."
+                                ? t("saving")
                                 : isEdit
-                                    ? "Save Changes"
-                                    : "Add Transaction"}
+                                    ? t("save")
+                                    : t("add")}
                         </button>
                     </div>
                 </form>

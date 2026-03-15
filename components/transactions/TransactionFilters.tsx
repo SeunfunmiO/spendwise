@@ -1,4 +1,5 @@
 "use client"
+import { useTranslations } from "next-intl"
 import { CATEGORIES } from "@/constants/categories"
 import type { TransactionFilters } from "@/types"
 
@@ -9,36 +10,38 @@ interface Props {
 }
 
 export default function TransactionFilters({ filters, onChange, onReset }: Props) {
+    const t = useTranslations("transactions")
+
     return (
         <div className="flex flex-wrap gap-3 items-center">
 
             {/* Search */}
             <input
                 type="text"
-                placeholder="Search transactions..."
+                placeholder={t("search")}
                 value={filters.search ?? ""}
                 onChange={(e) => onChange({ ...filters, search: e.target.value })}
-                className="px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] w-56"
+                className="px-3 py-2 text-sm rounded-lg border border-(--border) bg-(--card) text-(--foreground) placeholder:text-(--muted-foreground) focus:outline-none focus:ring-2 focus:ring-(--primary) w-56"
             />
 
             {/* Type */}
             <select
                 value={filters.type ?? "all"}
                 onChange={(e) => onChange({ ...filters, type: e.target.value as any })}
-                className="px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                className="px-3 py-2 text-sm rounded-lg border border-(--border) bg-(--card) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
             >
-                <option value="all">All Types</option>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
+                <option value="all">{t("allTypes")}</option>
+                <option value="income">{t("income")}</option>
+                <option value="expense">{t("expense")}</option>
             </select>
 
             {/* Category */}
             <select
                 value={filters.category ?? ""}
                 onChange={(e) => onChange({ ...filters, category: e.target.value })}
-                className="px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                className="px-3 py-2 text-sm rounded-lg border border-(--border) bg-(--card) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
             >
-                <option value="">All Categories</option>
+                <option value="">{t("allCategories")}</option>
                 {CATEGORIES.map((cat) => (
                     <option key={cat.value} value={cat.value}>
                         {cat.label}
@@ -51,7 +54,7 @@ export default function TransactionFilters({ filters, onChange, onReset }: Props
                 type="date"
                 value={filters.dateFrom ?? ""}
                 onChange={(e) => onChange({ ...filters, dateFrom: e.target.value })}
-                className="px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                className="px-3 py-2 text-sm rounded-lg border border-(--border) bg-(--card) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
             />
 
             {/* Date To */}
@@ -59,15 +62,15 @@ export default function TransactionFilters({ filters, onChange, onReset }: Props
                 type="date"
                 value={filters.dateTo ?? ""}
                 onChange={(e) => onChange({ ...filters, dateTo: e.target.value })}
-                className="px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                className="px-3 py-2 text-sm rounded-lg border border-(--border) bg-(--card) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
             />
 
             {/* Reset */}
             <button
                 onClick={onReset}
-                className="px-3 py-2 text-sm rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] hover:bg-[var(--secondary)] transition-colors"
+                className="px-3 py-2 text-sm rounded-lg border border-(--border) text-(--muted-foreground) hover:bg-(--secondary) transition-colors"
             >
-                Reset
+                {t("reset")}
             </button>
 
         </div>

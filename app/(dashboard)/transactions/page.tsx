@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { Plus } from "lucide-react"
 import { useSession } from "next-auth/react"
+import { useTranslations } from "next-intl"
 import { getTransactions } from "@/lib/actions/transaction.actions"
 import TransactionTable from "@/components/transactions/TransactionTable"
 import TransactionFilters from "@/components/transactions/TransactionFilters"
@@ -19,6 +20,7 @@ const DEFAULT_FILTERS: IFilters = {
 export default function TransactionsPage() {
     const { data: session } = useSession()
     const currency = (session?.user as any)?.currency ?? "NGN"
+    const t = useTranslations("transactions")
 
     const [transactions, setTransactions] = useState<TransactionData[]>([])
     const [filters, setFilters] = useState<IFilters>(DEFAULT_FILTERS)
@@ -38,7 +40,6 @@ export default function TransactionsPage() {
         }
     }, [filters])
 
-    
     useEffect(() => {
         let cancelled = false
 
@@ -61,7 +62,6 @@ export default function TransactionsPage() {
         }
     }, [filters])
 
-
     const handleEdit = (transaction: TransactionData) => {
         setEditingTransaction(transaction)
         setPanelOpen(true)
@@ -83,19 +83,21 @@ export default function TransactionsPage() {
             {/* Page Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-bold text-[var(--foreground)]">
-                        Transactions
+                    <h2 className="text-2xl font-bold text-(--foreground)">
+                        {t("title")}
                     </h2>
-                    <p className="text-sm text-[var(--muted-foreground)] mt-1">
-                        {transactions.length} transaction{transactions.length !== 1 ? "s" : ""} found
+                    <p className="text-sm text-(--muted-foreground) mt-1">
+                        {transactions.length !== 1
+                            ? t("foundPlural", { count: transactions.length })
+                            : t("found", { count: transactions.length })}
                     </p>
                 </div>
                 <button
                     onClick={handleAddNew}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-medium hover:opacity-90 transition-opacity"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity"
                 >
                     <Plus size={16} />
-                    Add Transaction
+                    {t("addTransaction")}
                 </button>
             </div>
 
@@ -107,10 +109,10 @@ export default function TransactionsPage() {
             />
 
             {/* Table Card */}
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden">
+            <div className="rounded-xl border border-(--border) bg-(--card) overflow-hidden">
                 {loading ? (
-                    <div className="py-16 text-center text-[var(--muted-foreground)] text-sm">
-                        Loading transactions...
+                    <div className="py-16 text-center text-(--muted-foreground) text-sm">
+                        {t("loading")}
                     </div>
                 ) : (
                     <TransactionTable
