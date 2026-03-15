@@ -134,7 +134,29 @@
     "budgetFor": "ميزانية لـ"
 },
     "reports": {
-        "title": "التقارير"
+        "title": "التقارير",
+        "savingsTrend": "اتجاه صافي المدخرات",
+        "netSavings": "صافي المدخرات",
+        "topCategories": "أعلى فئات الإنفاق",
+        "noData": "لا توجد بيانات لهذه الفترة",
+        "transaction": "معاملة",
+        "transactions": "معاملات",
+        "export": "تصدير CSV",
+        "exporting": "جارٍ التصدير...",
+        "exportSuccess": "تم تصدير المعاملات بنجاح",
+        "period": "الفترة",
+        "thisMonth": "هذا الشهر",
+        "last3Months": "آخر 3 أشهر",
+        "last6Months": "آخر 6 أشهر",
+        "thisYear": "هذا العام",
+        "totalIncome": "إجمالي الدخل",
+        "totalExpenses": "إجمالي المصروفات",
+        "totalSavings": "إجمالي المدخرات",
+        "savingsRate": "معدل الادخار",
+        "loading": "جارٍ تحميل التقارير...",
+        "incomeVsExpenses": "الدخل مقابل المصروفات",
+        "spendingByCategory": "الإنفاق حسب الفئة",
+        "noExpensesYet": "لا توجد مصروفات لهذه الفترة"
     },
     "settings": {
         "title": "الإعدادات"

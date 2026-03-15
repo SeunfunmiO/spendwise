@@ -134,7 +134,29 @@
     "budgetFor": "presupuesto para"
 },
     "reports": {
-        "title": "Informes"
+        "title": "Informes",
+        "savingsTrend": "Tendencia de ahorro neto",
+        "netSavings": "Ahorro neto",
+        "topCategories": "Principales categorías de gasto",
+        "noData": "Sin datos para este período",
+        "transaction": "transacción",
+        "transactions": "transacciones",
+        "export": "Exportar CSV",
+        "exporting": "Exportando...",
+        "exportSuccess": "Transacciones exportadas correctamente",
+        "period": "Período",
+        "thisMonth": "Este mes",
+        "last3Months": "Últimos 3 meses",
+        "last6Months": "Últimos 6 meses",
+        "thisYear": "Este año",
+        "totalIncome": "Ingresos totales",
+        "totalExpenses": "Gastos totales",
+        "totalSavings": "Ahorros totales",
+        "savingsRate": "Tasa de ahorro",
+        "loading": "Cargando informes...",
+        "incomeVsExpenses": "Ingresos vs Gastos",
+        "spendingByCategory": "Gastos por categoría",
+        "noExpensesYet": "Sin gastos para este período"
     },
     "settings": {
         "title": "Configuración"

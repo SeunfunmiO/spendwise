@@ -133,9 +133,31 @@
     "of": "sur",
     "budgetFor": "budget pour"
 },
-    "reports": {
-        "title": "Rapports"
-    },
+   "reports": {
+    "title": "Rapports",
+    "savingsTrend": "Tendance d'épargne nette",
+    "netSavings": "Épargne nette",
+    "topCategories": "Principales catégories de dépenses",
+    "noData": "Aucune donnée pour cette période",
+    "transaction": "transaction",
+    "transactions": "transactions",
+    "export": "Exporter CSV",
+    "exporting": "Exportation...",
+    "exportSuccess": "Transactions exportées avec succès",
+    "period": "Période",
+    "thisMonth": "Ce mois",
+    "last3Months": "3 derniers mois",
+    "last6Months": "6 derniers mois",
+    "thisYear": "Cette année",
+    "totalIncome": "Revenus totaux",
+    "totalExpenses": "Dépenses totales",
+    "totalSavings": "Épargne totale",
+    "savingsRate": "Taux d'épargne",
+    "loading": "Chargement des rapports...",
+    "incomeVsExpenses": "Revenus vs Dépenses",
+    "spendingByCategory": "Dépenses par catégorie",
+    "noExpensesYet": "Aucune dépense pour cette période"
+},
     "settings": {
         "title": "Paramètres"
     },

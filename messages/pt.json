@@ -134,7 +134,29 @@
     "budgetFor": "orçamento para"
 },
     "reports": {
-        "title": "Relatórios"
+        "title": "Relatórios",
+        "savingsTrend": "Tendência de poupança líquida",
+        "netSavings": "Poupança líquida",
+        "topCategories": "Principais categorias de gastos",
+        "noData": "Sem dados para este período",
+        "transaction": "transação",
+        "transactions": "transações",
+        "export": "Exportar CSV",
+        "exporting": "Exportando...",
+        "exportSuccess": "Transações exportadas com sucesso",
+        "period": "Período",
+        "thisMonth": "Este mês",
+        "last3Months": "Últimos 3 meses",
+        "last6Months": "Últimos 6 meses",
+        "thisYear": "Este ano",
+        "totalIncome": "Receita total",
+        "totalExpenses": "Despesas totais",
+        "totalSavings": "Poupança total",
+        "savingsRate": "Taxa de poupança",
+        "loading": "Carregando relatórios...",
+        "incomeVsExpenses": "Receitas vs Despesas",
+        "spendingByCategory": "Gastos por categoria",
+        "noExpensesYet": "Sem despesas para este período"
     },
     "settings": {
         "title": "Configurações"
