@@ -1,1 +1,2 @@
-//languages
+//languages ✔
+//reset password confirmation email

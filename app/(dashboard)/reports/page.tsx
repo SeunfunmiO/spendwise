@@ -9,18 +9,13 @@ import {
     Wallet,
     PiggyBank,
 } from "lucide-react"
-import {
-    getReportsData,
-    getTransactionsForExport,
-    type ReportPeriod,
-    type ReportsData,
-} from "@/lib/actions/reports.actions"
-import StatCard from "@/components/dashboard/StatCard"
+import { getReportsData, getTransactionsForExport, ReportPeriod, ReportsData } from "@/lib/actions/report.actions"
+import StatCard from "@/components/dashboard/StatsCard"
+import { formatCurrency } from "@/lib/utils"
 import SpendingChart from "@/components/dashboard/SpendingChart"
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart"
 import SavingsTrendChart from "@/components/reports/SavingsTrendChart"
 import TopCategories from "@/components/reports/TopCategories"
-import { formatCurrency } from "@/lib/utils"
 
 export default function ReportsPage() {
     const { data: session } = useSession()
