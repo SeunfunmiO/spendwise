@@ -11,6 +11,8 @@ export interface IUser extends Document {
     paystackCustomerId?: string,
     role:string,
     createdAt: Date
+    resetToken?: string | null
+    resetTokenExpiry?: Date | null
 }
 
 const UserSchema = new Schema<IUser>(
@@ -54,7 +56,15 @@ const UserSchema = new Schema<IUser>(
             type:String,
             enum:["admin","user"],
             default:"user"
-        }
+        },
+        resetToken: {
+            type: String,
+            default: null,
+        },
+        resetTokenExpiry: {
+            type: Date,
+            default: null,
+        },
     },
     { timestamps: true }
 )

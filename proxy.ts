@@ -20,7 +20,11 @@ export default auth((req: any) => {
 
     const isAuthPage =
         pathname.startsWith("/login") ||
-        pathname.startsWith("/register")
+        pathname.startsWith("/register")||
+        pathname.startsWith("/login") ||
+        pathname.startsWith("/register") ||
+        pathname.startsWith("/forgot-password") ||
+        pathname.startsWith("/reset-password")
 
     const isDashboard =
         pathname === "/" ||

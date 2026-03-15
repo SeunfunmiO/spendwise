@@ -9,11 +9,31 @@ function baseTemplate(content: string) {
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f6f9fc; padding: 40px 0;">
       <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
         
-        <!-- Header -->
-        <div style="background: #10b981; padding: 24px 40px;">
-          <img src="./logo.svg" alt="SpendWise" width="160" height="36" style="display: block;" />
-        </div>
-
+     <!-- Header -->
+<div style="background: #10b981; padding: 24px 40px;">
+  <table cellPadding="0" cellSpacing="0" border="0">
+    <tr>
+      <td style="vertical-align: middle; padding-right: 10px;">
+        <table cellPadding="0" cellSpacing="0" border="0" style="background: rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 8px;">
+          <tr>
+            <td style="vertical-align: bottom; padding-right: 3px;">
+              <div style="width: 5px; height: 10px; background: #ffffff; border-radius: 2px;"></div>
+            </td>
+            <td style="vertical-align: bottom; padding-right: 3px;">
+              <div style="width: 5px; height: 15px; background: rgba(255,255,255,0.85); border-radius: 2px;"></div>
+            </td>
+            <td style="vertical-align: bottom;">
+              <div style="width: 5px; height: 20px; background: rgba(255,255,255,0.7); border-radius: 2px;"></div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td style="vertical-align: middle;">
+        <span style="font-size: 22px; font-weight: 700; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">Spend</span><span style="font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.85); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">Wise</span>
+      </td>
+    </tr>
+  </table>
+</div>
         <!-- Content -->
         <div style="padding: 40px;">
           ${content}

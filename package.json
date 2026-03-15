@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^5.2.2",
     "bcryptjs": "^3.0.3",
     "canvas-confetti": "^1.9.4",
+    "crypto": "^1.0.1",
     "jose": "^6.2.1",
     "lucide-react": "^0.577.0",
     "mongoose": "^9.3.0",
