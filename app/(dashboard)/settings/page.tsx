@@ -153,7 +153,10 @@ export default function SettingsPage() {
             // Force session to re-fetch from DB
             await update()
             setProfileSuccess(t("profileUpdated"))
-            setTimeout(() => setProfileSuccess(""), 3000)
+            setTimeout(() => {
+                setProfileSuccess("")
+                window.location.reload() // 👈 force refresh
+            }, 3000)
         }
     }
 
@@ -191,7 +194,10 @@ export default function SettingsPage() {
             // Force session to re-fetch from DB
             await update()
             setPreferencesSuccess(t("preferencesUpdated"))
-            setTimeout(() => setPreferencesSuccess(""), 3000)
+            setTimeout(() => {
+                setPreferencesSuccess("")
+                window.location.reload()
+            }, 3000)
         }
 
         setSavingPreferences(false)
@@ -321,7 +327,7 @@ export default function SettingsPage() {
 
                         {/* Success */}
                         {profileSuccess && (
-                            <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2">
+                            <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2 items-center">
                                 <CheckCircle size={12} /> {profileSuccess}
                             </p>
                         )}
