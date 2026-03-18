@@ -320,7 +320,7 @@ export default function SettingsPage() {
 
                         {/* Success */}
                         {profileSuccess && (
-                            <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-1">
+                            <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2">
                                 <CheckCircle size={12} /> {profileSuccess}
                             </p>
                         )}
@@ -465,7 +465,7 @@ export default function SettingsPage() {
                                 </p>
                             )}
                             {passwordSuccess && (
-                                <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg">
+                                <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2">
                                     <CheckCircle size={12} /> {passwordSuccess}
                                 </p>
                             )}
@@ -577,7 +577,7 @@ export default function SettingsPage() {
 
                     {/* Success */}
                     {preferencesSuccess && (
-                        <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg">
+                        <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2">
                             <CheckCircle size={12} /> {preferencesSuccess}
                         </p>
                     )}
