@@ -77,7 +77,7 @@ export default function SettingsPage() {
     const [prefBudgetAlerts, setPrefBudgetAlerts] = useState(budgetAlerts)
     const [savingPreferences, setSavingPreferences] = useState(false)
 
- 
+
     // ---- Profile Form ----
     const {
         register: registerProfile,
@@ -321,7 +321,7 @@ export default function SettingsPage() {
                         {/* Success */}
                         {profileSuccess && (
                             <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-1">
-                                <CheckCircle color="green" size={12} /> {profileSuccess}
+                                <CheckCircle size={12} /> {profileSuccess}
                             </p>
                         )}
 
@@ -380,7 +380,7 @@ export default function SettingsPage() {
                 <div className="bg-(--card) rounded-xl border border-(--border) p-6">
                     {isGoogleUser ? (
                         <div className="text-center py-8 text-(--muted-foreground) flex justify-center gap-2">
-                            <p className="text-4xl mb-3"><Lock size={14}/></p>
+                            <p className="text-4xl mb-3"><Lock size={14} /></p>
                             <p className="text-sm">{t("googleAccount")}</p>
                         </div>
                     ) : (
@@ -466,7 +466,7 @@ export default function SettingsPage() {
                             )}
                             {passwordSuccess && (
                                 <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg">
-                                    <CheckCircle color="green" size={12} /> {passwordSuccess}
+                                    <CheckCircle size={12} /> {passwordSuccess}
                                 </p>
                             )}
 
@@ -578,7 +578,7 @@ export default function SettingsPage() {
                     {/* Success */}
                     {preferencesSuccess && (
                         <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg">
-                            <CheckCircle color="green" size={12} /> {preferencesSuccess}
+                            <CheckCircle size={12} /> {preferencesSuccess}
                         </p>
                     )}
 
