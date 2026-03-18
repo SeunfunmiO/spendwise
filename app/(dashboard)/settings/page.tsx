@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
@@ -77,15 +77,40 @@ export default function SettingsPage() {
     const [prefBudgetAlerts, setPrefBudgetAlerts] = useState(budgetAlerts)
     const [savingPreferences, setSavingPreferences] = useState(false)
 
+ 
     // ---- Profile Form ----
     const {
         register: registerProfile,
         handleSubmit: handleProfileSubmit,
+        reset: resetProfile, // 👈 add reset
         formState: { errors: profileErrors, isSubmitting: profileSubmitting },
     } = useForm<UpdateProfileInput>({
         resolver: zodResolver(updateProfileSchema),
         defaultValues: { name: user?.name ?? "" },
     })
+
+    // 👇 Add this
+    useEffect(() => {
+        if (user?.name) {
+            resetProfile({ name: user.name })
+        }
+    }, [user?.name, resetProfile])
+
+    // Sync session data when it loads
+    useEffect(() => {
+        const syncSession = () => {
+            if (user) {
+                setAvatarUrl((user as any)?.image ?? "")
+                setPrefCurrency((user as any)?.currency ?? "NGN")
+                setPrefLanguage((user as any)?.language ?? "en")
+                setPrefDateFormat((user as any)?.dateFormat ?? "DD/MM/YYYY")
+                setPrefBudgetAlerts((user as any)?.budgetAlerts ?? true)
+                resetProfile({ name: user.name ?? "" })
+            }
+        }
+
+        syncSession()
+    }, [user, resetProfile])
 
     // ---- Password Form ----
     const [showCurrentPw, setShowCurrentPw] = useState(false)
@@ -225,7 +250,7 @@ export default function SettingsPage() {
                                 <div className="relative">
                                     {avatarUrl ? (
                                         <Image
-                                            src={avatarUrl || user?.image}
+                                            src={avatarUrl}
                                             alt="Avatar"
                                             width={72}
                                             height={72}
@@ -271,7 +296,7 @@ export default function SettingsPage() {
                                 {t("name")}
                             </label>
                             <input
-                                {...registerProfile("name") || user?.name}
+                                {...registerProfile("name")}
                                 type="text"
                                 className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             />
@@ -532,7 +557,7 @@ export default function SettingsPage() {
                     </div>
 
                     {/* Budget Alerts */}
-                    <div className="flex items-center justify-between flex-wrap">
+                    <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-(--foreground)">{t("budgetAlerts")}</p>
                             <p className="text-xs text-(--muted-foreground) mt-0.5">{t("budgetAlertsDesc")}</p>
