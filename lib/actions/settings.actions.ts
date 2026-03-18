@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import type { ActionResult } from "@/types"
 import cloudinary from "@/lib/cloudinary"
+import { sendPasswordChangedEmail } from "../email"
 
 async function getSessionUser() {
     const session = await auth()
@@ -67,6 +68,9 @@ export async function changePassword(data: {
 
         const hashedPassword = await bcrypt.hash(data.newPassword, 12)
         await User.findByIdAndUpdate(user._id, { password: hashedPassword })
+
+        await sendPasswordChangedEmail (user.name, user.email)
+
 
         return { success: true, message: "Password changed successfully" }
     } catch (error) {

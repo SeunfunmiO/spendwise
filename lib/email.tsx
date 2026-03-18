@@ -128,3 +128,43 @@ export async function sendPasswordResetEmail(email: string, resetLink: string) {
         console.error("Failed to send password reset email:", error)
     }
 }
+
+export async function sendPasswordChangedEmail(name: string, email: string) {
+  try {
+    const info = await transporter.sendMail({
+      from: `"SpendWise" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: "Your SpendWise Password Was Changed 🔐",
+      html: baseTemplate(`
+        <h2 style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 16px;">
+          Password Changed Successfully
+        </h2>
+        <p style="font-size: 15px; color: #374151; line-height: 1.6; margin: 0 0 16px;">
+          Hi ${name}, your SpendWise account password was just changed.
+        </p>
+        <p style="font-size: 15px; color: #374151; line-height: 1.6; margin: 0 0 32px;">
+          If you made this change, you can safely ignore this email.
+        </p>
+        <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 16px; border-radius: 6px; margin: 0 0 32px;">
+          <p style="font-size: 14px; color: #dc2626; margin: 0; font-weight: 600;">
+            ⚠️ If you did NOT make this change, your account may be compromised.
+          </p>
+          <p style="font-size: 14px; color: #dc2626; margin: 8px 0 0;">
+            Please reset your password immediately and contact us.
+          </p>
+        </div>
+        <div style="text-align: center; margin: 0 0 32px;">
+          <a href="${process.env.NEXTAUTH_URL}/forgot-password" style="background: #ef4444; color: #ffffff; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 600; display: inline-block;">
+            Reset Password →
+          </a>
+        </div>
+        <p style="font-size: 13px; color: #9ca3af; line-height: 1.6; margin: 0;">
+          This is an automated security notification from SpendWise.
+        </p>
+      `),
+    })
+    console.log("Password changed email sent:", info.messageId)
+  } catch (error) {
+    console.error("Failed to send password changed email:", error)
+  }
+}

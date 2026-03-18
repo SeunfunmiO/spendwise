@@ -54,6 +54,7 @@ export default function SettingsPage() {
     const { theme, setTheme } = useTheme()
     const t = useTranslations("settings")
     const user = session?.user
+    console.log(user)
     const isGoogleUser = !!(user as any)?.image && !(user as any)?.password
 
     const [activeTab, setActiveTab] = useState<Tab>("profile")
@@ -200,8 +201,8 @@ export default function SettingsPage() {
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key)}
                         className={`px-5 py-2.5 text-sm font-medium transition-colors ${activeTab === tab.key
-                                ? "bg-(--primary) text-white"
-                                : "text-(--muted-foreground) hover:bg-(--secondary)"
+                            ? "bg-(--primary) text-white"
+                            : "text-(--muted-foreground) hover:bg-(--secondary)"
                             }`}
                     >
                         {tab.label}
@@ -296,7 +297,7 @@ export default function SettingsPage() {
                         {/* Success */}
                         {profileSuccess && (
                             <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg">
-                                <CheckCircle color="green" size={12}/> {profileSuccess}
+                                <CheckCircle color="green" size={12} /> {profileSuccess}
                             </p>
                         )}
 
@@ -311,7 +312,7 @@ export default function SettingsPage() {
 
                     {/* Logout — mobile friendly */}
                     <div className="bg-(--card) rounded-xl border border-(--border) p-6">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between flex-wrap">
                             <div>
                                 <p className="text-sm font-medium text-(--foreground)">{t("logout")}</p>
                                 <p className="text-xs text-(--muted-foreground) mt-0.5">{t("logoutDesc")}</p>
@@ -333,7 +334,7 @@ export default function SettingsPage() {
                         <h3 className="text-sm font-semibold text-red-500 mb-4">
                             {t("dangerZone")}
                         </h3>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between flex-wrap">
                             <div>
                                 <p className="text-sm font-medium text-(--foreground)">{t("deleteAccount")}</p>
                                 <p className="text-xs text-(--muted-foreground) mt-0.5">{t("deleteAccountDesc")}</p>
@@ -354,8 +355,8 @@ export default function SettingsPage() {
             {activeTab === "security" && (
                 <div className="bg-(--card) rounded-xl border border-(--border) p-6">
                     {isGoogleUser ? (
-                        <div className="text-center py-8 text-(--muted-foreground)">
-                            <p className="text-4xl mb-3"><Lock/></p>
+                        <div className="text-center py-8 text-(--muted-foreground) flex items-center">
+                            <p className="text-4xl mb-3"><Lock size={14}/></p>
                             <p className="text-sm">{t("googleAccount")}</p>
                         </div>
                     ) : (
@@ -441,7 +442,7 @@ export default function SettingsPage() {
                             )}
                             {passwordSuccess && (
                                 <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg">
-                                    <CheckCircle color="green" size={12}/> {passwordSuccess}
+                                    <CheckCircle color="green" size={12} /> {passwordSuccess}
                                 </p>
                             )}
 
@@ -521,8 +522,8 @@ export default function SettingsPage() {
                                     type="button"
                                     onClick={() => setTheme(th)}
                                     className={`px-4 py-2 text-sm font-medium capitalize transition-colors ${theme === th
-                                            ? "bg-(--primary) text-white"
-                                            : "text-(--muted-foreground) hover:bg-(--secondary)"
+                                        ? "bg-(--primary) text-white"
+                                        : "text-(--muted-foreground) hover:bg-(--secondary)"
                                         }`}
                                 >
                                     {t(th)}
@@ -532,7 +533,7 @@ export default function SettingsPage() {
                     </div>
 
                     {/* Budget Alerts */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap">
                         <div>
                             <p className="text-sm font-medium text-(--foreground)">{t("budgetAlerts")}</p>
                             <p className="text-xs text-(--muted-foreground) mt-0.5">{t("budgetAlertsDesc")}</p>
@@ -553,7 +554,7 @@ export default function SettingsPage() {
                     {/* Success */}
                     {preferencesSuccess && (
                         <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg">
-                            <CheckCircle color="green" size={12}/> {preferencesSuccess}
+                            <CheckCircle color="green" size={12} /> {preferencesSuccess}
                         </p>
                     )}
 

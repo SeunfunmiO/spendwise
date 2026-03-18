@@ -102,3 +102,4 @@ export async function loginUser(formData: {
 export async function logoutUser() {
     await signOut({ redirectTo: "/login" })
 }
+
