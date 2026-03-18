@@ -54,7 +54,6 @@ export default function SettingsPage() {
     const { theme, setTheme } = useTheme()
     const t = useTranslations("settings")
     const user = session?.user
-    console.log(user)
     const isGoogleUser = !!(user as any)?.image && !(user as any)?.password
 
     const [activeTab, setActiveTab] = useState<Tab>("profile")
@@ -226,7 +225,7 @@ export default function SettingsPage() {
                                 <div className="relative">
                                     {avatarUrl ? (
                                         <Image
-                                            src={avatarUrl}
+                                            src={avatarUrl || user?.image}
                                             alt="Avatar"
                                             width={72}
                                             height={72}
@@ -272,7 +271,7 @@ export default function SettingsPage() {
                                 {t("name")}
                             </label>
                             <input
-                                {...registerProfile("name")}
+                                {...registerProfile("name") || user?.name}
                                 type="text"
                                 className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--background) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
                             />
@@ -312,7 +311,7 @@ export default function SettingsPage() {
 
                     {/* Logout — mobile friendly */}
                     <div className="bg-(--card) rounded-xl border border-(--border) p-6">
-                        <div className="flex items-center justify-between flex-wrap">
+                        <div className="flex items-center justify-between flex-wrap gap-3">
                             <div>
                                 <p className="text-sm font-medium text-(--foreground)">{t("logout")}</p>
                                 <p className="text-xs text-(--muted-foreground) mt-0.5">{t("logoutDesc")}</p>
@@ -334,7 +333,7 @@ export default function SettingsPage() {
                         <h3 className="text-sm font-semibold text-red-500 mb-4">
                             {t("dangerZone")}
                         </h3>
-                        <div className="flex items-center justify-between flex-wrap">
+                        <div className="flex items-center justify-between flex-wrap gap-3">
                             <div>
                                 <p className="text-sm font-medium text-(--foreground)">{t("deleteAccount")}</p>
                                 <p className="text-xs text-(--muted-foreground) mt-0.5">{t("deleteAccountDesc")}</p>
@@ -355,7 +354,7 @@ export default function SettingsPage() {
             {activeTab === "security" && (
                 <div className="bg-(--card) rounded-xl border border-(--border) p-6">
                     {isGoogleUser ? (
-                        <div className="text-center py-8 text-(--muted-foreground) flex items-center">
+                        <div className="text-center py-8 text-(--muted-foreground) flex justify-center gap-2">
                             <p className="text-4xl mb-3"><Lock size={14}/></p>
                             <p className="text-sm">{t("googleAccount")}</p>
                         </div>

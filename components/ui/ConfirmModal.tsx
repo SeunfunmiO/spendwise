@@ -58,7 +58,7 @@ export default function ConfirmModal({
                 </p>
 
                 {/* Actions */}
-                <div className="flex gap-3 pt-2">
+                <div className="flex gap-3 pt-2 flex-wrap">
                     <button
                         type="button"
                         onClick={onCancel}
