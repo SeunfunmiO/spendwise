@@ -150,8 +150,9 @@ export default function SettingsPage() {
         setProfileSuccess("")
         const result = await updateProfile({ name: data.name, image: avatarUrl })
         if (result.success) {
+            // Force session to re-fetch from DB
+            await update()
             setProfileSuccess(t("profileUpdated"))
-            await update({ name: data.name, image: avatarUrl })
             setTimeout(() => setProfileSuccess(""), 3000)
         }
     }
@@ -186,9 +187,9 @@ export default function SettingsPage() {
         })
 
         if (result.success) {
-            // Update locale cookie
             await setLocale(prefLanguage as Locale)
-            await update({ currency: prefCurrency, language: prefLanguage })
+            // Force session to re-fetch from DB
+            await update()
             setPreferencesSuccess(t("preferencesUpdated"))
             setTimeout(() => setPreferencesSuccess(""), 3000)
         }

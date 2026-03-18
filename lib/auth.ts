@@ -71,23 +71,68 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return true
         },
-        async jwt({ token, user }) {
+        // async jwt({ token, user }) {
+        //     if (user) {
+        //         token.id = user.id
+        //         token.plan = (user as any).plan
+        //         token.currency = (user as any).currency
+        //         token.language = (user as any).language
+        //         token.role = (user as any).role
+        //     }
+        //     return token
+        // },
+        // async session({ session, token }) {
+        //     if (token && session.user) {
+        //         session.user.id = token.id as string
+        //             ; (session.user as any).plan = token.plan
+        //             ; (session.user as any).currency = token.currency
+        //             ; (session.user as any).language = token.language
+        //             ; (session.user as any).role = token.role
+        //     }
+        //     return session
+        // },
+
+        async jwt({ token, user, trigger }) {
+            // On first sign in
             if (user) {
                 token.id = user.id
                 token.plan = (user as any).plan
                 token.currency = (user as any).currency
                 token.language = (user as any).language
                 token.role = (user as any).role
+                token.image = (user as any).image
             }
+
+            // On session update() call — re-fetch from DB
+            if (trigger === "update") {
+                await connectDb()
+                const dbUser = await User.findOne({ email: token.email })
+                if (dbUser) {
+                    token.name = dbUser.name
+                    token.picture = dbUser.image
+                    token.plan = dbUser.plan
+                    token.currency = dbUser.currency
+                    token.language = dbUser.language
+                    token.role = dbUser.role
+                    token.dateFormat = dbUser.dateFormat
+                    token.budgetAlerts = dbUser.budgetAlerts
+                }
+            }
+
             return token
         },
+
         async session({ session, token }) {
             if (token && session.user) {
                 session.user.id = token.id as string
+                session.user.name = token.name as string
+                session.user.image = token.picture as string
                     ; (session.user as any).plan = token.plan
                     ; (session.user as any).currency = token.currency
                     ; (session.user as any).language = token.language
                     ; (session.user as any).role = token.role
+                    ; (session.user as any).dateFormat = token.dateFormat
+                    ; (session.user as any).budgetAlerts = token.budgetAlerts
             }
             return session
         },
