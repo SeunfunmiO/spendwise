@@ -89,28 +89,22 @@ export default function SettingsPage() {
         defaultValues: { name: user?.name ?? "" },
     })
 
-    // 👇 Add this
-    useEffect(() => {
-        if (user?.name) {
-            resetProfile({ name: user.name })
-        }
-    }, [user?.name, resetProfile])
 
     // Sync session data when it loads
     useEffect(() => {
         const syncSession = () => {
-            if (user) {
-                setAvatarUrl((user as any)?.image ?? "")
-                setPrefCurrency((user as any)?.currency ?? "NGN")
-                setPrefLanguage((user as any)?.language ?? "en")
-                setPrefDateFormat((user as any)?.dateFormat ?? "DD/MM/YYYY")
-                setPrefBudgetAlerts((user as any)?.budgetAlerts ?? true)
-                resetProfile({ name: user.name ?? "" })
-            }
+            if (!user) return
+            setAvatarUrl((user as any)?.image ?? "")
+            setPrefCurrency((user as any)?.currency ?? "NGN")
+            setPrefLanguage((user as any)?.language ?? "en")
+            setPrefDateFormat((user as any)?.dateFormat ?? "DD/MM/YYYY")
+            setPrefBudgetAlerts((user as any)?.budgetAlerts ?? true)
+            resetProfile({ name: user.name ?? "" })
         }
 
-        syncSession()
-    }, [user, resetProfile])
+        const timer = setTimeout(syncSession, 0)
+        return () => clearTimeout(timer)
+    }, [user?.name, user?.image, (user as any)?.currency, (user as any)?.language, resetProfile,user])
 
     // ---- Password Form ----
     const [showCurrentPw, setShowCurrentPw] = useState(false)
@@ -472,7 +466,7 @@ export default function SettingsPage() {
                                 </p>
                             )}
                             {passwordSuccess && (
-                                <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2">
+                                    <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2 items-center">
                                     <CheckCircle size={12} /> {passwordSuccess}
                                 </p>
                             )}
@@ -584,7 +578,7 @@ export default function SettingsPage() {
 
                     {/* Success */}
                     {preferencesSuccess && (
-                        <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2">
+                        <p className="text-sm text-emerald-500 bg-emerald-50 dark:bg-emerald-950 px-3 py-2 rounded-lg flex gap-2 items-center">
                             <CheckCircle size={12} /> {preferencesSuccess}
                         </p>
                     )}
