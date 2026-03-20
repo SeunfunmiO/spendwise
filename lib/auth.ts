@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import connectDb from "@/lib/mongodb"
 import User from "@/models/User"
-import { authConfig } from "./auth.cnfig"
+import { authConfig } from "./auth.config"
 import { sendWelcomeEmail } from "./email"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -71,27 +71,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return true
         },
-        // async jwt({ token, user }) {
-        //     if (user) {
-        //         token.id = user.id
-        //         token.plan = (user as any).plan
-        //         token.currency = (user as any).currency
-        //         token.language = (user as any).language
-        //         token.role = (user as any).role
-        //     }
-        //     return token
-        // },
-        // async session({ session, token }) {
-        //     if (token && session.user) {
-        //         session.user.id = token.id as string
-        //             ; (session.user as any).plan = token.plan
-        //             ; (session.user as any).currency = token.currency
-        //             ; (session.user as any).language = token.language
-        //             ; (session.user as any).role = token.role
-        //     }
-        //     return session
-        // },
-
+       
         async jwt({ token, user, trigger }) {
             // On first sign in
             if (user) {

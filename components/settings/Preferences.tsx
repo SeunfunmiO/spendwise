@@ -74,6 +74,8 @@ export default function PreferencesTab() {
 
         if (result.success) {
             await setLocale(prefLanguage as Locale)
+            // Wait for DB to propagate then re-fetch session
+            await new Promise((resolve) => setTimeout(resolve, 500))
             await update()
             setSuccess(t("preferencesUpdated"))
             setTimeout(() => {

@@ -42,6 +42,7 @@ export async function updateProfile(data: {
     }
 }
 
+
 // ---- CHANGE PASSWORD ----
 export async function changePassword(data: {
     currentPassword: string
@@ -121,7 +122,6 @@ export async function deleteAccount(): Promise<ActionResult> {
         }
 
         // Delete user's data
-        const mongoose = await import("mongoose")
         const Transaction = (await import("@/models/Transaction")).default
         const Budget = (await import("@/models/Budget")).default
 

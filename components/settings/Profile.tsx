@@ -62,6 +62,8 @@ export default function ProfileTab() {
     setProfileSuccess("")
     const result = await updateProfile({ name: data.name, image: avatarUrl })
     if (result.success) {
+      // Wait for DB to propagate then re-fetch session
+      await new Promise((resolve) => setTimeout(resolve, 500))
       await update()
       setProfileSuccess(t("profileUpdated"))
       setTimeout(() => {

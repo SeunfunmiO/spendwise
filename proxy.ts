@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { locales, defaultLocale } from "@/i18n/config"
-import { authConfig } from "./lib/auth.cnfig"
+import { authConfig } from "./lib/auth.config"
 
 const { auth } = NextAuth(authConfig)
 
@@ -20,7 +20,7 @@ export default auth((req: any) => {
 
     const isAuthPage =
         pathname.startsWith("/login") ||
-        pathname.startsWith("/register")||
+        pathname.startsWith("/register") ||
         pathname.startsWith("/login") ||
         pathname.startsWith("/register") ||
         pathname.startsWith("/forgot-password") ||
