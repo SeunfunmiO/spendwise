@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { CheckCircle } from "lucide-react"
-import { refreshSession, updatePreferences } from "@/lib/actions/settings.actions"
+import { getUserProfile, refreshSession, updatePreferences } from "@/lib/actions/settings.actions"
 import { setLocale } from "@/lib/actions/locale.actions"
 import type { Locale } from "@/i18n/config"
 
@@ -33,6 +33,7 @@ const DATE_FORMATS = [
 
 export default function PreferencesTab() {
     const { data: session, update } = useSession()
+    const [loading, setLoading] = useState(true)
     const { theme, setTheme } = useTheme()
     const t = useTranslations("settings")
     const user = session?.user
@@ -49,18 +50,25 @@ export default function PreferencesTab() {
     const [saving, setSaving] = useState(false)
     const [success, setSuccess] = useState("")
 
-    useEffect(() => {
-        const sync = () => {
-            if (!user) return
-            setPrefCurrency(userCurrency ?? "NGN")
-            setPrefLanguage(userLanguage ?? "en")
-            setPrefDateFormat(userDateFormat ?? "DD/MM/YYYY")
-            setPrefBudgetAlerts(userBudgetAlerts ?? true)
-        }
-        const timer = setTimeout(sync, 0)
-        return () => clearTimeout(timer)
-    }, [userCurrency, userLanguage, userDateFormat, userBudgetAlerts, user])
 
+
+    // Replace useEffect with DB fetch
+    useEffect(() => {
+        const fetchProfile = async () => {
+            setLoading(true)
+            const result = await getUserProfile()
+            if (result.success && result.data) {
+                setPrefCurrency(result.data.currency)
+                setPrefLanguage(result.data.language)
+                setPrefDateFormat(result.data.dateFormat)
+                setPrefBudgetAlerts(result.data.budgetAlerts)
+            }
+            setLoading(false)
+        }
+        fetchProfile()
+    }, [])
+
+    // Update onSubmit — remove update() and reload, just re-fetch
     const onSubmit = async () => {
         setSaving(true)
         setSuccess("")
@@ -74,12 +82,16 @@ export default function PreferencesTab() {
 
         if (result.success) {
             await setLocale(prefLanguage as Locale)
-            await refreshSession()
+            // Re-fetch from DB to confirm saved values
+            const updated = await getUserProfile()
+            if (updated.success && updated.data) {
+                setPrefCurrency(updated.data.currency)
+                setPrefLanguage(updated.data.language)
+                setPrefDateFormat(updated.data.dateFormat)
+                setPrefBudgetAlerts(updated.data.budgetAlerts)
+            }
             setSuccess(t("preferencesUpdated"))
-            setTimeout(() => {
-                setSuccess("")
-                window.location.reload()
-            }, 1500)
+            setTimeout(() => setSuccess(""), 3000)
         }
 
         setSaving(false)

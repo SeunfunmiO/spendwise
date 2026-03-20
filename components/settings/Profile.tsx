@@ -6,21 +6,26 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Camera, LogOut, Trash2, CheckCircle } from "lucide-react"
 import Image from "next/image"
-import { updateProfile, deleteAccount, refreshSession } from "@/lib/actions/settings.actions"
+import {
+  updateProfile,
+  deleteAccount,
+  getUserProfile,
+} from "@/lib/actions/settings.actions"
 import { logoutUser } from "@/lib/actions/auth.actions"
 import { updateProfileSchema, type UpdateProfileInput } from "@/lib/schemas"
 import ConfirmModal from "@/components/ui/ConfirmModal"
 
 export default function ProfileTab() {
-  const { data: session, update } = useSession()
+  const { data: session } = useSession()
   const t = useTranslations("settings")
-  const user = session?.user
 
   const [avatarUrl, setAvatarUrl] = useState("")
+  const [email, setEmail] = useState("")
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [profileSuccess, setProfileSuccess] = useState("")
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [loadingProfile, setLoadingProfile] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const {
@@ -30,21 +35,23 @@ export default function ProfileTab() {
     formState: { errors, isSubmitting },
   } = useForm<UpdateProfileInput>({
     resolver: zodResolver(updateProfileSchema),
-    defaultValues: { name: user?.name ?? "" },
+    defaultValues: { name: "" },
   })
 
-  const userName = user?.name
-  const userImage = (user as any)?.image
-
+  // ---- Fetch from DB directly ----
   useEffect(() => {
-    const sync = () => {
-      if (!user) return
-      setAvatarUrl(userImage ?? "")
-      reset({ name: userName ?? "" })
+    const fetchProfile = async () => {
+      setLoadingProfile(true)
+      const result = await getUserProfile()
+      if (result.success && result.data) {
+        reset({ name: result.data.name })
+        setAvatarUrl(result.data.image ?? "")
+        setEmail(result.data.email)
+      }
+      setLoadingProfile(false)
     }
-    const timer = setTimeout(sync, 0)
-    return () => clearTimeout(timer)
-  }, [userName, userImage, reset, user])
+    fetchProfile()
+  }, [reset])
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -58,17 +65,18 @@ export default function ProfileTab() {
     if (data.url) setAvatarUrl(data.url)
   }
 
-
   const onSubmit = async (data: UpdateProfileInput) => {
     setProfileSuccess("")
     const result = await updateProfile({ name: data.name, image: avatarUrl })
     if (result.success) {
-      await refreshSession()
       setProfileSuccess(t("profileUpdated"))
-      setTimeout(() => {
-        setProfileSuccess("")
-        window.location.reload()
-      }, 1500)
+      // Re-fetch from DB to show updated values
+      const updated = await getUserProfile()
+      if (updated.success && updated.data) {
+        reset({ name: updated.data.name })
+        setAvatarUrl(updated.data.image ?? "")
+      }
+      setTimeout(() => setProfileSuccess(""), 3000)
     }
   }
 
@@ -77,6 +85,18 @@ export default function ProfileTab() {
     const result = await deleteAccount()
     setDeleting(false)
     if (result.success) await logoutUser()
+  }
+
+  if (loadingProfile) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-(--card) rounded-xl border border-(--border) p-6 space-y-6">
+          <div className="h-20 w-20 rounded-full bg-(--secondary) animate-pulse" />
+          <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
+          <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -103,8 +123,8 @@ export default function ProfileTab() {
                   className="rounded-full object-cover"
                 />
               ) : (
-                <div className="w-[72px] h-[72px] rounded-full bg-(--primary) flex items-center justify-center text-white text-2xl font-bold">
-                  {user?.name?.charAt(0).toUpperCase()}
+                <div className="w-18 h-18 rounded-full bg-(--primary) flex items-center justify-center text-white text-2xl font-bold">
+                  {session?.user?.name?.charAt(0).toUpperCase()}
                 </div>
               )}
               <button
@@ -125,8 +145,8 @@ export default function ProfileTab() {
                 {uploadingAvatar
                   ? t("uploadingAvatar")
                   : avatarUrl
-                  ? t("changeAvatar")
-                  : t("uploadAvatar")}
+                    ? t("changeAvatar")
+                    : t("uploadAvatar")}
               </button>
               <p className="text-xs text-(--muted-foreground) mt-1">{t("avatarHint")}</p>
             </div>
@@ -162,7 +182,7 @@ export default function ProfileTab() {
           </label>
           <input
             type="email"
-            value={user?.email ?? ""}
+            value={email}
             disabled
             className="w-full px-3 py-2.5 text-sm rounded-lg border border-(--border) bg-(--secondary) text-(--muted-foreground) cursor-not-allowed"
           />
@@ -231,7 +251,6 @@ export default function ProfileTab() {
         onConfirm={handleDeleteAccount}
         onCancel={() => setShowDeleteModal(false)}
       />
-
     </div>
   )
 }

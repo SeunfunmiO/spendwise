@@ -17,6 +17,43 @@ async function getSessionUser() {
     return user
 }
 
+export async function getUserProfile(): Promise<ActionResult<{
+    name: string
+    email: string
+    image: string
+    currency: string
+    language: string
+    dateFormat: string
+    budgetAlerts: boolean
+    plan: string
+    role: string
+}>> {
+    try {
+        const user = await getSessionUser()
+        await connectDb()
+        const dbUser = await User.findById(user._id)
+        if (!dbUser) return { success: false, error: "User not found" }
+
+        return {
+            success: true,
+            data: {
+                name: dbUser.name,
+                email: dbUser.email,
+                image: dbUser.image ?? "",
+                currency: dbUser.currency ?? "NGN",
+                language: dbUser.language ?? "en",
+                dateFormat: dbUser.dateFormat ?? "DD/MM/YYYY",
+                budgetAlerts: dbUser.budgetAlerts ?? true,
+                plan: dbUser.plan ?? "free",
+                role: dbUser.role ?? "user",
+            }
+        }
+    } catch (error) {
+        console.error("getUserProfile error:", error)
+        return { success: false, error: "Failed to fetch profile" }
+    }
+}
+
 // ---- UPDATE PROFILE ----
 export async function updateProfile(data: {
     name: string
