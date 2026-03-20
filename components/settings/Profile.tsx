@@ -43,6 +43,7 @@ export default function ProfileTab() {
     const fetchProfile = async () => {
       setLoadingProfile(true)
       const result = await getUserProfile()
+      console.log(result)
       if (result.success && result.data) {
         reset({ name: result.data.name })
         setAvatarUrl(result.data.image ?? "")

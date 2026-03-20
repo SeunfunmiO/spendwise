@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { CheckCircle } from "lucide-react"
-import { getUserProfile, refreshSession, updatePreferences } from "@/lib/actions/settings.actions"
+import { getUserProfile, updatePreferences } from "@/lib/actions/settings.actions"
 import { setLocale } from "@/lib/actions/locale.actions"
 import type { Locale } from "@/i18n/config"
 
@@ -97,6 +97,19 @@ export default function PreferencesTab() {
         setSaving(false)
     }
 
+    if (loading) {
+        return (
+            <div className="space-y-6">
+                <div className="bg-(--card) rounded-xl border border-(--border) p-6 space-y-6">
+                    <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
+                    <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
+                    <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
+                    <div className="flex rounded-lg border border-(--border) animate-pulse"/>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="bg-(--card) rounded-xl border border-(--border) p-6 space-y-6">
 
@@ -160,8 +173,8 @@ export default function PreferencesTab() {
                             type="button"
                             onClick={() => setTheme(th)}
                             className={`px-4 py-2 text-sm font-medium capitalize transition-colors ${theme === th
-                                    ? "bg-(--primary) text-white"
-                                    : "text-(--muted-foreground) hover:bg-(--secondary)"
+                                ? "bg-(--primary) text-white"
+                                : "text-(--muted-foreground) hover:bg-(--secondary)"
                                 }`}
                         >
                             {t(th)}

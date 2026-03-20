@@ -30,7 +30,6 @@ export async function getUserProfile(): Promise<ActionResult<{
 }>> {
     try {
         const user = await getSessionUser()
-        await connectDb()
         const dbUser = await User.findById(user._id)
         if (!dbUser) return { success: false, error: "User not found" }
 
