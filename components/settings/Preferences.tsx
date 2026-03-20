@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { CheckCircle } from "lucide-react"
-import { updatePreferences } from "@/lib/actions/settings.actions"
+import { refreshSession, updatePreferences } from "@/lib/actions/settings.actions"
 import { setLocale } from "@/lib/actions/locale.actions"
 import type { Locale } from "@/i18n/config"
 
@@ -74,9 +74,7 @@ export default function PreferencesTab() {
 
         if (result.success) {
             await setLocale(prefLanguage as Locale)
-            // Wait for DB to propagate then re-fetch session
-            await new Promise((resolve) => setTimeout(resolve, 500))
-            await update()
+            await refreshSession()
             setSuccess(t("preferencesUpdated"))
             setTimeout(() => {
                 setSuccess("")

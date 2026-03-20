@@ -2,7 +2,7 @@
 import bcrypt from "bcryptjs"
 import connectDb from "@/lib/mongodb"
 import User from "@/models/User"
-import { auth } from "@/lib/auth"
+import { auth, unstable_update } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import type { ActionResult } from "@/types"
 import cloudinary from "@/lib/cloudinary"
@@ -133,5 +133,32 @@ export async function deleteAccount(): Promise<ActionResult> {
     } catch (error) {
         console.error("deleteAccount error:", error)
         return { success: false, error: "Failed to delete account" }
+    }
+}
+
+export async function refreshSession(): Promise<ActionResult> {
+    try {
+        const user = await getSessionUser()
+        await connectDb()
+        const dbUser = await User.findById(user._id)
+        if (!dbUser) return { success: false, error: "User not found" }
+
+        await unstable_update({
+            user: {
+                name: dbUser.name,
+                image: dbUser.image,
+                currency: dbUser.currency,
+                language: dbUser.language,
+                dateFormat: dbUser.dateFormat,
+                budgetAlerts: dbUser.budgetAlerts,
+                plan: dbUser.plan,
+                role: dbUser.role,
+            }
+        })
+
+        return { success: true }
+    } catch (error) {
+        console.error("refreshSession error:", error)
+        return { success: false, error: "Failed to refresh session" }
     }
 }

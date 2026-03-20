@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Camera, LogOut, Trash2, CheckCircle } from "lucide-react"
 import Image from "next/image"
-import { updateProfile, deleteAccount } from "@/lib/actions/settings.actions"
+import { updateProfile, deleteAccount, refreshSession } from "@/lib/actions/settings.actions"
 import { logoutUser } from "@/lib/actions/auth.actions"
 import { updateProfileSchema, type UpdateProfileInput } from "@/lib/schemas"
 import ConfirmModal from "@/components/ui/ConfirmModal"
@@ -58,18 +58,12 @@ export default function ProfileTab() {
     if (data.url) setAvatarUrl(data.url)
   }
 
+
   const onSubmit = async (data: UpdateProfileInput) => {
     setProfileSuccess("")
-    console.log("1. Saving profile:", data.name, avatarUrl)
-
     const result = await updateProfile({ name: data.name, image: avatarUrl })
-    console.log("2. Update result:", result)
-
     if (result.success) {
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      console.log("3. Calling update()")
-      await update()
-      console.log("4. Update() done")
+      await refreshSession()
       setProfileSuccess(t("profileUpdated"))
       setTimeout(() => {
         setProfileSuccess("")

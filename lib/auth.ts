@@ -6,7 +6,7 @@ import User from "@/models/User"
 import { authConfig } from "./auth.config"
 import { sendWelcomeEmail } from "./email"
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
     ...authConfig,
     providers: [
         ...authConfig.providers,
@@ -71,8 +71,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return true
         },
-       
-        async jwt({ token, user, trigger }) {
+
+        async jwt({ token, user, trigger, session }) {
+            // On first sign in
             if (user) {
                 token.id = user.id
                 token.plan = (user as any).plan
@@ -82,23 +83,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 token.image = (user as any).image
             }
 
-            if (trigger === "update") {
-                console.log("🔄 JWT update triggered for:", token.email)
-                await connectDb()
-                const dbUser = await User.findOne({ email: token.email })
-                if (dbUser) {
-                    console.log("✅ DB user found:", dbUser.name, dbUser.image)
-                    token.name = dbUser.name
-                    token.picture = dbUser.image
-                    token.plan = dbUser.plan
-                    token.currency = dbUser.currency
-                    token.language = dbUser.language
-                    token.role = dbUser.role
-                    token.dateFormat = dbUser.dateFormat
-                    token.budgetAlerts = dbUser.budgetAlerts
-                } else {
-                    console.log("❌ No DB user found for email:", token.email)
-                }
+            // On unstable_update() call
+            if (trigger === "update" && session?.user) {
+                token.name = session.user.name
+                token.picture = session.user.image
+                token.plan = session.user.plan
+                token.currency = session.user.currency
+                token.language = session.user.language
+                token.role = session.user.role
+                token.dateFormat = session.user.dateFormat
+                token.budgetAlerts = session.user.budgetAlerts
             }
 
             return token
