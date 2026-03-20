@@ -73,7 +73,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
        
         async jwt({ token, user, trigger }) {
-            // On first sign in
             if (user) {
                 token.id = user.id
                 token.plan = (user as any).plan
@@ -83,11 +82,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 token.image = (user as any).image
             }
 
-            // On session update() call — re-fetch from DB
             if (trigger === "update") {
+                console.log("🔄 JWT update triggered for:", token.email)
                 await connectDb()
                 const dbUser = await User.findOne({ email: token.email })
                 if (dbUser) {
+                    console.log("✅ DB user found:", dbUser.name, dbUser.image)
                     token.name = dbUser.name
                     token.picture = dbUser.image
                     token.plan = dbUser.plan
@@ -96,6 +96,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     token.role = dbUser.role
                     token.dateFormat = dbUser.dateFormat
                     token.budgetAlerts = dbUser.budgetAlerts
+                } else {
+                    console.log("❌ No DB user found for email:", token.email)
                 }
             }
 

@@ -1,4 +1,7 @@
 //languages ✔
+//change password email confirmation ✔
 //reset password confirmation email
 //notification
-//change password email confirmation ✔
+//currency
+//budget notification
+//settings showing when account is deleted
