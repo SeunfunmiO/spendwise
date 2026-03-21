@@ -48,7 +48,10 @@
         "budgets": "Budgets",
         "reports": "Reports",
         "settings": "Settings",
-        "upgrade": "Upgrade"
+        "upgrade": "Upgrade",
+        "more": "More",
+        "manageAccount": "Manage your account",
+        "unlockPremium": "Unlock premium features"
     },
     "dashboard": {
         "goodMorning": "Good morning",

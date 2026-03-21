@@ -48,7 +48,10 @@
         "budgets": "Presupuestos",
         "reports": "Informes",
         "settings": "Configuración",
-        "upgrade": "Mejorar plan"
+        "upgrade": "Mejorar plan",
+        "more": "Más",
+        "manageAccount": "Gestiona tu cuenta",
+        "unlockPremium": "Desbloquea funciones premium"
     },
     "dashboard": {
         "goodMorning": "Buenos días",

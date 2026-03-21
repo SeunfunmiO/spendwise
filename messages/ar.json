@@ -48,7 +48,10 @@
         "budgets": "الميزانيات",
         "reports": "التقارير",
         "settings": "الإعدادات",
-        "upgrade": "ترقية الخطة"
+        "upgrade": "ترقية الخطة",
+        "more": "المزيد",
+        "manageAccount": "إدارة حسابك",
+        "unlockPremium": "فتح الميزات المميزة"
     },
     "dashboard": {
         "goodMorning": "صباح الخير",

@@ -3,13 +3,9 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTranslations } from "next-intl"
-import { X, Settings, Sparkles } from "lucide-react"
-import {
-    MoreHorizontal,
-} from "lucide-react"
+import { X, Settings, Sparkles, MoreHorizontal } from "lucide-react"
 import { NAV_ITEMS } from "@/constants/navigation"
 
-// Show first 4 items + a More button
 const MAIN_NAV = NAV_ITEMS.slice(0, 4)
 
 export default function MobileNav() {
@@ -51,7 +47,7 @@ export default function MobileNav() {
                             }`}
                     >
                         <MoreHorizontal size={20} />
-                        <span className="text-[10px] font-medium">More</span>
+                        <span className="text-[10px] font-medium">{t("more")}</span>
                     </button>
 
                 </div>
@@ -72,9 +68,9 @@ export default function MobileNav() {
                         {/* Handle */}
                         <div className="w-10 h-1 bg-(--border) rounded-full mx-auto mb-4" />
 
-                        {/* Close */}
+                        {/* Header */}
                         <div className="flex items-center justify-between mb-4">
-                            <p className="text-sm font-semibold text-(--foreground)">More</p>
+                            <p className="text-sm font-semibold text-(--foreground)">{t("more")}</p>
                             <button
                                 onClick={() => setShowMore(false)}
                                 className="p-1.5 rounded-lg hover:bg-(--secondary) text-(--muted-foreground)"
@@ -97,7 +93,7 @@ export default function MobileNav() {
                             </div>
                             <div>
                                 <p className="text-sm font-medium">{t("settings")}</p>
-                                <p className="text-xs text-(--muted-foreground)">Manage your account</p>
+                                <p className="text-xs text-(--muted-foreground)">{t("manageAccount")}</p>
                             </div>
                         </Link>
 
@@ -115,7 +111,7 @@ export default function MobileNav() {
                             </div>
                             <div>
                                 <p className="text-sm font-medium">{t("upgrade")}</p>
-                                <p className="text-xs text-(--muted-foreground)">Unlock premium features</p>
+                                <p className="text-xs text-(--muted-foreground)">{t("unlockPremium")}</p>
                             </div>
                         </Link>
 

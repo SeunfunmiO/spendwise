@@ -48,7 +48,10 @@
         "budgets": "Budgets",
         "reports": "Rapports",
         "settings": "Paramètres",
-        "upgrade": "Passer Premium"
+        "upgrade": "Passer Premium",
+        "more": "Plus",
+        "manageAccount": "Gérer votre compte",
+        "unlockPremium": "Débloquer les fonctionnalités premium"
     },
     "dashboard": {
         "goodMorning": "Bonjour",
@@ -240,7 +243,7 @@
         "Transactions illimitées",
         "Budgets illimités",
         "Rapports avancés (12 mois)",
-        "Export CSV",
+        "Exporter CSV",
         "Alertes budget par email",
         "Support prioritaire"
     ]
