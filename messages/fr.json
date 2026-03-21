@@ -199,7 +199,13 @@
         "deleteAccountConfirm": "Êtes-vous absolument sûr ? Cela supprimera définitivement votre compte, toutes les transactions et tous les budgets.",
         "deleting": "Suppression...",
         "logout": "Se déconnecter",
-        "logoutDesc": "Se déconnecter de votre compte SpendWise"
+        "logoutDesc": "Se déconnecter de votre compte SpendWise",
+        "support": "Support",
+        "supportDesc": "Besoin d'aide ? Contactez notre équipe.",
+        "prioritySupport": "Support prioritaire",
+        "prioritySupportDesc": "Obtenez de l'aide de notre équipe en 24 heures.",
+        "contactSupport": "Contacter le support",
+        "freeSupportDesc": "Support communautaire uniquement sur le plan gratuit."
     },
    "upgrade": {
     "title": "Passer à Premium",

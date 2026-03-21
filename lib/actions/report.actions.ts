@@ -45,8 +45,28 @@ export async function getReportsData(
     period: ReportPeriod = "6months"
 ): Promise<ActionResult<ReportsData>> {
     try {
-        const userId = await getSessionUser()
+        const session = await auth()
+        if (!session?.user?.email) throw new Error("Unauthorized")
 
+        await connectDb()
+        const user = await User.findOne({ email: session.user.email })
+        if (!user) throw new Error("User not found")
+
+        // ---- Gate period for free plan ----
+        const allowedPeriods: Record<string, ReportPeriod[]> = {
+            free: ["month", "3months"],
+            premium: ["month", "3months", "6months", "year"],
+        }
+
+        if (!allowedPeriods[user.plan]?.includes(period)) {
+            return {
+                success: false,
+                error: "This report period requires a Premium plan. Upgrade to unlock.",
+            }
+        }
+
+        const userId = user._id 
+        
         const now = new Date()
         let startDate: Date
         let monthCount: number

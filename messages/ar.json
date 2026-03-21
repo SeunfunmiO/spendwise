@@ -199,7 +199,13 @@
         "deleteAccountConfirm": "هل أنت متأكد تماماً؟ سيؤدي هذا إلى حذف حسابك وجميع المعاملات والميزانيات نهائياً.",
         "deleting": "جارٍ الحذف...",
         "logout": "تسجيل الخروج",
-        "logoutDesc": "تسجيل الخروج من حساب SpendWise"
+        "logoutDesc": "تسجيل الخروج من حساب SpendWise",
+        "support": "الدعم",
+        "supportDesc": "هل تحتاج مساعدة؟ تواصل مع فريقنا.",
+        "prioritySupport": "دعم ذو أولوية",
+        "prioritySupportDesc": "احصل على مساعدة من فريقنا خلال 24 ساعة.",
+        "contactSupport": "التواصل مع الدعم",
+        "freeSupportDesc": "دعم مجتمعي فقط في الخطة المجانية."
     },
     "upgrade": {
         "title": "الترقية إلى Premium",

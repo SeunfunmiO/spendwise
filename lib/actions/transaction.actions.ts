@@ -169,10 +169,12 @@ export async function createTransaction(
         // 👇 Check budget alert after expense transaction is created
         if (transaction.type === "expense") {
             const user = await User.findById(userId)
-            if (user?.budgetAlerts) {
+            // 👇 Only send alerts for premium users
+            if (user?.plan === "premium" && user?.budgetAlerts) {
                 await checkBudgetAlert(userId, finalCategory, user.email, user.name)
             }
         }
+        
         // Check free plan transaction limit
         const user = await User.findById(userId)
         if (user?.plan === "free") {

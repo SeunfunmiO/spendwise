@@ -1,7 +1,7 @@
 "use server"
 import crypto from "crypto"
 import bcrypt from "bcryptjs"
-import { sendPasswordResetEmail } from "../email"
+import { sendPasswordChangedEmail, sendPasswordResetEmail } from "../email"
 import { ActionResult } from "@/types"
 import connectDb from "../mongodb"
 import User from "@/models/User"
@@ -84,7 +84,8 @@ export async function resetPassword(
             resetToken: null,
             resetTokenExpiry: null,
         })
-
+        await sendPasswordChangedEmail(user.name, user.email)
+        
         return { success: true, message: "Password reset successfully" }
     } catch (error) {
         console.error("resetPassword error:", error)

@@ -79,13 +79,14 @@ export default function ReportsPage() {
         fetchPlan()
     }, [])
 
-
     const PERIODS: { value: ReportPeriod; label: string }[] = [
         { value: "month", label: t("thisMonth") },
         { value: "3months", label: t("last3Months") },
         { value: "6months", label: t("last6Months") },
         { value: "year", label: t("thisYear") },
     ]
+
+    const FREE_PERIODS: ReportPeriod[] = ["month", "3months"]
 
     if (loading) {
         return (
@@ -115,18 +116,31 @@ export default function ReportsPage() {
                 <div className="flex items-center flex-wrap gap-3">
                     {/* Period Selector */}
                     <div className="flex rounded-lg border border-(--border) overflow-hidden">
-                        {PERIODS.map((p) => (
-                            <button
-                                key={p.value}
-                                onClick={() => setPeriod(p.value)}
-                                className={`px-3 py-2 text-xs font-medium transition-colors ${period === p.value
-                                    ? "bg-(--primary) text-white"
-                                    : "text-(--muted-foreground) hover:bg-(--secondary)"
-                                    }`}
-                            >
-                                {p.label}
-                            </button>
-                        ))}
+                        {PERIODS.map((p) => {
+                            const isLocked = userPlan === "free" && !FREE_PERIODS.includes(p.value)
+
+                            return (
+                                <button
+                                    key={p.value}
+                                    onClick={() => {
+                                        if (isLocked) {
+                                            router.push("/upgrade")
+                                            return
+                                        }
+                                        setPeriod(p.value)
+                                    }}
+                                    className={`px-3 py-2 text-xs font-medium transition-colors flex items-center gap-1 ${period === p.value
+                                        ? "bg-(--primary) text-white"
+                                        : isLocked
+                                            ? "text-(--muted-foreground) opacity-50 cursor-not-allowed"
+                                            : "text-(--muted-foreground) hover:bg-(--secondary)"
+                                        }`}
+                                >
+                                    {isLocked && <Lock size={10} />}
+                                    {p.label}
+                                </button>
+                            )
+                        })}
                     </div>
 
                     {/* Export Button */}

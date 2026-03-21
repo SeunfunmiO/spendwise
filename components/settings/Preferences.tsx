@@ -2,10 +2,12 @@
 import { useState, useEffect } from "react"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
-import { CheckCircle } from "lucide-react"
+import { CheckCircle, Lock } from "lucide-react"
 import { getUserProfile, updatePreferences } from "@/lib/actions/settings.actions"
 import { setLocale } from "@/lib/actions/locale.actions"
 import type { Locale } from "@/i18n/config"
+import { getUserPlan } from "@/lib/actions/upgrade.actions"
+import { useRouter } from "next/navigation"
 
 const CURRENCIES = [
     { value: "NGN", label: "Nigerian Naira (₦)" },
@@ -41,8 +43,8 @@ export default function PreferencesTab() {
     const [prefBudgetAlerts, setPrefBudgetAlerts] = useState(true)
     const [saving, setSaving] = useState(false)
     const [success, setSuccess] = useState("")
-
-
+    const router = useRouter()
+    const [userPlan, setUserPlan] = useState("free")
 
     // Replace useEffect with DB fetch
     useEffect(() => {
@@ -58,6 +60,14 @@ export default function PreferencesTab() {
             setLoading(false)
         }
         fetchProfile()
+    }, [])
+
+    useEffect(() => {
+        const fetchPlan = async () => {
+            const result = await getUserPlan()
+            if (result.success && result.data) setUserPlan(result.data.plan)
+        }
+        fetchPlan()
     }, [])
 
     // Update onSubmit — remove update() and reload, just re-fetch
@@ -177,21 +187,39 @@ export default function PreferencesTab() {
             {/* Budget Alerts */}
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm font-medium text-(--foreground)">{t("budgetAlerts")}</p>
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium text-(--foreground)">{t("budgetAlerts")}</p>
+                        {userPlan === "free" && (
+                            <span className="text-xs bg-amber-100 dark:bg-amber-950 text-amber-600 px-1.5 py-0.5 rounded-full">
+                                Pro
+                            </span>
+                        )}
+                    </div>
                     <p className="text-xs text-(--muted-foreground) mt-0.5">{t("budgetAlertsDesc")}</p>
                 </div>
-                <button
-                    type="button"
-                    onClick={() => setPrefBudgetAlerts(!prefBudgetAlerts)}
-                    className={`relative w-11 h-6 rounded-full transition-colors ${prefBudgetAlerts ? "bg-(--primary)" : "bg-(--secondary)"
-                        }`}
-                >
-                    <span
-                        className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${prefBudgetAlerts ? "translate-x-5" : "translate-x-0"
+
+                {userPlan === "free" ? (
+                    <button
+                        onClick={() => router.push("/upgrade")}
+                        className="p-2 rounded-lg hover:bg-(--secondary) text-amber-500 transition-colors"
+                    >
+                        <Lock size={18} />
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={() => setPrefBudgetAlerts(!prefBudgetAlerts)}
+                        className={`relative w-11 h-6 rounded-full transition-colors ${prefBudgetAlerts ? "bg-(--primary)" : "bg-(--secondary)"
                             }`}
-                    />
-                </button>
+                    >
+                        <span
+                            className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${prefBudgetAlerts ? "translate-x-5" : "translate-x-0"
+                                }`}
+                        />
+                    </button>
+                )}
             </div>
+
 
             {/* Success */}
             {success && (

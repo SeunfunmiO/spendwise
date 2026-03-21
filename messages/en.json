@@ -201,7 +201,13 @@
         "deleteAccountConfirm": "Are you absolutely sure? This will permanently delete your account, all transactions, and all budgets. This action cannot be undone.",
         "deleting": "Deleting...",
         "logout": "Log Out",
-        "logoutDesc": "Sign out of your SpendWise account"
+        "logoutDesc": "Sign out of your SpendWise account",
+        "support": "Support",
+        "supportDesc": "Need help? Contact our support team.",
+        "prioritySupport": "Priority Support",
+        "prioritySupportDesc": "Get help from our team within 24 hours.",
+        "contactSupport": "Contact Support",
+        "freeSupportDesc": "Community support only on free plan."
     },
     "upgrade": {
         "title": "Upgrade to Premium",
