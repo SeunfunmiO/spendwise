@@ -24,11 +24,6 @@ async function getSessionUser() {
 
     return user._id
 }
-// async function getSessionUser() {
-//     const session = await auth()
-//     if (!session?.user?.id) throw new Error("Unauthorized")
-//     return session.user.id
-// }
 
 function serialize(doc: any): TransactionData {
     const obj = doc.toObject ? doc.toObject() : doc
@@ -178,7 +173,26 @@ export async function createTransaction(
                 await checkBudgetAlert(userId, finalCategory, user.email, user.name)
             }
         }
+        // Check free plan transaction limit
+        const user = await User.findById(userId)
+        if (user?.plan === "free") {
+            const now = new Date()
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
 
+            const count = await Transaction.countDocuments({
+                userId,
+                date: { $gte: startOfMonth, $lte: endOfMonth },
+            })
+
+            if (count >= 50) {
+                return {
+                    success: false,
+                    error: "Free plan limit reached. Upgrade to Premium for unlimited transactions.",
+                }
+            }
+        }
+        
         revalidatePath("/")
         revalidatePath("/transactions")
         revalidatePath("/reports")

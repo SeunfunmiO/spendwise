@@ -201,9 +201,43 @@
         "logout": "Se déconnecter",
         "logoutDesc": "Se déconnecter de votre compte SpendWise"
     },
-    "upgrade": {
-        "title": "Passer à Premium"
-    },
+   "upgrade": {
+    "title": "Passer à Premium",
+    "subtitle": "Débloquez toute la puissance de SpendWise",
+    "currentPlan": "Plan actuel",
+    "free": "Gratuit",
+    "premium": "Premium",
+    "alreadyPremium": "Vous êtes déjà Premium !",
+    "alreadyPremiumDesc": "Vous avez accès à toutes les fonctionnalités de SpendWise.",
+    "monthly": "Mensuel",
+    "annual": "Annuel",
+    "perMonth": "/mois",
+    "perYear": "/an",
+    "savePercent": "Économisez 25%",
+    "mostPopular": "Le plus populaire",
+    "getStarted": "Commencer",
+    "upgradeNow": "Mettre à niveau",
+    "processing": "Traitement...",
+    "paymentSuccess": "Paiement réussi ! Bienvenue dans Premium 🎉",
+    "paymentFailed": "Paiement échoué. Veuillez réessayer.",
+    "freePlanTitle": "Plan Gratuit",
+    "premiumPlanTitle": "Plan Premium",
+    "featuresTitle": "Tout ce dont vous avez besoin pour gérer vos finances",
+    "freeFeatures": [
+        "Jusqu'à 50 transactions/mois",
+        "Jusqu'à 3 budgets",
+        "Tableau de bord basique",
+        "3 derniers mois de rapports"
+    ],
+    "premiumFeatures": [
+        "Transactions illimitées",
+        "Budgets illimités",
+        "Rapports avancés (12 mois)",
+        "Export CSV",
+        "Alertes budget par email",
+        "Support prioritaire"
+    ]
+},
     "categories": {
         "foodDining": "Alimentation et restaurants",
         "transport": "Transport",

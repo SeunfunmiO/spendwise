@@ -156,7 +156,18 @@ export async function createBudget(
             week,
             year,
         })
-
+        // Check free plan budget limit
+        const user = await User.findById(userId)
+        if (user?.plan === "free") {
+            const count = await Budget.countDocuments({ userId })
+            if (count >= 3) {
+                return {
+                    success: false,
+                    error: "Free plan limit reached. Upgrade to Premium for unlimited budgets.",
+                }
+            }
+        }
+        
         revalidatePath("/budgets")
         revalidatePath("/")
 

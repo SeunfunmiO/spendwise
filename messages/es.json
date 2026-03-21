@@ -201,9 +201,43 @@
         "logout": "Cerrar sesión",
         "logoutDesc": "Salir de tu cuenta SpendWise"
     },
-    "upgrade": {
-        "title": "Mejorar a Premium"
-    },
+   "upgrade": {
+    "title": "Mejorar a Premium",
+    "subtitle": "Desbloquea todo el poder de SpendWise",
+    "currentPlan": "Plan actual",
+    "free": "Gratis",
+    "premium": "Premium",
+    "alreadyPremium": "¡Ya tienes Premium!",
+    "alreadyPremiumDesc": "Tienes acceso a todas las funciones de SpendWise.",
+    "monthly": "Mensual",
+    "annual": "Anual",
+    "perMonth": "/mes",
+    "perYear": "/año",
+    "savePercent": "Ahorra 25%",
+    "mostPopular": "Más popular",
+    "getStarted": "Comenzar",
+    "upgradeNow": "Mejorar ahora",
+    "processing": "Procesando...",
+    "paymentSuccess": "¡Pago exitoso! Bienvenido a Premium 🎉",
+    "paymentFailed": "Pago fallido. Por favor intenta de nuevo.",
+    "freePlanTitle": "Plan Gratuito",
+    "premiumPlanTitle": "Plan Premium",
+    "featuresTitle": "Todo lo que necesitas para gestionar tus finanzas",
+    "freeFeatures": [
+        "Hasta 50 transacciones/mes",
+        "Hasta 3 presupuestos",
+        "Panel básico",
+        "Últimos 3 meses de informes"
+    ],
+    "premiumFeatures": [
+        "Transacciones ilimitadas",
+        "Presupuestos ilimitados",
+        "Informes avanzados (12 meses)",
+        "Exportar CSV",
+        "Alertas de presupuesto por email",
+        "Soporte prioritario"
+    ]
+},
     "categories": {
         "foodDining": "Comida y restaurantes",
         "transport": "Transporte",

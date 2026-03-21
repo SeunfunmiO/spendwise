@@ -202,7 +202,41 @@
         "logoutDesc": "تسجيل الخروج من حساب SpendWise"
     },
     "upgrade": {
-        "title": "الترقية إلى Premium"
+        "title": "الترقية إلى Premium",
+        "subtitle": "أطلق العنان لكامل قوة SpendWise",
+        "currentPlan": "الخطة الحالية",
+        "free": "مجاني",
+        "premium": "مميز",
+        "alreadyPremium": "أنت بالفعل على Premium!",
+        "alreadyPremiumDesc": "لديك وصول إلى جميع ميزات SpendWise.",
+        "monthly": "شهري",
+        "annual": "سنوي",
+        "perMonth": "/شهر",
+        "perYear": "/سنة",
+        "savePercent": "وفر 25%",
+        "mostPopular": "الأكثر شعبية",
+        "getStarted": "ابدأ الآن",
+        "upgradeNow": "ترقية الآن",
+        "processing": "جارٍ المعالجة...",
+        "paymentSuccess": "تم الدفع بنجاح! مرحباً بك في Premium 🎉",
+        "paymentFailed": "فشل الدفع. يرجى المحاولة مرة أخرى.",
+        "freePlanTitle": "الخطة المجانية",
+        "premiumPlanTitle": "الخطة المميزة",
+        "featuresTitle": "كل ما تحتاجه لإدارة أموالك",
+        "freeFeatures": [
+            "حتى 50 معاملة/شهر",
+            "حتى 3 ميزانيات",
+            "لوحة تحكم أساسية",
+            "تقارير آخر 3 أشهر"
+        ],
+        "premiumFeatures": [
+            "معاملات غير محدودة",
+            "ميزانيات غير محدودة",
+            "تقارير متقدمة (12 شهراً)",
+            "تصدير CSV",
+            "تنبيهات الميزانية بالبريد",
+            "دعم ذو أولوية"
+        ]
     },
     "categories": {
         "foodDining": "الطعام والمطاعم",
