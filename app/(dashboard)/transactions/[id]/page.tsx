@@ -11,6 +11,7 @@ import {
   Tag,
   FileText,
   Clock,
+  SearchAlert,
 } from "lucide-react"
 import { getTransactionById, deleteTransaction } from "@/lib/actions/transaction.actions"
 import { getCategoryMeta } from "@/constants/categories"
@@ -97,7 +98,7 @@ export default function TransactionDetailPage() {
           {t("backToTransactions")}
         </button>
         <div className="text-center py-16 text-(--muted-foreground)">
-          <p className="text-5xl mb-4">🔍</p>
+          <p className="text-5xl mb-4"><SearchAlert size={20}/></p>
           <p className="text-sm font-medium">{t("transactionNotFound")}</p>
           <p className="text-xs mt-1">{t("transactionNotFoundDesc")}</p>
         </div>
