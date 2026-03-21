@@ -7,7 +7,7 @@ import { deleteBudget, getBudgets } from "@/lib/actions/budget.actions"
 import BudgetCard from "@/components/budgets/BudgetCard"
 import BudgetForm from "@/components/budgets/BudgetForm"
 import ConfirmModal from "@/components/ui/ConfirmModal"
-import { useUserPreferences } from "@/hooks/useUserPrerences"
+import { useUserPreferences } from "@/hooks/useUserPreferences"
 
 export default function BudgetsPage() {
     const { currency } = useUserPreferences()

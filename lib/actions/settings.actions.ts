@@ -144,12 +144,10 @@ export async function updatePreferences(data: {
     }
 }
 
-// ---- DELETE ACCOUNT ----
 export async function deleteAccount(): Promise<ActionResult> {
     try {
         const user = await getSessionUser()
 
-        // Delete avatar from Cloudinary if exists
         if (user.image && user.image.includes("cloudinary")) {
             const publicId = user.image.split("/").pop()?.split(".")[0]
             if (publicId) {
@@ -157,13 +155,19 @@ export async function deleteAccount(): Promise<ActionResult> {
             }
         }
 
-        // Delete user's data
         const Transaction = (await import("@/models/Transaction")).default
         const Budget = (await import("@/models/Budget")).default
 
         await Transaction.deleteMany({ userId: user._id })
         await Budget.deleteMany({ userId: user._id })
         await User.findByIdAndDelete(user._id)
+
+        // 👇 Clear all cookies
+        const { cookies } = await import("next/headers")
+        const cookieStore = await cookies()
+        cookieStore.delete("next-auth.session-token")
+        cookieStore.delete("authjs.session-token")
+        cookieStore.delete("locale")
 
         return { success: true, message: "Account deleted successfully" }
     } catch (error) {

@@ -4,14 +4,14 @@ import { useTranslations } from "next-intl"
 import { getCategoryMeta } from "@/constants/categories"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import type { TransactionData } from "@/types"
-import { useUserPreferences } from "@/hooks/useUserPrerences"
+import { useUserPreferences } from "@/hooks/useUserPreferences"
 
 interface Props {
     transactions: TransactionData[]
     currency: string
 }
 
-export default function RecentTransactions({ transactions}: Props) {
+export default function RecentTransactions({ transactions }: Props) {
     const t = useTranslations("dashboard")
     const tTransactions = useTranslations("transactions")
     const { currency, dateFormat } = useUserPreferences()

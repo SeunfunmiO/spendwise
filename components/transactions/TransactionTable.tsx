@@ -7,7 +7,7 @@ import { getCategoryMeta } from "@/constants/categories"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import ConfirmModal from "@/components/ui/ConfirmModal"
 import type { TransactionData } from "@/types"
-import { useUserPreferences } from "@/hooks/useUserPrerences"
+import { useUserPreferences } from "@/hooks/useUserPreferences"
 
 interface Props {
     transactions: TransactionData[]
@@ -120,7 +120,7 @@ export default function TransactionTable({
 
                                     {/* Date */}
                                     <td className="py-3.5 px-4 text-(--muted-foreground)">
-                                        {formatDate(tx.date,dateFormat)}
+                                        {formatDate(tx.date, dateFormat)}
                                     </td>
 
                                     {/* Amount */}

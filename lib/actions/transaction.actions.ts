@@ -10,6 +10,8 @@ import type {
 } from "@/types"
 import connectDb from "../mongodb"
 import User from "@/models/User"
+import Budget from "@/models/Budget"
+import { sendBudgetAlertEmail } from "../email"
 // ---- Helper: get session or throw ----
 async function getSessionUser() {
     const session = await auth()
@@ -78,7 +80,39 @@ export async function getTransactions(
         return { success: false, error: "Failed to fetch transactions" }
     }
 }
+async function checkBudgetAlert(userId: any, category: string, userEmail: string, userName: string) {
+    try {
+        const now = new Date()
+        // 👇 Remove the unused month variable
 
+        const budget = await Budget.findOne({ userId, category, period: "monthly" })
+        if (!budget) return
+
+        const user = await User.findById(userId)
+        if (!user?.budgetAlerts) return
+
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+
+        const transactions = await Transaction.find({
+            userId,
+            category,
+            type: "expense",
+            date: { $gte: startOfMonth, $lte: endOfMonth },
+        })
+
+        const spent = transactions.reduce((sum, t) => sum + t.amount, 0)
+        const percentage = (spent / budget.limit) * 100
+
+        if (percentage >= 80 && percentage < 100) {
+            await sendBudgetAlertEmail(userName, userEmail, category, spent, budget.limit, Math.round(percentage))
+        } else if (percentage >= 100) {
+            await sendBudgetAlertEmail(userName, userEmail, category, spent, budget.limit, Math.round(percentage), true)
+        }
+    } catch (error) {
+        console.error("Budget alert check error:", error)
+    }
+}
 // ---- CREATE ----
 export async function createTransaction(
     input: TransactionInput
@@ -95,7 +129,6 @@ export async function createTransaction(
             return { success: false, error: "Amount must be greater than zero" }
         }
 
-        // Use customCategory value if "Other" was selected
         const finalCategory =
             input.category === "Other" && input.customCategory?.trim()
                 ? input.customCategory.trim()
@@ -112,6 +145,14 @@ export async function createTransaction(
             isRecurring: input.isRecurring,
             recurringInterval: input.recurringInterval,
         })
+
+        // 👇 Check budget alert after expense transaction is created
+        if (transaction.type === "expense") {
+            const user = await User.findById(userId)
+            if (user?.budgetAlerts) {
+                await checkBudgetAlert(userId, finalCategory, user.email, user.name)
+            }
+        }
 
         revalidatePath("/")
         revalidatePath("/transactions")

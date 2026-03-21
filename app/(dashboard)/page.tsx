@@ -8,20 +8,22 @@ import {
     Wallet,
     PiggyBank,
 } from "lucide-react"
-import { getMonthlySummary, 
-    MonthlySummary } from "@/lib/actions/summary.actions"
+import {
+    getMonthlySummary,
+    MonthlySummary
+} from "@/lib/actions/summary.actions"
 import StatCard from "@/components/dashboard/StatsCard"
 import { formatCurrency } from "@/lib/utils"
 import SpendingChart from "@/components/dashboard/SpendingChart"
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart"
 import RecentTransactions from "@/components/dashboard/RecentTransactions"
-import { useUserPreferences } from "@/hooks/useUserPrerences"
+import { useUserPreferences } from "@/hooks/useUserPreferences"
 
 export default function OverviewPage() {
     const { data: session } = useSession()
     const t = useTranslations("dashboard")
     const user = session?.user
- const { currency } = useUserPreferences()
+    const { currency } = useUserPreferences()
 
     const [summary, setSummary] = useState<MonthlySummary | null>(null)
     const [loading, setLoading] = useState(true)

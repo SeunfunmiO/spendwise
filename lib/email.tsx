@@ -168,3 +168,48 @@ export async function sendPasswordChangedEmail(name: string, email: string) {
     console.error("Failed to send password changed email:", error)
   }
 }
+
+export async function sendBudgetAlertEmail(
+  name: string,
+  email: string,
+  category: string,
+  spent: number,
+  limit: number,
+  percentage: number,
+  isOverBudget: boolean = false
+) {
+  try {
+    const subject = isOverBudget
+      ? `⚠️ Budget exceeded for ${category}`
+      : `⚠️ You've used ${percentage}% of your ${category} budget`
+
+    const info = await transporter.sendMail({
+      from: `"SpendWise" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject,
+      html: baseTemplate(`
+        <h2 style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 16px;">
+          ${isOverBudget ? "Budget Exceeded! ⚠️" : `Budget Alert — ${percentage}% Used`}
+        </h2>
+        <p style="font-size: 15px; color: #374151; line-height: 1.6; margin: 0 0 16px;">
+          Hi ${name}, your <strong>${category}</strong> budget has ${isOverBudget ? "been exceeded" : `reached ${percentage}%`}.
+        </p>
+        <div style="background: ${isOverBudget ? "#fef2f2" : "#fffbeb"}; border-left: 4px solid ${isOverBudget ? "#ef4444" : "#f59e0b"}; padding: 16px; border-radius: 6px; margin: 0 0 24px;">
+          <p style="font-size: 14px; color: ${isOverBudget ? "#dc2626" : "#92400e"}; margin: 0;">
+            <strong>Spent:</strong> ${new Intl.NumberFormat("en-US", { style: "currency", currency: "NGN" }).format(spent)}<br/>
+            <strong>Budget limit:</strong> ${new Intl.NumberFormat("en-US", { style: "currency", currency: "NGN" }).format(limit)}<br/>
+            <strong>Used:</strong> ${percentage}%
+          </p>
+        </div>
+        <div style="text-align: center;">
+          <a href="${process.env.NEXTAUTH_URL}/budgets" style="background: #10b981; color: #ffffff; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 600; display: inline-block;">
+            View Budgets →
+          </a>
+        </div>
+      `),
+    })
+    console.log("Budget alert email sent:", info.messageId)
+  } catch (error) {
+    console.error("Failed to send budget alert email:", error)
+  }
+}

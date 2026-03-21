@@ -7,7 +7,7 @@ import TransactionTable from "@/components/transactions/TransactionTable"
 import TransactionFilters from "@/components/transactions/TransactionFilters"
 import TransactionForm from "@/components/transactions/TransactionForm"
 import type { TransactionData, TransactionFilters as IFilters } from "@/types"
-import { useUserPreferences } from "@/hooks/useUserPrerences"
+import { useUserPreferences } from "@/hooks/useUserPreferences"
 
 const DEFAULT_FILTERS: IFilters = {
     type: "all",

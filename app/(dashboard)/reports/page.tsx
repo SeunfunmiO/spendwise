@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect } from "react"
-import { useSession } from "next-auth/react"
 import { useTranslations } from "next-intl"
 import { Download } from "lucide-react"
 import {
@@ -16,12 +15,11 @@ import SpendingChart from "@/components/dashboard/SpendingChart"
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart"
 import SavingsTrendChart from "@/components/reports/SavingsTrendChart"
 import TopCategories from "@/components/reports/TopCategories"
-import { useUserPreferences } from "@/hooks/useUserPrerences"
+import { useUserPreferences } from "@/hooks/useUserPreferences"
 
 export default function ReportsPage() {
-   const { currency } = useUserPreferences()
+    const { currency } = useUserPreferences()
     const t = useTranslations("reports")
-    const tDashboard = useTranslations("dashboard")
 
     const [period, setPeriod] = useState<ReportPeriod>("6months")
     const [data, setData] = useState<ReportsData | null>(null)
@@ -102,8 +100,8 @@ export default function ReportsPage() {
                                 key={p.value}
                                 onClick={() => setPeriod(p.value)}
                                 className={`px-3 py-2 text-xs font-medium transition-colors ${period === p.value
-                                        ? "bg-(--primary) text-white"
-                                        : "text-(--muted-foreground) hover:bg-(--secondary)"
+                                    ? "bg-(--primary) text-white"
+                                    : "text-(--muted-foreground) hover:bg-(--secondary)"
                                     }`}
                             >
                                 {p.label}
