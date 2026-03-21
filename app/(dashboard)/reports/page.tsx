@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { useTranslations } from "next-intl"
-import { Download } from "lucide-react"
+import { Download, Lock } from "lucide-react"
 import {
     TrendingUp,
     TrendingDown,
@@ -16,10 +16,13 @@ import CategoryPieChart from "@/components/dashboard/CategoryPieChart"
 import SavingsTrendChart from "@/components/reports/SavingsTrendChart"
 import TopCategories from "@/components/reports/TopCategories"
 import { useUserPreferences } from "@/hooks/useUserPreferences"
+import { useRouter } from "next/navigation"
 
 export default function ReportsPage() {
     const { currency } = useUserPreferences()
     const t = useTranslations("reports")
+    const router = useRouter()
+    const [userPlan, setUserPlan] = useState("free")
 
     const [period, setPeriod] = useState<ReportPeriod>("6months")
     const [data, setData] = useState<ReportsData | null>(null)
@@ -46,10 +49,15 @@ export default function ReportsPage() {
         const result = await getTransactionsForExport()
         setExporting(false)
 
-        if (!result.success || !result.data) return
+        if (!result.success) {
+            // If it's a plan restriction, redirect to upgrade
+            if (result.error?.includes("Premium")) {
+                router.push("/upgrade")
+            }
+            return
+        }
 
-        // Create and trigger download
-        const blob = new Blob([result.data], { type: "text/csv" })
+        const blob = new Blob([result.data!], { type: "text/csv" })
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
@@ -59,6 +67,18 @@ export default function ReportsPage() {
         document.body.removeChild(a)
         URL.revokeObjectURL(url)
     }
+
+    useEffect(() => {
+        const fetchPlan = async () => {
+            const { getUserPlan } = await import("@/lib/actions/upgrade.actions")
+            const result = await getUserPlan()
+            if (result.success && result.data) {
+                setUserPlan(result.data.plan)
+            }
+        }
+        fetchPlan()
+    }, [])
+
 
     const PERIODS: { value: ReportPeriod; label: string }[] = [
         { value: "month", label: t("thisMonth") },
@@ -110,14 +130,22 @@ export default function ReportsPage() {
                     </div>
 
                     {/* Export Button */}
-                    <button
+                    < button
                         onClick={handleExport}
                         disabled={exporting}
                         className="flex items-center gap-2 px-4 py-2 rounded-lg border border-(--border) text-(--foreground) text-sm font-medium hover:bg-(--secondary) transition-colors disabled:opacity-50"
                     >
-                        <Download size={16} />
+                        {userPlan === "free" ? <Lock size={16} /> : <Download size={16} />
+                        }
                         {exporting ? t("exporting") : t("export")}
-                    </button>
+                        {
+                            userPlan === "free" && (
+                                <span className="text-xs bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-full">
+                                    Pro
+                                </span>
+                            )
+                        }
+                    </button >
                 </div>
             </div>
 

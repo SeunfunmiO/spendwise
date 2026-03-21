@@ -183,9 +183,23 @@ export async function getReportsData(
 // ---- CSV Export ----
 export async function getTransactionsForExport(): Promise<ActionResult<string>> {
     try {
-        const userId = await getSessionUser()
+        const session = await auth()
+        if (!session?.user?.email) throw new Error("Unauthorized")
 
-        const transactions = await Transaction.find({ userId }).sort({ date: -1 })
+        await connectDb()
+
+        // ---- Check plan ----
+        const user = await User.findOne({ email: session.user.email })
+        if (!user) throw new Error("User not found")
+
+        if (user.plan === "free") {
+            return {
+                success: false,
+                error: "CSV export is a Premium feature. Upgrade to download your transactions.",
+            }
+        }
+
+        const transactions = await Transaction.find({ userId: user._id }).sort({ date: -1 })
 
         const headers = ["Title", "Type", "Category", "Amount", "Date", "Note", "Recurring"]
         const rows = transactions.map((t) => [
