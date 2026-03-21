@@ -80,10 +80,14 @@ export async function getTransactions(
         return { success: false, error: "Failed to fetch transactions" }
     }
 }
-async function checkBudgetAlert(userId: any, category: string, userEmail: string, userName: string) {
+async function checkBudgetAlert(
+    userId: any,
+    category: string,
+    userEmail: string,
+    userName: string
+) {
     try {
         const now = new Date()
-        // 👇 Remove the unused month variable
 
         const budget = await Budget.findOne({ userId, category, period: "monthly" })
         if (!budget) return
@@ -104,10 +108,31 @@ async function checkBudgetAlert(userId: any, category: string, userEmail: string
         const spent = transactions.reduce((sum, t) => sum + t.amount, 0)
         const percentage = (spent / budget.limit) * 100
 
-        if (percentage >= 80 && percentage < 100) {
-            await sendBudgetAlertEmail(userName, userEmail, category, spent, budget.limit, Math.round(percentage))
-        } else if (percentage >= 100) {
-            await sendBudgetAlertEmail(userName, userEmail, category, spent, budget.limit, Math.round(percentage), true)
+        // Send 80% alert only once
+        if (percentage >= 80 && percentage < 100 && !budget.alertSent80) {
+            await sendBudgetAlertEmail(
+                userName, userEmail, category, spent, budget.limit, Math.round(percentage)
+            )
+            await Budget.findByIdAndUpdate(budget._id, {
+                alertSent80: true,
+                alertSent100: false, // reset 100% flag in case they paid some back
+            })
+        }
+
+        // Send 100% alert only once
+        if (percentage >= 100 && !budget.alertSent100) {
+            await sendBudgetAlertEmail(
+                userName, userEmail, category, spent, budget.limit, Math.round(percentage), true
+            )
+            await Budget.findByIdAndUpdate(budget._id, { alertSent100: true })
+        }
+
+        // Reset flags if spending drops below 80% (e.g. transaction deleted)
+        if (percentage < 80 && (budget.alertSent80 || budget.alertSent100)) {
+            await Budget.findByIdAndUpdate(budget._id, {
+                alertSent80: false,
+                alertSent100: false,
+            })
         }
     } catch (error) {
         console.error("Budget alert check error:", error)

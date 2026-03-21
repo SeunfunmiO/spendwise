@@ -10,6 +10,8 @@ export interface IBudget extends Document {
     year: string         // e.g. "2026" for annual
     createdAt: Date
     updatedAt: Date
+    alertSent80: boolean
+    alertSent100: boolean
 }
 
 const BudgetSchema = new Schema<IBudget>(
@@ -41,6 +43,14 @@ const BudgetSchema = new Schema<IBudget>(
         },
         year: {
             type: String,
+        },
+        alertSent80: {
+            type: Boolean,
+            default: false,
+        },
+        alertSent100: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true }
