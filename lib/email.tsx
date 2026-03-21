@@ -213,3 +213,50 @@ export async function sendBudgetAlertEmail(
     console.error("Failed to send budget alert email:", error)
   }
 }
+
+export async function sendRecurringTransactionEmail(
+  name: string,
+  email: string,
+  title: string,
+  amount: number,
+  currency: string,
+  interval: string
+) {
+  try {
+    const info = await transporter.sendMail({
+      from: `"SpendWise" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: `🔄 Recurring transaction processed — ${title}`,
+      html: baseTemplate(`
+        <h2 style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 16px;">
+          Recurring Transaction Processed 🔄
+        </h2>
+        <p style="font-size: 15px; color: #374151; line-height: 1.6; margin: 0 0 16px;">
+          Hi ${name}, your recurring transaction has been automatically added to your SpendWise account.
+        </p>
+        <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 16px; border-radius: 6px; margin: 0 0 24px;">
+          <p style="font-size: 14px; color: #065f46; margin: 0;">
+            <strong>Transaction:</strong> ${title}<br/>
+            <strong>Amount:</strong> ${new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency,
+      }).format(amount)}<br/>
+            <strong>Frequency:</strong> ${interval}
+          </p>
+        </div>
+        <div style="text-align: center; margin: 0 0 32px;">
+          <a href="${process.env.NEXTAUTH_URL}/transactions" style="background: #10b981; color: #ffffff; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 600; display: inline-block;">
+            View Transactions →
+          </a>
+        </div>
+        <p style="font-size: 13px; color: #9ca3af; line-height: 1.6; margin: 0;">
+          This transaction was automatically created based on your recurring settings.
+          You can edit or delete it from your transactions page.
+        </p>
+      `),
+    })
+    console.log("Recurring transaction email sent:", info.messageId)
+  } catch (error) {
+    console.error("Failed to send recurring transaction email:", error)
+  }
+}

@@ -11,7 +11,7 @@ import type {
 import connectDb from "../mongodb"
 import User from "@/models/User"
 import Budget from "@/models/Budget"
-import { sendBudgetAlertEmail } from "../email"
+import { sendBudgetAlertEmail, sendRecurringTransactionEmail } from "../email"
 // ---- Helper: get session or throw ----
 async function getSessionUser() {
     const session = await auth()
@@ -133,6 +133,7 @@ async function checkBudgetAlert(
         console.error("Budget alert check error:", error)
     }
 }
+
 // ---- CREATE ----
 export async function createTransaction(
     input: TransactionInput
@@ -193,6 +194,19 @@ export async function createTransaction(
                     error: "Free plan limit reached. Upgrade to Premium for unlimited transactions.",
                 }
             }
+        }
+
+        // Send email notification
+        const user = await User.findById(tx.userId)
+        if (user) {
+            await sendRecurringTransactionEmail(
+                user.name,
+                user.email,
+                newTransaction.title,
+                newTransaction.amount,
+                user.currency ?? "NGN",
+                tx.recurringInterval
+            )
         }
         
         revalidatePath("/")

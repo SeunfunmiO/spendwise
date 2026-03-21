@@ -253,7 +253,7 @@ export default function ProfileTab() {
 
           {userPlan === "premium" ? (
             <Link
-              href="mailto:support@spendwise.app"
+              href="mailto:official.spendwise@gmail.com"
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity"
             >
               {t("contactSupport")}

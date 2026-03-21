@@ -5,6 +5,8 @@
 //currency ✔
 //reset password confirmation email ✔
 //transaction id page ✔
-//notification
 //recurring transaction
+//notification
 //support/pro translate
+//stop plan
+//error,loading,404
