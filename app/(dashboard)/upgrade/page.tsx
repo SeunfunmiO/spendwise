@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
 import { Check, Sparkles, Zap } from "lucide-react"
 import { useSession } from "next-auth/react"
@@ -20,6 +20,7 @@ export default function UpgradePage() {
     const [messageType, setMessageType] = useState<"success" | "error">("success")
     const [currentPlan, setCurrentPlan] = useState<string>("free")
     const [loadingPlan, setLoadingPlan] = useState(true)
+    const paymentRef = useRef("")
 
     useEffect(() => {
         // Load Paystack inline script
@@ -49,17 +50,21 @@ export default function UpgradePage() {
     const FREE_FEATURES = t.raw("freeFeatures") as string[]
     const PREMIUM_FEATURES = t.raw("premiumFeatures") as string[]
 
+    // Update handleUpgrade — generate ref before setup
     const handleUpgrade = () => {
         if (!session?.user?.email) return
         setProcessing(true)
         setMessage("")
+
+        // Generate ref outside of JSX render — safe here since it's in an event handler
+        paymentRef.current = `spendwise_${new Date().getTime()}`
 
         const planCode = billingCycle === "monthly"
             ? process.env.NEXT_PUBLIC_PAYSTACK_MONTHLY_PLAN
             : process.env.NEXT_PUBLIC_PAYSTACK_ANNUAL_PLAN
 
         const amount = billingCycle === "monthly"
-            ? MONTHLY_PRICE * 100 // Paystack uses kobo
+            ? MONTHLY_PRICE * 100
             : ANNUAL_PRICE * 100
 
         const handler = window.PaystackPop.setup({
@@ -68,18 +73,9 @@ export default function UpgradePage() {
             amount,
             currency: "NGN",
             plan: planCode,
-            ref: `spendwise_${Date.now()}`,
-            callback: async (response: any) => {
-                const result = await verifyPaystackPayment(response.reference)
-                setProcessing(false)
-                if (result.success) {
-                    setCurrentPlan("premium")
-                    setMessageType("success")
-                    setMessage(t("paymentSuccess"))
-                } else {
-                    setMessageType("error")
-                    setMessage(t("paymentFailed"))
-                }
+            ref: paymentRef.current,
+            callback: (response: any) => {
+                handlePaymentSuccess(response.reference)
             },
             onClose: () => {
                 setProcessing(false)
@@ -87,6 +83,20 @@ export default function UpgradePage() {
         })
 
         handler.openIframe()
+    }
+
+    // ---- Separate async handler ----
+    const handlePaymentSuccess = async (reference: string) => {
+        const result = await verifyPaystackPayment(reference)
+        setProcessing(false)
+        if (result.success) {
+            setCurrentPlan("premium")
+            setMessageType("success")
+            setMessage(t("paymentSuccess"))
+        } else {
+            setMessageType("error")
+            setMessage(t("paymentFailed"))
+        }
     }
 
     if (loadingPlan) {
@@ -173,7 +183,7 @@ export default function UpgradePage() {
                             <div className="space-y-3">
                                 {FREE_FEATURES.map((feature, i) => (
                                     <div key={i} className="flex items-center gap-3">
-                                        <div className="w-5 h-5 rounded-full bg-(--secondary) flex items-center justify-center flex-shrink-0">
+                                        <div className="w-5 h-5 rounded-full bg-(--secondary) flex items-center justify-center shrink-0">
                                             <Check size={12} className="text-(--muted-foreground)" />
                                         </div>
                                         <span className="text-sm text-(--muted-foreground)">{feature}</span>
@@ -221,7 +231,7 @@ export default function UpgradePage() {
                             <div className="space-y-3">
                                 {PREMIUM_FEATURES.map((feature, i) => (
                                     <div key={i} className="flex items-center gap-3">
-                                        <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center flex-shrink-0">
+                                        <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center shrink-0">
                                             <Check size={12} className="text-emerald-500" />
                                         </div>
                                         <span className="text-sm text-(--foreground)">{feature}</span>
