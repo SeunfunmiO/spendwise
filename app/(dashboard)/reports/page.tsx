@@ -24,7 +24,7 @@ export default function ReportsPage() {
     const router = useRouter()
     const [userPlan, setUserPlan] = useState("free")
 
-    const [period, setPeriod] = useState<ReportPeriod>("6months")
+    const [period, setPeriod] = useState<ReportPeriod>("3months")
     const [data, setData] = useState<ReportsData | null>(null)
     const [loading, setLoading] = useState(true)
     const [exporting, setExporting] = useState(false)
