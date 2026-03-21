@@ -6,6 +6,7 @@ import User from "@/models/User"
 import { RegisterResult, SignInResult } from "@/types"
 import { sendWelcomeEmail } from "../email"
 import connectDb from "../mongodb"
+import { createNotification } from "../notifications"
 
 
 
@@ -58,6 +59,13 @@ export async function registerUser(formData: {
         })
 
         await sendWelcomeEmail(newUser.name, newUser.email)
+        await createNotification({
+            userId: newUser._id,
+            type: "welcome",
+            title: "Welcome to SpendWise! 🎉",
+            message: "Your account has been created successfully. Start tracking your finances!",
+            link: "/",
+        })
 
         return { success: true, message: "Account created successfully" }
     } catch (error) {

@@ -285,5 +285,19 @@
         "logout": "Sair",
         "toggleTheme": "Alternar tema",
         "notifications": "Notificações"
+    },
+    "notifications": {
+        "title": "Notificações",
+        "empty": "Sem notificações ainda",
+        "emptyDesc": "Você verá atualizações importantes aqui",
+        "markAllRead": "Marcar tudo como lido",
+        "clearAll": "Limpar tudo",
+        "viewAll": "Ver todas as notificações",
+        "unread": "não lido",
+        "justNow": "Agora mesmo",
+        "minutesAgo": "há {minutes}m",
+        "hoursAgo": "há {hours}h",
+        "daysAgo": "há {days}d",
+        "noMore": "Sem mais notificações"
     }
 }

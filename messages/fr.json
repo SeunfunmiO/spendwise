@@ -285,5 +285,19 @@
         "logout": "Se déconnecter",
         "toggleTheme": "Changer le thème",
         "notifications": "Notifications"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "empty": "Aucune notification pour l'instant",
+        "emptyDesc": "Vous verrez les mises à jour importantes ici",
+        "markAllRead": "Tout marquer comme lu",
+        "clearAll": "Tout effacer",
+        "viewAll": "Voir toutes les notifications",
+        "unread": "non lu",
+        "justNow": "À l'instant",
+        "minutesAgo": "il y a {minutes}m",
+        "hoursAgo": "il y a {hours}h",
+        "daysAgo": "il y a {days}d",
+        "noMore": "Plus de notifications"
     }
 }

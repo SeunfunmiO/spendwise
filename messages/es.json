@@ -285,5 +285,19 @@
         "logout": "Cerrar sesión",
         "toggleTheme": "Cambiar tema",
         "notifications": "Notificaciones"
+    },
+    "notifications": {
+        "title": "Notificaciones",
+        "empty": "Sin notificaciones aún",
+        "emptyDesc": "Verás actualizaciones importantes aquí",
+        "markAllRead": "Marcar todo como leído",
+        "clearAll": "Borrar todo",
+        "viewAll": "Ver todas las notificaciones",
+        "unread": "no leído",
+        "justNow": "Ahora mismo",
+        "minutesAgo": "hace {minutes}m",
+        "hoursAgo": "hace {hours}h",
+        "daysAgo": "hace {days}d",
+        "noMore": "No hay más notificaciones"
     }
 }

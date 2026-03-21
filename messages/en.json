@@ -287,5 +287,19 @@
         "logout": "Log out",
         "toggleTheme": "Toggle theme",
         "notifications": "Notifications"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "empty": "No notifications yet",
+        "emptyDesc": "You'll see important updates here",
+        "markAllRead": "Mark all as read",
+        "clearAll": "Clear all",
+        "viewAll": "View all notifications",
+        "unread": "unread",
+        "justNow": "Just now",
+        "minutesAgo": "{minutes}m ago",
+        "hoursAgo": "{hours}h ago",
+        "daysAgo": "{days}d ago",
+        "noMore": "No more notifications"
     }
 }

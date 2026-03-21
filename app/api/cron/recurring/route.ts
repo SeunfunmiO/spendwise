@@ -4,6 +4,7 @@ import Transaction from "@/models/Transaction"
 import User from "@/models/User"
 import Budget from "@/models/Budget"
 import { sendBudgetAlertEmail, sendRecurringTransactionEmail } from "@/lib/email"
+import { createNotification } from "@/lib/notifications"
 
 // Verify this is called by Vercel Cron and not a random request
 function isAuthorized(req: NextRequest) {
@@ -93,9 +94,9 @@ export async function GET(req: NextRequest) {
                 isRecurring: true,
                 recurringInterval: tx.recurringInterval,
             })
-
+            
             created++
-
+            
             // ---- Send email notification to user ----
             const user = await User.findById(tx.userId)
             if (user && tx.recurringInterval) {
@@ -108,6 +109,16 @@ export async function GET(req: NextRequest) {
                     tx.recurringInterval
                 )
             }
+            await createNotification({
+                userId: tx.userId,
+                type: "recurring",
+                title: `Recurring Transaction — ${newTransaction.title}`,
+                message: `Your ${tx.recurringInterval} transaction of ${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: user?.currency ?? "NGN",
+                }).format(newTransaction.amount)} has been automatically added.`,
+                link: `/transactions/${newTransaction._id}`,
+            })
 
             // Check budget alert for expense transactions
             if (newTransaction.type === "expense") {

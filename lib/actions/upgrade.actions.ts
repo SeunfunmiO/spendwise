@@ -4,6 +4,7 @@ import User from "@/models/User"
 import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import type { ActionResult } from "@/types"
+import { createNotification } from "../notifications"
 
 export async function verifyPaystackPayment(
     reference: string
@@ -38,6 +39,16 @@ export async function verifyPaystackPayment(
             }
         )
 
+        const upgradedUser = await User.findOne({ email: session.user.email })
+        if (upgradedUser) {
+            await createNotification({
+                userId: upgradedUser._id,
+                type: "upgrade",
+                title: "Welcome to Premium! 🎉",
+                message: "You now have access to all SpendWise premium features including unlimited transactions, advanced reports, and CSV export.",
+                link: "/upgrade",
+            })
+        }
         revalidatePath("/")
         revalidatePath("/upgrade")
         revalidatePath("/settings")

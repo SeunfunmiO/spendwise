@@ -5,8 +5,11 @@
 //currency ✔
 //reset password confirmation email ✔
 //transaction id page ✔
-//recurring transaction
+//recurring transaction ✔
 //notification
 //support/pro translate
-//stop plan
+//stop plan - choose free plan
 //error,loading,404
+//onboarding/splash screen
+//mobile app
+//admin panel

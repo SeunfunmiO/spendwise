@@ -3,9 +3,10 @@ import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
 import { useTranslations } from "next-intl"
-import { Sun, Moon, Bell } from "lucide-react"
+import { Sun, Moon } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { NAV_ITEMS } from "@/constants/navigation"
+import NotificationDropdown from "../notifcations/NotificationDropdown"
 
 export default function Topbar() {
     const { data: session } = useSession()
@@ -43,13 +44,7 @@ export default function Topbar() {
                 </button>
 
                 {/* Notifications */}
-                <button
-                    className="p-2 rounded-lg hover:bg-(--secondary) text-(--muted-foreground) transition-colors relative"
-                    aria-label={tCommon("notifications")}
-                >
-                    <Bell size={18} />
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-(--primary) rounded-full" />
-                </button>
+                    <NotificationDropdown />
 
                 {/* Avatar */}
                 <div className="flex items-center gap-2">

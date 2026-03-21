@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache"
 import type { ActionResult } from "@/types"
 import cloudinary from "@/lib/cloudinary"
 import { sendPasswordChangedEmail } from "../email"
+import { createNotification } from "../notifications"
 
 async function getSessionUser() {
     const session = await auth()
@@ -108,6 +109,13 @@ export async function changePassword(data: {
 
         await sendPasswordChangedEmail (user.name, user.email)
 
+        await createNotification({
+            userId: user._id,
+            type: "password_changed",
+            title: "Password Changed",
+            message: "Your password was changed successfully. If you didn't do this, reset your password immediately.",
+            link: "/settings",
+        })
 
         return { success: true, message: "Password changed successfully" }
     } catch (error) {

@@ -12,6 +12,7 @@ import connectDb from "../mongodb"
 import User from "@/models/User"
 import Budget from "@/models/Budget"
 import { sendBudgetAlertEmail } from "../email"
+import { createNotification } from "../notifications"
 // ---- Helper: get session or throw ----
 async function getSessionUser() {
     const session = await auth()
@@ -108,6 +109,15 @@ async function checkBudgetAlert(
             await sendBudgetAlertEmail(
                 userName, userEmail, category, spent, budget.limit, Math.round(percentage)
             )
+
+            await createNotification({
+                userId,
+                type: "budget_80",
+                title: `Budget Alert — ${category}`,
+                message: `You've used ${Math.round(percentage)}% of your ${category} budget this month.`,
+                link: "/budgets",
+            })
+
             await Budget.findByIdAndUpdate(budget._id, {
                 alertSent80: true,
                 alertSent100: false, // reset 100% flag in case they paid some back
@@ -119,6 +129,13 @@ async function checkBudgetAlert(
             await sendBudgetAlertEmail(
                 userName, userEmail, category, spent, budget.limit, Math.round(percentage), true
             )
+            await createNotification({
+                userId,
+                type: "budget_100",
+                title: `Budget Exceeded — ${category}`,
+                message: `You've exceeded your ${category} budget this month!`,
+                link: "/budgets",
+            })
             await Budget.findByIdAndUpdate(budget._id, { alertSent100: true })
         }
 

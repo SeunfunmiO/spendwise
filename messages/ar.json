@@ -285,5 +285,19 @@
         "logout": "تسجيل الخروج",
         "toggleTheme": "تغيير المظهر",
         "notifications": "الإشعارات"
+    },
+    "notifications": {
+        "title": "الإشعارات",
+        "empty": "لا توجد إشعارات بعد",
+        "emptyDesc": "ستظهر هنا التحديثات المهمة",
+        "markAllRead": "تحديد الكل كمقروء",
+        "clearAll": "مسح الكل",
+        "viewAll": "عرض جميع الإشعارات",
+        "unread": "غير مقروء",
+        "justNow": "الآن",
+        "minutesAgo": "منذ {minutes} د",
+        "hoursAgo": "منذ {hours} س",
+        "daysAgo": "منذ {days} ي",
+        "noMore": "لا مزيد من الإشعارات"
     }
 }
