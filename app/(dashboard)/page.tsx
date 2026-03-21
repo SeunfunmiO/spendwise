@@ -15,12 +15,13 @@ import { formatCurrency } from "@/lib/utils"
 import SpendingChart from "@/components/dashboard/SpendingChart"
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart"
 import RecentTransactions from "@/components/dashboard/RecentTransactions"
+import { useUserPreferences } from "@/hooks/useUserPrerences"
 
 export default function OverviewPage() {
     const { data: session } = useSession()
     const t = useTranslations("dashboard")
     const user = session?.user
-    const currency = (user as any)?.currency ?? "NGN"
+ const { currency } = useUserPreferences()
 
     const [summary, setSummary] = useState<MonthlySummary | null>(null)
     const [loading, setLoading] = useState(true)

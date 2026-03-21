@@ -7,6 +7,7 @@ import { getCategoryMeta } from "@/constants/categories"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import ConfirmModal from "@/components/ui/ConfirmModal"
 import type { TransactionData } from "@/types"
+import { useUserPreferences } from "@/hooks/useUserPrerences"
 
 interface Props {
     transactions: TransactionData[]
@@ -17,14 +18,13 @@ interface Props {
 
 export default function TransactionTable({
     transactions,
-    currency,
     onEdit,
     onDeleted,
 }: Props) {
     const t = useTranslations("transactions")
     const [confirmId, setConfirmId] = useState<string | null>(null)
     const [deleting, setDeleting] = useState(false)
-
+    const { currency, dateFormat } = useUserPreferences()
     const handleDeleteClick = (id: string) => {
         setConfirmId(id)
     }
@@ -120,7 +120,7 @@ export default function TransactionTable({
 
                                     {/* Date */}
                                     <td className="py-3.5 px-4 text-(--muted-foreground)">
-                                        {formatDate(tx.date)}
+                                        {formatDate(tx.date,dateFormat)}
                                     </td>
 
                                     {/* Amount */}

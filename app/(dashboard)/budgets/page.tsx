@@ -1,17 +1,16 @@
 "use client"
 import { useState, useEffect } from "react"
 import { Plus } from "lucide-react"
-import { useSession } from "next-auth/react"
 import { useTranslations } from "next-intl"
 import type { BudgetData } from "@/types"
 import { deleteBudget, getBudgets } from "@/lib/actions/budget.actions"
 import BudgetCard from "@/components/budgets/BudgetCard"
 import BudgetForm from "@/components/budgets/BudgetForm"
 import ConfirmModal from "@/components/ui/ConfirmModal"
+import { useUserPreferences } from "@/hooks/useUserPrerences"
 
 export default function BudgetsPage() {
-    const { data: session } = useSession()
-    const currency = (session?.user as any)?.currency ?? "NGN"
+    const { currency } = useUserPreferences()
     const t = useTranslations("budgets")
 
     const [budgets, setBudgets] = useState<BudgetData[]>([])

@@ -16,10 +16,10 @@ import SpendingChart from "@/components/dashboard/SpendingChart"
 import CategoryPieChart from "@/components/dashboard/CategoryPieChart"
 import SavingsTrendChart from "@/components/reports/SavingsTrendChart"
 import TopCategories from "@/components/reports/TopCategories"
+import { useUserPreferences } from "@/hooks/useUserPrerences"
 
 export default function ReportsPage() {
-    const { data: session } = useSession()
-    const currency = (session?.user as any)?.currency ?? "NGN"
+   const { currency } = useUserPreferences()
     const t = useTranslations("reports")
     const tDashboard = useTranslations("dashboard")
 

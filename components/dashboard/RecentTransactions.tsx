@@ -4,15 +4,17 @@ import { useTranslations } from "next-intl"
 import { getCategoryMeta } from "@/constants/categories"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import type { TransactionData } from "@/types"
+import { useUserPreferences } from "@/hooks/useUserPrerences"
 
 interface Props {
     transactions: TransactionData[]
     currency: string
 }
 
-export default function RecentTransactions({ transactions, currency }: Props) {
+export default function RecentTransactions({ transactions}: Props) {
     const t = useTranslations("dashboard")
     const tTransactions = useTranslations("transactions")
+    const { currency, dateFormat } = useUserPreferences()
 
     return (
         <div className="bg-(--card) rounded-xl border border-(--border) p-6">
@@ -70,7 +72,7 @@ export default function RecentTransactions({ transactions, currency }: Props) {
                                             {tx.title}
                                         </p>
                                         <p className="text-xs text-(--muted-foreground)">
-                                            {formatDate(tx.date)}
+                                            {formatDate(tx.date, dateFormat)}
                                         </p>
                                     </div>
                                 </div>
