@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect } from "react"
-import { useSession } from "next-auth/react"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { CheckCircle } from "lucide-react"
@@ -32,17 +31,10 @@ const DATE_FORMATS = [
 ]
 
 export default function PreferencesTab() {
-    const { data: session, update } = useSession()
     const [loading, setLoading] = useState(true)
     const { theme, setTheme } = useTheme()
     const t = useTranslations("settings")
-    const user = session?.user
-
-    const userCurrency = (user as any)?.currency
-    const userLanguage = (user as any)?.language
-    const userDateFormat = (user as any)?.dateFormat
-    const userBudgetAlerts = (user as any)?.budgetAlerts
-
+  
     const [prefCurrency, setPrefCurrency] = useState("NGN")
     const [prefLanguage, setPrefLanguage] = useState("en")
     const [prefDateFormat, setPrefDateFormat] = useState("DD/MM/YYYY")
@@ -104,7 +96,6 @@ export default function PreferencesTab() {
                     <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
                     <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
                     <div className="h-10 rounded-lg bg-(--secondary) animate-pulse" />
-                    <div className="flex rounded-lg border border-(--border) animate-pulse"/>
                 </div>
             </div>
         )
