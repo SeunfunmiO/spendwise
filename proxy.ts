@@ -24,7 +24,8 @@ export default auth((req: any) => {
         pathname.startsWith("/login") ||
         pathname.startsWith("/register") ||
         pathname.startsWith("/forgot-password") ||
-        pathname.startsWith("/reset-password")
+        pathname.startsWith("/reset-password") ||
+        pathname.startsWith("/notifications")
 
     const isDashboard =
         pathname === "/" ||
