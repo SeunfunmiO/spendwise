@@ -11,7 +11,7 @@ import type {
 import connectDb from "../mongodb"
 import User from "@/models/User"
 import Budget from "@/models/Budget"
-import { sendBudgetAlertEmail, sendRecurringTransactionEmail } from "../email"
+import { sendBudgetAlertEmail } from "../email"
 // ---- Helper: get session or throw ----
 async function getSessionUser() {
     const session = await auth()
@@ -136,140 +136,75 @@ async function checkBudgetAlert(
 
 // ---- CREATE ----
 export async function createTransaction(
-    input: TransactionInput
+  input: TransactionInput
 ): Promise<ActionResult<TransactionData>> {
-    try {
-        const userId = await getSessionUser()
-        await connectDb()
+  try {
+    const userId = await getSessionUser()
+    await connectDb()
 
-        if (!input.title || !input.amount || !input.type || !input.category || !input.date) {
-            return { success: false, error: "All required fields must be filled" }
-        }
-
-        if (input.amount <= 0) {
-            return { success: false, error: "Amount must be greater than zero" }
-        }
-
-        const finalCategory =
-            input.category === "Other" && input.customCategory?.trim()
-                ? input.customCategory.trim()
-                : input.category
-
-        const transaction = await Transaction.create({
-            userId,
-            title: input.title,
-            amount: input.amount,
-            type: input.type,
-            category: finalCategory,
-            date: new Date(input.date),
-            note: input.note,
-            isRecurring: input.isRecurring,
-            recurringInterval: input.recurringInterval,
-        })
-
-        // 👇 Check budget alert after expense transaction is created
-        if (transaction.type === "expense") {
-            const user = await User.findById(userId)
-            // 👇 Only send alerts for premium users
-            if (user?.plan === "premium" && user?.budgetAlerts) {
-                await checkBudgetAlert(userId, finalCategory, user.email, user.name)
-            }
-        }
-        
-        // Check free plan transaction limit
-        const user = await User.findById(userId)
-        if (user?.plan === "free") {
-            const now = new Date()
-            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-
-            const count = await Transaction.countDocuments({
-                userId,
-                date: { $gte: startOfMonth, $lte: endOfMonth },
-            })
-
-            if (count >= 50) {
-                return {
-                    success: false,
-                    error: "Free plan limit reached. Upgrade to Premium for unlimited transactions.",
-                }
-            }
-        }
-
-        // Send email notification
-        const user = await User.findById(tx.userId)
-        if (user) {
-            await sendRecurringTransactionEmail(
-                user.name,
-                user.email,
-                newTransaction.title,
-                newTransaction.amount,
-                user.currency ?? "NGN",
-                tx.recurringInterval
-            )
-        }
-        
-        revalidatePath("/")
-        revalidatePath("/transactions")
-        revalidatePath("/reports")
-
-        return {
-            success: true,
-            data: serialize(transaction),
-            message: "Transaction added successfully",
-        }
-    } catch (error) {
-        console.error("createTransaction error:", error)
-        return { success: false, error: "Failed to create transaction" }
+    if (!input.title || !input.amount || !input.type || !input.category || !input.date) {
+      return { success: false, error: "All required fields must be filled" }
     }
-}
 
-// ---- UPDATE ----
-export async function updateTransaction(
-    id: string,
-    input: Partial<TransactionInput>
-): Promise<ActionResult<TransactionData>> {
-    try {
-        const userId = await getSessionUser()
-        await connectDb()
-
-        const finalCategory =
-            input.category === "Other" && input.customCategory?.trim()
-                ? input.customCategory.trim()
-                : input.category
-
-        const transaction = await Transaction.findOneAndUpdate(
-            { _id: id, userId },
-            {
-                title: input.title,
-                amount: input.amount,
-                type: input.type,
-                category: finalCategory,
-                date: input.date ? new Date(input.date) : undefined,
-                note: input.note,
-                isRecurring: input.isRecurring,
-                recurringInterval: input.recurringInterval,
-            },
-            { new: true }
-        )
-
-        if (!transaction) {
-            return { success: false, error: "Transaction not found" }
-        }
-
-        revalidatePath("/")
-        revalidatePath("/transactions")
-        revalidatePath("/reports")
-
-        return {
-            success: true,
-            data: serialize(transaction),
-            message: "Transaction updated successfully",
-        }
-    } catch (error) {
-        console.error("updateTransaction error:", error)
-        return { success: false, error: "Failed to update transaction" }
+    if (input.amount <= 0) {
+      return { success: false, error: "Amount must be greater than zero" }
     }
+
+    // ---- Check free plan limit BEFORE creating ----
+    const user = await User.findById(userId)
+    if (user?.plan === "free") {
+      const now = new Date()
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+
+      const count = await Transaction.countDocuments({
+        userId,
+        date: { $gte: startOfMonth, $lte: endOfMonth },
+      })
+
+      if (count >= 50) {
+        return {
+          success: false,
+          error: "Free plan limit reached. Upgrade to Premium for unlimited transactions.",
+        }
+      }
+    }
+
+    const finalCategory =
+      input.category === "Other" && input.customCategory?.trim()
+        ? input.customCategory.trim()
+        : input.category
+
+    const transaction = await Transaction.create({
+      userId,
+      title: input.title,
+      amount: input.amount,
+      type: input.type,
+      category: finalCategory,
+      date: new Date(input.date),
+      note: input.note,
+      isRecurring: input.isRecurring,
+      recurringInterval: input.recurringInterval,
+    })
+
+    // ---- Check budget alert (premium only) ----
+    if (transaction.type === "expense" && user?.plan === "premium" && user?.budgetAlerts) {
+      await checkBudgetAlert(userId, finalCategory, user.email, user.name)
+    }
+
+    revalidatePath("/")
+    revalidatePath("/transactions")
+    revalidatePath("/reports")
+
+    return {
+      success: true,
+      data: serialize(transaction),
+      message: "Transaction added successfully",
+    }
+  } catch (error) {
+    console.error("createTransaction error:", error)
+    return { success: false, error: "Failed to create transaction" }
+  }
 }
 
 // ---- DELETE ----

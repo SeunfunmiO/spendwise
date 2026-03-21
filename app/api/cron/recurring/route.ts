@@ -3,7 +3,7 @@ import connectDb from "@/lib/mongodb"
 import Transaction from "@/models/Transaction"
 import User from "@/models/User"
 import Budget from "@/models/Budget"
-import { sendBudgetAlertEmail } from "@/lib/email"
+import { sendBudgetAlertEmail, sendRecurringTransactionEmail } from "@/lib/email"
 
 // Verify this is called by Vercel Cron and not a random request
 function isAuthorized(req: NextRequest) {
@@ -96,9 +96,21 @@ export async function GET(req: NextRequest) {
 
             created++
 
+            // ---- Send email notification to user ----
+            const user = await User.findById(tx.userId)
+            if (user && tx.recurringInterval) {
+                await sendRecurringTransactionEmail(
+                    user.name,
+                    user.email,
+                    newTransaction.title,
+                    newTransaction.amount,
+                    user.currency ?? "NGN",
+                    tx.recurringInterval
+                )
+            }
+
             // Check budget alert for expense transactions
             if (newTransaction.type === "expense") {
-                const user = await User.findById(tx.userId)
                 if (user?.plan === "premium" && user?.budgetAlerts) {
                     await checkBudgetAlertForCron(
                         tx.userId,
