@@ -205,7 +205,8 @@
         "prioritySupport": "Support prioritaire",
         "prioritySupportDesc": "Obtenez de l'aide de notre équipe en 24 heures.",
         "contactSupport": "Contacter le support",
-        "freeSupportDesc": "Support communautaire uniquement sur le plan gratuit."
+        "freeSupportDesc": "Support communautaire uniquement sur le plan gratuit.",
+        "upgrade": "Passer Premium"
     },
    "upgrade": {
     "title": "Passer à Premium",
