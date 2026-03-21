@@ -4,6 +4,7 @@
 //settings showing when account is deleted ✔
 //currency ✔
 //reset password confirmation email ✔
+//transaction id page ✔
 //notification
 //recurring transaction
-//transaction id page
+//support/pro translate

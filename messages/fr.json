@@ -107,7 +107,16 @@
         "titlePlaceholder": "ex. Courses alimentaires",
         "required": "*",
         "recurringBadge": "récurrent",
-        "deleteConfirmTitle": "Supprimer la transaction"
+        "deleteConfirmTitle": "Supprimer la transaction",
+        "transactionDetail": "Détail de la transaction",
+        "backToTransactions": "Retour aux transactions",
+        "transactionNotFound": "Transaction introuvable",
+        "transactionNotFoundDesc": "Cette transaction a peut-être été supprimée.",
+        "details": "Détails",
+        "createdAt": "Créé",
+        "updatedAt": "Dernière mise à jour",
+        "recurringEvery": "Se répète tous les",
+        "notProvided": "Non fourni"
     },
     "budgets": {
         "title": "Budgets",

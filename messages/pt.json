@@ -107,7 +107,16 @@
         "customCategory": "ex. Presente de casamento, Reembolso...",
         "titlePlaceholder": "ex. Compras no supermercado",
         "required": "*",
-        "recurringBadge": "recorrente"
+        "recurringBadge": "recorrente",
+        "transactionDetail": "Detalhe da transação",
+        "backToTransactions": "Voltar para transações",
+        "transactionNotFound": "Transação não encontrada",
+        "transactionNotFoundDesc": "Esta transação pode ter sido excluída.",
+        "details": "Detalhes",
+        "createdAt": "Criado",
+        "updatedAt": "Última atualização",
+        "recurringEvery": "Repete a cada",
+        "notProvided": "Não fornecido"
     },
    "budgets": {
     "title": "Orçamentos",

@@ -282,3 +282,24 @@ export async function deleteTransaction(
         return { success: false, error: "Failed to delete transaction" }
     }
 }
+
+// ---- GET ONE ----
+export async function getTransactionById(
+    id: string
+): Promise<ActionResult<TransactionData>> {
+    try {
+        const userId = await getSessionUser()
+        await connectDb()
+
+        const transaction = await Transaction.findOne({ _id: id, userId })
+
+        if (!transaction) {
+            return { success: false, error: "Transaction not found" }
+        }
+
+        return { success: true, data: serialize(transaction) }
+    } catch (error) {
+        console.error("getTransactionById error:", error)
+        return { success: false, error: "Failed to fetch transaction" }
+    }
+}

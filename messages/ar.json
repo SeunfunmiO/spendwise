@@ -159,7 +159,16 @@
         "loading": "جارٍ تحميل التقارير...",
         "incomeVsExpenses": "الدخل مقابل المصروفات",
         "spendingByCategory": "الإنفاق حسب الفئة",
-        "noExpensesYet": "لا توجد مصروفات لهذه الفترة"
+        "noExpensesYet": "لا توجد مصروفات لهذه الفترة",
+        "transactionDetail": "تفاصيل المعاملة",
+        "backToTransactions": "العودة إلى المعاملات",
+        "transactionNotFound": "المعاملة غير موجودة",
+        "transactionNotFoundDesc": "ربما تم حذف هذه المعاملة.",
+        "details": "التفاصيل",
+        "createdAt": "تم الإنشاء",
+        "updatedAt": "آخر تحديث",
+        "recurringEvery": "يتكرر كل",
+        "notProvided": "غير متوفر"
     },
     "settings": {
         "title": "الإعدادات",

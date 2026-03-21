@@ -8,6 +8,7 @@ import { formatCurrency, formatDate } from "@/lib/utils"
 import ConfirmModal from "@/components/ui/ConfirmModal"
 import type { TransactionData } from "@/types"
 import { useUserPreferences } from "@/hooks/useUserPreferences"
+import Link from "next/link"
 
 interface Props {
     transactions: TransactionData[]
@@ -92,9 +93,12 @@ export default function TransactionTable({
                                                 className={`inline-block w-2 h-2 rounded-full shrink-0 ${tx.type === "income" ? "bg-emerald-500" : "bg-red-500"
                                                     }`}
                                             />
-                                            <span className="font-medium text-(--foreground) truncate max-w-45">
+                                            <Link
+                                                href={`/transactions/${tx._id}`}
+                                                className="font-medium text-(--foreground) truncate max-w-45 hover:text-(--primary) hover:underline transition-colors"
+                                            >
                                                 {tx.title}
-                                            </span>
+                                            </Link>
                                             {tx.isRecurring && (
                                                 <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-(--accent) text-white">
                                                     {t("recurringBadge")}

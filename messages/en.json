@@ -109,7 +109,16 @@
         "titlePlaceholder": "e.g. Grocery shopping",
         "required": "*",
         "recurringBadge": "recurring",
-        "deleteConfirmTitle": "Delete Transaction"
+        "deleteConfirmTitle": "Delete Transaction",
+        "transactionDetail": "Transaction Detail",
+        "backToTransactions": "Back to Transactions",
+        "transactionNotFound": "Transaction not found",
+        "transactionNotFoundDesc": "This transaction may have been deleted.",
+        "details": "Details",
+        "createdAt": "Created",
+        "updatedAt": "Last Updated",
+        "recurringEvery": "Repeats every",
+        "notProvided": "Not provided"
     },
     "budgets": {
         "title": "Budgets",

@@ -107,7 +107,16 @@
         "titlePlaceholder": "ej. Compras del supermercado",
         "required": "*",
         "recurringBadge": "recurrente",
-        "deleteConfirmTitle": "Eliminar transacción"
+        "deleteConfirmTitle": "Eliminar transacción",
+        "transactionDetail": "Detalle de transacción",
+        "backToTransactions": "Volver a transacciones",
+        "transactionNotFound": "Transacción no encontrada",
+        "transactionNotFoundDesc": "Esta transacción puede haber sido eliminada.",
+        "details": "Detalles",
+        "createdAt": "Creado",
+        "updatedAt": "Última actualización",
+        "recurringEvery": "Se repite cada",
+        "notProvided": "No proporcionado"
     },
    "budgets": {
     "title": "Presupuestos",
