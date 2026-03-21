@@ -16,6 +16,7 @@ import { getUserPlan } from "@/lib/actions/upgrade.actions"
 import { logoutUser } from "@/lib/actions/auth.actions"
 import { updateProfileSchema, type UpdateProfileInput } from "@/lib/schemas"
 import ConfirmModal from "@/components/ui/ConfirmModal"
+import Link from "next/link"
 
 export default function ProfileTab() {
   const { data: session } = useSession()
@@ -131,7 +132,7 @@ export default function ProfileTab() {
                   className="rounded-full object-cover"
                 />
               ) : (
-                <div className="w-[72px] h-[72px] rounded-full bg-(--primary) flex items-center justify-center text-white text-2xl font-bold">
+                <div className="w-18 h-18 rounded-full bg-(--primary) flex items-center justify-center text-white text-2xl font-bold">
                   {session?.user?.name?.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -251,52 +252,52 @@ export default function ProfileTab() {
           </div>
 
           {userPlan === "premium" ? (
-
-            href = "mailto:support@spendwise.app"
+            <Link
+              href="mailto:support@spendwise.app"
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity"
             >
-          {t("contactSupport")}
-        </a>
-        ) : (
-        <button
-          onClick={() => router.push("/upgrade")}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-(--border) text-sm font-medium text-(--muted-foreground) hover:bg-(--secondary) transition-colors"
-        >
-          <Lock size={14} />
-          {t("upgrade")}
-        </button>
+              {t("contactSupport")}
+            </Link>
+          ) : (
+            <button
+              onClick={() => router.push("/upgrade")}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-(--border) text-sm font-medium text-(--muted-foreground) hover:bg-(--secondary) transition-colors"
+            >
+              <Lock size={14} />
+              {t("upgrade")}
+            </button>
           )}
+        </div>
       </div>
-    </div>
 
-      {/* Danger Zone */ }
-  <div className="bg-(--card) rounded-xl border border-red-200 dark:border-red-900 p-6">
-    <h3 className="text-sm font-semibold text-red-500 mb-4">{t("dangerZone")}</h3>
-    <div className="flex items-center justify-between flex-wrap gap-3">
-      <div>
-        <p className="text-sm font-medium text-(--foreground)">{t("deleteAccount")}</p>
-        <p className="text-xs text-(--muted-foreground) mt-0.5">{t("deleteAccountDesc")}</p>
+      {/* Danger Zone */}
+      <div className="bg-(--card) rounded-xl border border-red-200 dark:border-red-900 p-6">
+        <h3 className="text-sm font-semibold text-red-500 mb-4">{t("dangerZone")}</h3>
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <p className="text-sm font-medium text-(--foreground)">{t("deleteAccount")}</p>
+            <p className="text-xs text-(--muted-foreground) mt-0.5">{t("deleteAccountDesc")}</p>
+          </div>
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:opacity-90 transition-opacity"
+          >
+            <Trash2 size={16} />
+            {t("deleteAccount")}
+          </button>
+        </div>
       </div>
-      <button
-        onClick={() => setShowDeleteModal(true)}
-        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:opacity-90 transition-opacity"
-      >
-        <Trash2 size={16} />
-        {t("deleteAccount")}
-      </button>
-    </div>
-  </div>
 
-  {/* Delete Modal */ }
-  <ConfirmModal
-    open={showDeleteModal}
-    title={t("deleteAccountConfirmTitle")}
-    message={t("deleteAccountConfirm")}
-    confirmLabel={t("deleteAccount")}
-    loading={deleting}
-    onConfirm={handleDeleteAccount}
-    onCancel={() => setShowDeleteModal(false)}
-  />
+      {/* Delete Modal */}
+      <ConfirmModal
+        open={showDeleteModal}
+        title={t("deleteAccountConfirmTitle")}
+        message={t("deleteAccountConfirm")}
+        confirmLabel={t("deleteAccount")}
+        loading={deleting}
+        onConfirm={handleDeleteAccount}
+        onCancel={() => setShowDeleteModal(false)}
+      />
 
     </div >
   )
