@@ -224,6 +224,54 @@ export async function createTransaction(
   }
 }
 
+// ---- UPDATE ----
+export async function updateTransaction(
+    id: string,
+    input: Partial<TransactionInput>
+): Promise<ActionResult<TransactionData>> {
+    try {
+        const userId = await getSessionUser()
+        await connectDb()
+
+        const finalCategory =
+            input.category === "Other" && input.customCategory?.trim()
+                ? input.customCategory.trim()
+                : input.category
+
+        const transaction = await Transaction.findOneAndUpdate(
+            { _id: id, userId },
+            {
+                title: input.title,
+                amount: input.amount,
+                type: input.type,
+                category: finalCategory,
+                date: input.date ? new Date(input.date) : undefined,
+                note: input.note,
+                isRecurring: input.isRecurring,
+                recurringInterval: input.recurringInterval,
+            },
+            { new: true }
+        )
+
+        if (!transaction) {
+            return { success: false, error: "Transaction not found" }
+        }
+
+        revalidatePath("/")
+        revalidatePath("/transactions")
+        revalidatePath("/reports")
+
+        return {
+            success: true,
+            data: serialize(transaction),
+            message: "Transaction updated successfully",
+        }
+    } catch (error) {
+        console.error("updateTransaction error:", error)
+        return { success: false, error: "Failed to update transaction" }
+    }
+}
+
 // ---- DELETE ----
 export async function deleteTransaction(
     id: string
@@ -269,3 +317,4 @@ export async function getTransactionById(
         return { success: false, error: "Failed to fetch transaction" }
     }
 }
+

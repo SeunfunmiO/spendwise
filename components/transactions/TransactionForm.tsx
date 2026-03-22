@@ -1,12 +1,12 @@
 "use client"
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTranslations } from "next-intl"
 import { transactionSchema, type TransactionInput } from "@/lib/schemas"
 import { CATEGORIES } from "@/constants/categories"
-import { createTransaction, updateTransaction } from "@/lib/actions/transaction.actions"
+import { createTransaction, updateTransaction,  } from "@/lib/actions/transaction.actions"
 import type { TransactionData } from "@/types"
 
 interface Props {
@@ -24,7 +24,7 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
     const {
         register,
         handleSubmit,
-        watch,
+        control,
         reset,
         setValue,
         formState: { errors, isSubmitting },
@@ -43,40 +43,45 @@ export default function TransactionForm({ open, onClose, onSuccess, transaction 
         },
     })
 
-    const watchType = watch("type")
-    const watchCategory = watch("category")
-    const watchIsRecurring = watch("isRecurring")
+    const watchType = useWatch({ control, name: "type" })
+    const watchCategory = useWatch({ control, name: "category" })
+    const watchIsRecurring = useWatch({ control, name: "isRecurring" })
 
     useEffect(() => {
-        if (transaction) {
-            const isKnownCategory = CATEGORIES.some((c) => c.value === transaction.category)
-            reset({
-                title: transaction.title,
-                amount: transaction.amount,
-                type: transaction.type,
-                category: isKnownCategory ? transaction.category : "Other",
-                date: transaction.date.split("T")[0],
-                note: transaction.note ?? "",
-                isRecurring: transaction.isRecurring,
-                recurringInterval: transaction.recurringInterval,
-                customCategory: isKnownCategory ? "" : transaction.category,
-            })
-        } else {
-            reset({
-                title: "",
-                amount: 0,
-                type: "expense",
-                category: "Food & Dining",
-                date: new Date().toISOString().split("T")[0],
-                note: "",
-                isRecurring: false,
-                recurringInterval: undefined,
-                customCategory: "",
-            })
+        const initialize = () => {
+            if (transaction) {
+                const isKnownCategory = CATEGORIES.some((c) => c.value === transaction.category)
+                reset({
+                    title: transaction.title,
+                    amount: transaction.amount,
+                    type: transaction.type,
+                    category: isKnownCategory ? transaction.category : "Other",
+                    date: transaction.date.split("T")[0],
+                    note: transaction.note ?? "",
+                    isRecurring: transaction.isRecurring,
+                    recurringInterval: transaction.recurringInterval,
+                    customCategory: isKnownCategory ? "" : transaction.category,
+                })
+            } else {
+                reset({
+                    title: "",
+                    amount: 0,
+                    type: "expense",
+                    category: "Food & Dining",
+                    date: new Date().toISOString().split("T")[0],
+                    note: "",
+                    isRecurring: false,
+                    recurringInterval: undefined,
+                    customCategory: "",
+                })
+            }
+            setServerError("")
         }
-        setServerError("")
+
+        initialize()
     }, [transaction, open, reset])
 
+    
     const onSubmit = async (data: TransactionInput) => {
         setServerError("")
 
