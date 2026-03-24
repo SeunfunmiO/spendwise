@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTranslations } from "next-intl"
 import { forgotPasswordSchema, type ForgotPasswordInput } from "@/lib/schemas"
 import { forgotPassword } from "@/lib/actions/password.actions"
 import { MailCheck } from "lucide-react"
@@ -11,6 +12,7 @@ import { MailCheck } from "lucide-react"
 export default function ForgotPasswordPage() {
     const [submitted, setSubmitted] = useState(false)
     const [serverError, setServerError] = useState("")
+    const t = useTranslations("auth")
 
     const {
         register,
@@ -23,12 +25,10 @@ export default function ForgotPasswordPage() {
     const onSubmit = async (data: ForgotPasswordInput) => {
         setServerError("")
         const result = await forgotPassword(data.email)
-
         if (!result.success) {
             setServerError(result.error ?? "")
             return
         }
-
         setSubmitted(true)
     }
 
@@ -43,20 +43,21 @@ export default function ForgotPasswordPage() {
 
                 {submitted ? (
                     // ---- Success State ----
-                    <div className="text-center">
-                        <div className="text-5xl mb-4"><MailCheck size={28}/></div>
-                        <h1 className="text-2xl font-bold text-(--foreground) mb-2">
-                            Check your email
+                    <div className="text-center flex flex-col items-center gap-3">
+                        <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
+                            <MailCheck size={32} className="text-blue-500" />
+                        </div>
+                        <h1 className="text-2xl font-bold text-(--foreground)">
+                            {t("checkEmail")}
                         </h1>
-                        <p className="text-sm text-(--muted-foreground) mb-6">
-                            If an account exists with that email, we&apos;ve sent a password reset
-                            link. It expires in <strong>15 minutes.</strong>
+                        <p className="text-sm text-(--muted-foreground)">
+                            {t("checkEmailDesc")}
                         </p>
                         <Link
                             href="/login"
                             className="text-sm text-(--primary) font-medium hover:underline"
                         >
-                            ← Back to sign in
+                            {t("backToSignIn")}
                         </Link>
                     </div>
                 ) : (
@@ -64,10 +65,10 @@ export default function ForgotPasswordPage() {
                     <>
                         <div className="mb-6">
                             <h1 className="text-2xl font-bold text-(--foreground)">
-                                Forgot password?
+                                {t("forgotPasswordTitle")}
                             </h1>
                             <p className="text-sm text-(--muted-foreground) mt-1">
-                                Enter your email and we&apos;ll send you a reset link.
+                                {t("forgotPasswordDesc")}
                             </p>
                         </div>
 
@@ -75,7 +76,7 @@ export default function ForgotPasswordPage() {
 
                             <div>
                                 <label className="text-sm font-medium text-(--foreground) mb-1.5 block">
-                                    Email
+                                    {t("email")}
                                 </label>
                                 <input
                                     {...register("email")}
@@ -99,15 +100,15 @@ export default function ForgotPasswordPage() {
                                 disabled={isSubmitting}
                                 className="w-full py-2.5 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
                             >
-                                {isSubmitting ? "Sending..." : "Send Reset Link"}
+                                {isSubmitting ? t("sending") : t("sendResetLink")}
                             </button>
 
                         </form>
 
                         <p className="text-center text-sm text-(--muted-foreground) mt-6">
-                            Remember your password?{" "}
+                            {t("rememberPassword")}{" "}
                             <Link href="/login" className="text-(--primary) font-medium hover:underline">
-                                Sign in
+                                {t("signIn")}
                             </Link>
                         </p>
                     </>

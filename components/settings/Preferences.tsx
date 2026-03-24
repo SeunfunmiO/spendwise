@@ -36,7 +36,7 @@ export default function PreferencesTab() {
     const [loading, setLoading] = useState(true)
     const { theme, setTheme } = useTheme()
     const t = useTranslations("settings")
-  
+
     const [prefCurrency, setPrefCurrency] = useState("NGN")
     const [prefLanguage, setPrefLanguage] = useState("en")
     const [prefDateFormat, setPrefDateFormat] = useState("DD/MM/YYYY")
@@ -191,7 +191,7 @@ export default function PreferencesTab() {
                         <p className="text-sm font-medium text-(--foreground)">{t("budgetAlerts")}</p>
                         {userPlan === "free" && (
                             <span className="text-xs bg-amber-100 dark:bg-amber-950 text-amber-600 px-1.5 py-0.5 rounded-full">
-                                Pro
+                                {t("pro")}
                             </span>
                         )}
                     </div>

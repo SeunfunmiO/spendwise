@@ -40,7 +40,8 @@
         "passwordResetRedirect": "Redirecting you to sign in...",
         "linkExpired": "Link expired",
         "requestNewLink": "Request a new reset link",
-        "rememberPassword": "Remember your password?"
+        "rememberPassword": "Remember your password?",
+        "verifyingLink": "Verifying reset link..."
     },
     "nav": {
         "overview": "Overview",
@@ -220,7 +221,8 @@
         "prioritySupportDesc": "Get help from our team within 24 hours.",
         "contactSupport": "Contact Support",
         "freeSupportDesc": "Community support only on free plan.",
-        "upgrade": "Upgrade"
+        "upgrade": "Upgrade",
+        "pro":" Pro"
     },
     "upgrade": {
         "title": "Upgrade to Premium",

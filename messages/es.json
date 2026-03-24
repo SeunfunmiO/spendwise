@@ -40,7 +40,8 @@
         "passwordResetRedirect": "Redirigiendo al inicio de sesión...",
         "linkExpired": "Enlace expirado",
         "requestNewLink": "Solicitar un nuevo enlace",
-        "rememberPassword": "¿Recuerdas tu contraseña?"
+        "rememberPassword": "¿Recuerdas tu contraseña?",
+        "verifyingLink": "Verificando enlace de restablecimiento..."
     },
     "nav": {
         "overview": "Resumen",

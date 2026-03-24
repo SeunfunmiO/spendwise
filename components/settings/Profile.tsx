@@ -242,7 +242,7 @@ export default function ProfileTab() {
               </p>
               {userPlan === "free" && (
                 <span className="text-xs bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-full">
-                  Pro
+                 {t("pro")}
                 </span>
               )}
             </div>

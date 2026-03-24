@@ -40,7 +40,8 @@
         "passwordResetRedirect": "جارٍ التوجيه إلى تسجيل الدخول...",
         "linkExpired": "انتهت صلاحية الرابط",
         "requestNewLink": "طلب رابط جديد",
-        "rememberPassword": "هل تتذكر كلمة مرورك؟"
+        "rememberPassword": "هل تتذكر كلمة مرورك؟",
+        "verifyingLink": "جارٍ التحقق من رابط إعادة التعيين..."
     },
     "nav": {
         "overview": "نظرة عامة",
