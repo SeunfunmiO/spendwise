@@ -219,7 +219,8 @@
         "prioritySupportDesc": "احصل على مساعدة من فريقنا خلال 24 ساعة.",
         "contactSupport": "التواصل مع الدعم",
         "freeSupportDesc": "دعم مجتمعي فقط في الخطة المجانية.",
-        "upgrade": "ترقية الخطة"
+        "upgrade": "ترقية الخطة",
+        "pro": "برو"
     },
     "upgrade": {
         "title": "الترقية إلى Premium",
