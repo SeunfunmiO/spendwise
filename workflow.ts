@@ -8,7 +8,7 @@
 //recurring transaction ✔
 //notification ✔
 //support/pro translate
-//is the currency spposed to be translated?
+//is the currency supposed to be translated?
 //stop plan - choose free plan
 //error,loading,404
 //onboarding/splash screen
