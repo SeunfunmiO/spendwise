@@ -82,7 +82,7 @@ export default function OverviewPage() {
             </div>
 
             {/* Stat Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 flex-wrap">
                 <StatCard
                     title={t("totalIncome")}
                     value={formatCurrency(summary?.totalIncome ?? 0, currency)}

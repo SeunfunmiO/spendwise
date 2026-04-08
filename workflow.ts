@@ -7,7 +7,7 @@
 //transaction id page ✔
 //recurring transaction ✔
 //notification ✔
-//support/pro translate
+//support/pro translate ✔
 //is the currency supposed to be translated?
 //stop plan - choose free plan
 //error,loading,404

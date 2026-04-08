@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
 import { Check, Sparkles, Zap } from "lucide-react"
 import { useSession } from "next-auth/react"
-import { getUserPlan, verifyPaystackPayment } from "@/lib/actions/upgrade.actions"
+import { cancelSubscription, getUserPlan, verifyPaystackPayment } from "@/lib/actions/upgrade.actions"
+import ConfirmModal from "@/components/ui/ConfirmModal"
 
 declare global {
     interface Window {
@@ -21,6 +22,8 @@ export default function UpgradePage() {
     const [currentPlan, setCurrentPlan] = useState<string>("free")
     const [loadingPlan, setLoadingPlan] = useState(true)
     const paymentRef = useRef("")
+    const [showCancelModal, setShowCancelModal] = useState(false)
+    const [cancelling, setCancelling] = useState(false)
 
     useEffect(() => {
         // Load Paystack inline script
@@ -99,6 +102,23 @@ export default function UpgradePage() {
         }
     }
 
+    // Add cancel handler
+    const handleCancelSubscription = async () => {
+        setCancelling(true)
+        const result = await cancelSubscription()
+        setCancelling(false)
+        setShowCancelModal(false)
+
+        if (result.success) {
+            setCurrentPlan("free")
+            setMessageType("success")
+            setMessage(t("cancelSuccess"))
+        } else {
+            setMessageType("error")
+            setMessage(t("cancelFailed"))
+        }
+    }
+
     if (loadingPlan) {
         return (
             <div className="py-6 space-y-6">
@@ -122,16 +142,60 @@ export default function UpgradePage() {
 
             {/* Already Premium */}
             {currentPlan === "premium" && (
-                <div className="bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6 text-center">
-                    <Sparkles size={32} className="text-emerald-500 mx-auto mb-3" />
-                    <h3 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-1">
-                        {t("alreadyPremium")}
-                    </h3>
-                    <p className="text-sm text-emerald-600 dark:text-emerald-400">
-                        {t("alreadyPremiumDesc")}
-                    </p>
+                <div className="space-y-4">
+                    {/* Premium Active Card */}
+                    <div className="bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6 text-center">
+                        <Sparkles size={32} className="text-emerald-500 mx-auto mb-3" />
+                        <h3 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-1">
+                            {t("alreadyPremium")}
+                        </h3>
+                        <p className="text-sm text-emerald-600 dark:text-emerald-400">
+                            {t("alreadyPremiumDesc")}
+                        </p>
+                    </div>
+
+                    {/* Cancel Subscription */}
+                    <div className="bg-(--card) rounded-xl border border-(--border) p-6">
+                        <div className="flex items-center justify-between flex-wrap gap-3">
+                            <div>
+                                <p className="text-sm font-medium text-(--foreground)">
+                                    {t("manageSubscription")}
+                                </p>
+                                <p className="text-xs text-(--muted-foreground) mt-0.5">
+                                    {t("cancelSubscriptionDesc")}
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => setShowCancelModal(true)}
+                                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-red-200 dark:border-red-900 text-red-500 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-950 transition-colors"
+                            >
+                                {t("cancelSubscription")}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Message */}
+                    {message && (
+                        <p className={`text-sm px-3 py-2 rounded-lg ${messageType === "success"
+                            ? "text-emerald-500 bg-emerald-50 dark:bg-emerald-950"
+                            : "text-red-500 bg-red-50 dark:bg-red-950"
+                            }`}>
+                            {message}
+                        </p>
+                    )}
                 </div>
             )}
+
+            {/* Cancel Modal */}
+            <ConfirmModal
+                open={showCancelModal}
+                title={t("cancelConfirmTitle")}
+                message={t("cancelConfirm")}
+                confirmLabel={cancelling ? t("cancelling") : t("cancelSubscription")}
+                loading={cancelling}
+                onConfirm={handleCancelSubscription}
+                onCancel={() => setShowCancelModal(false)}
+            />
 
             {/* Billing Toggle */}
             {currentPlan === "free" && (
@@ -141,8 +205,8 @@ export default function UpgradePage() {
                             <button
                                 onClick={() => setBillingCycle("monthly")}
                                 className={`px-6 py-2.5 text-sm font-medium transition-colors ${billingCycle === "monthly"
-                                        ? "bg-(--primary) text-white"
-                                        : "text-(--muted-foreground) hover:bg-(--secondary)"
+                                    ? "bg-(--primary) text-white"
+                                    : "text-(--muted-foreground) hover:bg-(--secondary)"
                                     }`}
                             >
                                 {t("monthly")}
@@ -150,14 +214,14 @@ export default function UpgradePage() {
                             <button
                                 onClick={() => setBillingCycle("annual")}
                                 className={`px-6 py-2.5 text-sm font-medium transition-colors flex items-center gap-2 ${billingCycle === "annual"
-                                        ? "bg-(--primary) text-white"
-                                        : "text-(--muted-foreground) hover:bg-(--secondary)"
+                                    ? "bg-(--primary) text-white"
+                                    : "text-(--muted-foreground) hover:bg-(--secondary)"
                                     }`}
                             >
                                 {t("annual")}
                                 <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${billingCycle === "annual"
-                                        ? "bg-white text-(--primary)"
-                                        : "bg-emerald-100 text-emerald-700"
+                                    ? "bg-white text-(--primary)"
+                                    : "bg-emerald-100 text-emerald-700"
                                     }`}>
                                     {t("savePercent")}
                                 </span>
@@ -242,8 +306,8 @@ export default function UpgradePage() {
                             {/* Message */}
                             {message && (
                                 <p className={`text-sm px-3 py-2 rounded-lg ${messageType === "success"
-                                        ? "text-emerald-500 bg-emerald-50 dark:bg-emerald-950"
-                                        : "text-red-500 bg-red-50 dark:bg-red-950"
+                                    ? "text-emerald-500 bg-emerald-50 dark:bg-emerald-950"
+                                    : "text-red-500 bg-red-50 dark:bg-red-950"
                                     }`}>
                                     {message}
                                 </p>
